@@ -6,6 +6,7 @@ export default class TaskTree {
 
     private id: NodeJS.Timeout | undefined;
     private tasks: Task[] = [];
+    private silence = false;
 
     public static tree(): TaskTree {
         if (!TaskTree.instance) {
@@ -15,10 +16,13 @@ export default class TaskTree {
         return TaskTree.instance;
     }
 
-    public start(): void {
+    public start(silence?: boolean): void {
+        this.silence = !!silence;
+        this.tasks = [];
+
         if (!this.id) {
             this.id = setInterval((): void => {
-                this.render();
+                this.log();
             }, 100);
         }
     }
@@ -27,15 +31,15 @@ export default class TaskTree {
         if (this.id) {
             clearInterval(this.id);
 
-            this.id = undefined;
-            this.render();
+            this.log();
             logUpdate.done();
+            this.id = undefined;
         }
 
-        process.exit(Number(success));
+        if (!this.silence) process.exit(Number(success));
     }
 
-    public task(text: string): Task {
+    public add(text: string): Task {
         const { tasks } = this;
         let task = tasks[tasks.length - 1];
 
@@ -49,7 +53,11 @@ export default class TaskTree {
         return task;
     }
 
-    private render(): void {
-        logUpdate(this.tasks.map((task): string => task.render()).join('\n'));
+    public render(): string {
+        return this.tasks.map((task): string => task.render()).join('\n');
+    }
+
+    private log(): void {
+        logUpdate(this.render());
     }
 }

@@ -12,6 +12,7 @@ pids
 *.pid
 *.seed
 *.pid.lock
+tsconfig.tsbuildinfo
 
 # Dependency directories
 node_modules/
