@@ -1,5 +1,5 @@
 {
-    "name": "tasktree",
+    "name": "tasktree-cli",
     "version": "0.9.0",
     "description": "Terminal tasks tree",
     "license": "MIT",
