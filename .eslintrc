@@ -1,0 +1,46 @@
+{
+    "root": true,
+    "env": {
+        "node": true,
+        "commonjs": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "prettier/@typescript-eslint",
+        "plugin:jest/recommended"
+    ],
+    "plugins": ["@typescript-eslint", "jest"],
+    "rules": {
+        "@typescript-eslint/member-ordering": "error",
+        "max-len": [
+            "error",
+            {
+                "code": 120
+            }
+        ],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "lines-between-class-members": 0,
+        "no-bitwise": 0,
+        "no-plusplus": 0,
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allowAfterThis": true
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".ts"]
+            }
+        }
+    }
+}

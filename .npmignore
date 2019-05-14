@@ -1,0 +1,28 @@
+# Src folders
+test/
+src/
+
+# Dependency directories
+node_modules/
+
+# Configs
+.vscode
+.env
+.editorconfig
+.gitattributes
+.eslintignore
+.eslintrc
+.huskyrc
+.prettierignore
+.prettierrc
+.travis.yml
+.yarnclean
+jest.config.js
+tsconfig.json
+yarn.lock
+
+# Docs
+README.md
+
+# Logs
+yarn-error.log
