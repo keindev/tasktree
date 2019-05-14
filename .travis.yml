@@ -24,3 +24,10 @@ jobs:
               skip_cleanup: true
               on:
                   tags: true
+
+notifications:
+    email:
+        recipients:
+            - kein@tagproject.ru
+        on_success: change
+        on_failure: always
