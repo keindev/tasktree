@@ -7,13 +7,22 @@ node_modules/
 
 # Configs
 .vscode
-tsconfig.json
 .env
 .editorconfig
 .gitattributes
 .eslintignore
-.eslintrc.yaml
+.eslintrc
+.huskyrc
+.prettierignore
+.prettierrc
 .travis.yml
+.yarnclean
+jest.config.js
+tsconfig.json
+yarn.lock
 
-# Yarn logs
+# Docs
+README.md
+
+# Logs
 yarn-error.log
