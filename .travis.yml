@@ -9,13 +9,14 @@ install: yarn
 script:
     - yarn lint
     - yarn test
+    - yarn build
 
 jobs:
     include:
         - stage: npm release
           if: tag IS present
           node_js: '10'
-          script: yarn run build
+          script: yarn build
           deploy:
               provider: npm
               email: '$NPM_EMAIL'
