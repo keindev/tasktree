@@ -1,3 +1,4 @@
+import stripAnsi from 'strip-ansi';
 import Task from '../src/task';
 import TaskTree from '../src/tasktree';
 
@@ -40,12 +41,12 @@ describe('TaskTree', (): void => {
     });
 
     it('render', (): void => {
-        expect(tree.render()).toMatchSnapshot();
+        expect(stripAnsi(tree.render())).toMatchSnapshot();
         tree.stop(true);
-        expect(tree.render()).toMatchSnapshot();
+        expect(stripAnsi(tree.render())).toMatchSnapshot();
 
         tree.start(true);
         tree.stop(true);
-        expect(tree.render()).toMatchSnapshot();
+        expect(stripAnsi(tree.render())).toMatchSnapshot();
     });
 });

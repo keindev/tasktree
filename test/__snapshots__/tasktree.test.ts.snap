@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TaskTree render 1`] = `
-"  [31m✖[39m Task1: [91mFail[39m
-  [33m⚠[39m Warn 2
-  [34mℹ[39m Log 2
-[2m  [2m→[2m [32m✔[39m Task2[22m
-[2m    [33m⚠[39m Warn 1[22m
-[2m    [34mℹ[39m Log 1[22m
-[2m[2m    [2m→[2m [33m↓[39m Task3 [2m[skip][2m[2m[22m
-[2m[2m      [33m⚠[39m Warn 0[2m[22m
-[2m[2m      [34mℹ[39m Log 0[2m[22m"
+"  ✖ Task1: Fail
+  ⚠ Warn 2
+  ℹ Log 2
+  → ✔ Task2
+    ⚠ Warn 1
+    ℹ Log 1
+    → ↓ Task3 [skip]
+      ⚠ Warn 0
+      ℹ Log 0"
 `;
 
 exports[`TaskTree render 2`] = `
-"  [31m✖[39m Task1: [91mFail[39m
-  [33m⚠[39m Warn 2
-  [34mℹ[39m Log 2
-[2m  [2m→[2m [32m✔[39m Task2[22m
-[2m    [33m⚠[39m Warn 1[22m
-[2m    [34mℹ[39m Log 1[22m
-[2m[2m    [2m→[2m [33m↓[39m Task3 [2m[skip][2m[2m[22m
-[2m[2m      [33m⚠[39m Warn 0[2m[22m
-[2m[2m      [34mℹ[39m Log 0[2m[22m"
+"  ✖ Task1: Fail
+  ⚠ Warn 2
+  ℹ Log 2
+  → ✔ Task2
+    ⚠ Warn 1
+    ℹ Log 1
+    → ↓ Task3 [skip]
+      ⚠ Warn 0
+      ℹ Log 0"
 `;
 
 exports[`TaskTree render 3`] = `""`;
