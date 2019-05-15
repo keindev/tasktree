@@ -1,5 +1,6 @@
 # Src folders
 test/
+coverage/
 src/
 
 # Dependency directories

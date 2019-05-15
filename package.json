@@ -31,7 +31,7 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rm -rf lib",
+        "clean": "rm -rf lib coverage",
         "lint": "eslint src/**/*.ts",
         "test": "jest",
         "precommit": "npm-run-all clean test",
@@ -53,6 +53,7 @@
         "@types/node": "^10.14.6",
         "@typescript-eslint/eslint-plugin": "^1.9.0",
         "@typescript-eslint/parser": "^1.9.0",
+        "codecov": "^3.5.0",
         "eslint": "5.16.0",
         "eslint-config-airbnb-base": "13.1.0",
         "eslint-config-prettier": "^4.2.0",
