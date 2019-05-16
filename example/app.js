@@ -21,7 +21,10 @@ promise.then(result => {
     // Log info message in task2 & complete task
     task2.log('message #1').complete();
     // Log warning in task1 & fail it
-    task1.warn('warning').fail();
+    task1
+        .warn('warning')
+        .error(new Error('something bad happened'))
+        .fail();
     // stop task tree log update
     tree.stop();
 });

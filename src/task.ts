@@ -18,6 +18,7 @@ export class Task {
     private status: Status;
     private subtasks: Task[] = [];
     private logs: Set<string> = new Set();
+    private errors: string[] = [];
     private warnings: Set<string> = new Set();
 
     public constructor(text: string, status: Status = Status.Pending) {
@@ -48,9 +49,18 @@ export class Task {
     }
 
     public fail(text?: string): Task {
-        this.update(Status.Failed, this.error(text));
+        this.update(Status.Failed, text);
 
         TaskTree.tree().stop(false);
+
+        return this;
+    }
+
+    public error(error?: string | Error): Task {
+        const { errors } = this;
+
+        if (typeof error === 'string') errors.push(error);
+        if (error instanceof Error && error.stack) errors.push(error.stack);
 
         return this;
     }
@@ -85,8 +95,13 @@ export class Task {
         const skipped = this.status === Status.Skipped ? ` ${chalk.dim('[skip]')}` : '';
         const prefix = level ? `${chalk.dim(figures.arrowRight)} ` : '';
         const indent = (str: string, count: number): string => `${'  '.padStart(2 * count)}${str}`;
+        /* const error = (str: string): string => {
+            // TODO: stack formating
+            return indent(str.replace('\n', `\n${'  '.padStart(2 * level + 1)}`), level + 1);
+        }; */
         const text = [
             indent(`${prefix}${this.getSymbol()} ${this.text}${skipped}`, level),
+            // ...this.errors.map((value): string => error(value)),
             ...[...this.warnings].map((value): string => indent(`${logSymbols.warning} ${value}`, level + 1)),
             ...[...this.logs].map((value): string => indent(`${logSymbols.info} ${value}`, level + 1)),
             ...this.subtasks.map((task: Task): string => task.render(level + 1)),
@@ -116,17 +131,13 @@ export class Task {
         return symbol;
     }
 
-    private error(text?: string): string {
-        return text ? `${this.text}: ${chalk.redBright(text)}` : this.text;
-    }
-
     private update(status: Status, text?: string): void {
         if (this.isPending()) {
             if (text) this.text = text;
 
             this.status = status;
         } else {
-            this.text = this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
+            this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
             this.status = Status.Failed;
         }
     }
