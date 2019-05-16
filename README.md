@@ -2,7 +2,6 @@
 
 <p align="center">
   <a href="https://travis-ci.org/keindev/tasktree"><img src="https://travis-ci.org/keindev/tasktree.svg?branch=master" alt="Build Status"></a>
-  <a href="https://codecov.io/gh/keindev/tasktree"><img src="https://codecov.io/gh/keindev/tasktree/branch/master/graph/badge.svg" alt="Coverage Status"></a>
 </p>
 
 <h1 align="center">TaskTree</h1>

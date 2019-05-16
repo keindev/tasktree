@@ -8,7 +8,7 @@ install: yarn
 script:
     - yarn lint
     - yarn test
-    - codecov -f coverage/*.json
+    - yarn coverage
     - yarn build
 jobs:
     include:
