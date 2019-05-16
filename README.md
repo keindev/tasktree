@@ -10,7 +10,7 @@
 
 <h1 align="center">TaskTree</h1>
 
-Simple terminal task tree
+Simple terminal task tree helps you keep track of your tasks in a tree structure
 
 <img src="media/demo.gif">
 
