@@ -1,12 +1,17 @@
 import logUpdate from 'log-update';
-import Task from './task';
+import { Task } from './task';
 
-export default class TaskTree {
+export class TaskTree {
+    public static TIMEOUT = 100;
     private static instance: TaskTree;
 
     private id: NodeJS.Timeout | undefined;
-    private tasks: Task[] = [];
-    private silence = false;
+    private tasks: Task[];
+    private silence: boolean = false;
+
+    private constructor() {
+        this.tasks = [];
+    }
 
     public static tree(): TaskTree {
         if (!TaskTree.instance) {
@@ -23,7 +28,7 @@ export default class TaskTree {
         if (!this.id) {
             this.id = setInterval((): void => {
                 this.log();
-            }, 100);
+            }, TaskTree.TIMEOUT);
         }
     }
 

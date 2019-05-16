@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import figures from 'figures';
 import elegantSpinner from 'elegant-spinner';
-import TaskTree from './tasktree';
+import { TaskTree } from './tasktree';
 
 const spinner = elegantSpinner();
 
@@ -10,10 +10,10 @@ export enum Status {
     Pending,
     Completed,
     Failed,
-    Skipped
+    Skipped,
 }
 
-export default class Task {
+export class Task {
     private text: string;
     private status: Status;
     private subtasks: Task[] = [];
@@ -81,7 +81,7 @@ export default class Task {
         return task;
     }
 
-    public render(level: number = 0): string {
+    public render(level = 0): string {
         const skipped = this.status === Status.Skipped ? ` ${chalk.dim('[skip]')}` : '';
         const prefix = level ? `${chalk.dim(figures.arrowRight)} ` : '';
         const indent = (str: string, count: number): string => `${'  '.padStart(2 * count)}${str}`;
@@ -89,7 +89,7 @@ export default class Task {
             indent(`${prefix}${this.getSymbol()} ${this.text}${skipped}`, level),
             ...[...this.warnings].map((value): string => indent(`${logSymbols.warning} ${value}`, level + 1)),
             ...[...this.logs].map((value): string => indent(`${logSymbols.info} ${value}`, level + 1)),
-            ...this.subtasks.map((task: Task): string => task.render(level + 1))
+            ...this.subtasks.map((task: Task): string => task.render(level + 1)),
         ].join('\n');
 
         return level ? chalk.dim(text) : text;

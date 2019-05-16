@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi';
-import Task from '../src/task';
-import TaskTree from '../src/tasktree';
+import { Task } from '../src/task';
+import { TaskTree } from '../src/tasktree';
 
 const tree = TaskTree.tree();
 const titles = ['Task1', 'Task2', 'Task3'];
@@ -31,6 +31,7 @@ describe('TaskTree', (): void => {
                         break;
                     default:
                         task.complete();
+                        break;
                 }
 
                 return !task.isPending();
