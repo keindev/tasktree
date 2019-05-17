@@ -1,5 +1,7 @@
 import logUpdate from 'log-update';
 import { Task } from './task';
+import { Theme } from './types';
+import { Template } from './template';
 
 export class TaskTree {
     public static TIMEOUT = 100;
@@ -7,15 +9,17 @@ export class TaskTree {
 
     private id: NodeJS.Timeout | undefined;
     private tasks: Task[];
+    private template: Template;
     private silence: boolean = false;
 
-    private constructor() {
+    private constructor(theme?: Theme) {
         this.tasks = [];
+        this.template = new Template(theme);
     }
 
-    public static tree(): TaskTree {
+    public static tree(theme?: Theme): TaskTree {
         if (!TaskTree.instance) {
-            TaskTree.instance = new TaskTree();
+            TaskTree.instance = new TaskTree(theme);
         }
 
         return TaskTree.instance;
@@ -59,7 +63,7 @@ export class TaskTree {
     }
 
     public render(): string {
-        return this.tasks.map((task): string => task.render()).join('\n');
+        return this.tasks.map((task): string => task.render(this.template)).join('\n');
     }
 
     private log(): void {

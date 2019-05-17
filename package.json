@@ -35,6 +35,7 @@
         "lint": "eslint src/**/*.ts",
         "test": "jest",
         "coverage": "cat ./coverage/lcov.info | codacy-coverage",
+        "debug": "node --nolazy --inspect-brk=9229 example/app.js",
         "precommit": "npm-run-all clean test",
         "build:ts": "tsc",
         "build": "npm-run-all clean build:* test"

@@ -1,17 +1,11 @@
 import chalk from 'chalk';
-import logSymbols from 'log-symbols';
 import figures from 'figures';
 import elegantSpinner from 'elegant-spinner';
 import { TaskTree } from './tasktree';
+import { Template } from './template';
+import { Status } from './enums';
 
 const spinner = elegantSpinner();
-
-export enum Status {
-    Pending,
-    Completed,
-    Failed,
-    Skipped,
-}
 
 export class Task {
     private text: string;
@@ -91,20 +85,21 @@ export class Task {
         return task;
     }
 
-    public render(level = 0): string {
+    public render(template: Template, level = 0): string {
         const skipped = this.status === Status.Skipped ? ` ${chalk.dim('[skip]')}` : '';
-        const prefix = level ? `${chalk.dim(figures.arrowRight)} ` : '';
+        const prefix = level ? `${chalk.dim(figures.play)} ` : '';
         const indent = (str: string, count: number): string => `${'  '.padStart(2 * count)}${str}`;
-        /* const error = (str: string): string => {
-            // TODO: stack formating
-            return indent(str.replace('\n', `\n${'  '.padStart(2 * level + 1)}`), level + 1);
-        }; */
+        const error = (str: string): string => {
+            const [title, ...lines] = str.split('\n').map((line): string => indent(line.trim(), level + 3));
+
+            return [indent(chalk.redBright(`${figures.arrowRight} ${title.trim()}`), level + 1), ...lines].join('\n');
+        };
         const text = [
             indent(`${prefix}${this.getSymbol()} ${this.text}${skipped}`, level),
-            // ...this.errors.map((value): string => error(value)),
-            ...[...this.warnings].map((value): string => indent(`${logSymbols.warning} ${value}`, level + 1)),
-            ...[...this.logs].map((value): string => indent(`${logSymbols.info} ${value}`, level + 1)),
-            ...this.subtasks.map((task: Task): string => task.render(level + 1)),
+            ...this.errors.map((value): string => error(value)),
+            ...[...this.warnings].map((value): string => indent(`${figures.warning} ${value}`, level + 1)),
+            ...[...this.logs].map((value): string => indent(`${figures.info} ${value}`, level + 1)),
+            ...this.subtasks.map((task: Task): string => task.render(template, level + 1)),
         ].join('\n');
 
         return level ? chalk.dim(text) : text;
@@ -118,10 +113,10 @@ export class Task {
                 symbol = chalk.yellow(figures.arrowDown);
                 break;
             case Status.Completed:
-                symbol = logSymbols.success;
+                symbol = figures.tick;
                 break;
             case Status.Failed:
-                symbol = logSymbols.error;
+                symbol = figures.cross;
                 break;
             default:
                 symbol = this.subtasks.length ? chalk.yellow(figures.pointer) : chalk.yellow(spinner());

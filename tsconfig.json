@@ -14,7 +14,7 @@
         "noUnusedLocals": true,
         "preserveConstEnums": true,
         "pretty": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "strict": true,
         "declaration": true,
         "noImplicitAny": true,
