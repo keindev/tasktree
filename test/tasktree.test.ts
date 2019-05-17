@@ -31,7 +31,8 @@ describe('TaskTree', (): void => {
                         task.skip();
                         break;
                     case tasks.length - 1:
-                        task.error(new Error('Something bad happened').stack).fail();
+                        // task.error(new Error('Something bad happened').stack).fail();
+                        task.error('Something bad happened').fail();
                         break;
                     default:
                         task.complete();
