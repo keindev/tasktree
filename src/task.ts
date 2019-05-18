@@ -1,11 +1,8 @@
 import chalk from 'chalk';
-import figures from 'figures';
-import elegantSpinner from 'elegant-spinner';
 import { TaskTree } from './tasktree';
 import { Template } from './template';
-import { Status } from './enums';
+import { Status, Type } from './enums';
 
-const spinner = elegantSpinner();
 let uid = 0;
 
 export class Task {
@@ -43,6 +40,14 @@ export class Task {
         if (subtask && subtask.isPending()) task = subtask.getActive();
 
         return task;
+    }
+
+    public isPending(): boolean {
+        return this.status === Status.Pending;
+    }
+
+    public isList(): boolean {
+        return !!this.subtasks.length;
     }
 
     public add(text: string, status: Status = Status.Pending): Task {
@@ -101,49 +106,16 @@ export class Task {
         return this;
     }
 
-    public isPending(): boolean {
-        return this.status === Status.Pending;
-    }
-
     public render(template: Template, level = 0): string {
-        const skipped = this.status === Status.Skipped ? ` ${chalk.dim('[skip]')}` : '';
-        const prefix = level ? `${chalk.dim(figures.play)} ` : '';
-        const indent = (str: string, count: number): string => `${'  '.padStart(2 * count)}${str}`;
-        const error = (str: string): string => {
-            const [title, ...lines] = str.split('\n').map((line): string => indent(line.trim(), level + 3));
-
-            return [indent(chalk.redBright(`${figures.arrowRight} ${title.trim()}`), level + 1), ...lines].join('\n');
-        };
         const text = [
-            indent(`${prefix}${this.getSymbol()} ${this.text}${skipped}`, level),
-            ...this.errors.map((value): string => error(value)),
-            ...[...this.warnings].map((value): string => indent(`${figures.warning} ${value}`, level + 1)),
-            ...[...this.logs].map((value): string => indent(`${figures.info} ${value}`, level + 1)),
+            template.title(this, level),
+            ...template.errors(this.errors, level),
+            ...template.messages([...this.warnings], Type.Warning, level + 1),
+            ...template.messages([...this.logs], Type.Info, level + 1),
             ...this.subtasks.map((task: Task): string => task.render(template, level + 1)),
-        ].join('\n');
+        ].join(Template.DELIMITER);
 
-        return level ? chalk.dim(text) : text;
-    }
-
-    private getSymbol(): string {
-        let symbol: string;
-
-        switch (this.status) {
-            case Status.Skipped:
-                symbol = chalk.yellow(figures.arrowDown);
-                break;
-            case Status.Completed:
-                symbol = figures.tick;
-                break;
-            case Status.Failed:
-                symbol = figures.cross;
-                break;
-            default:
-                symbol = this.subtasks.length ? chalk.yellow(figures.pointer) : chalk.yellow(spinner());
-                break;
-        }
-
-        return symbol;
+        return template.paint(text, level ? Type.Dim : Type.Default);
     }
 
     private update(status: Status, text?: string): void {

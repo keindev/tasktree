@@ -7,24 +7,30 @@ export enum Status {
 
 export enum Type {
     Default = 'default',
-    Error = 'error',
+    Active = 'active',
     Success = 'success',
     Skip = 'skip',
+    Error = 'error',
     Info = 'info',
     Warning = 'warning',
     Exception = 'exception',
     Subtask = 'subtask',
+    List = 'list',
+    Dim = 'dim',
 }
 
 export enum Color {
     Default = '',
-    Error = '#ff5555',
+    Active = '#e69500',
     Success = '#008000',
     Skip = '#e69500',
+    Error = '#ff5555',
     Info = '#0000e6',
     Warning = '#ffa500',
     Exception = '#ff0000',
     Subtask = '#bbbbbb',
+    List = '#e69500',
+    Dim = '#bbbbbb',
 }
 
 export enum Badges {
