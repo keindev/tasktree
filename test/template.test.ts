@@ -11,9 +11,9 @@ describe('Template', (): void => {
             const template = new Template();
 
             expect(template.paint(text, Type.Default).length).toBe(length);
-            expect(template.paint(text, Type.Success).length).toBeGreaterThan(length);
-            expect(template.paint(text, Type.Skip).length).toBeGreaterThan(length);
-            expect(template.paint(text, Type.Error).length).toBeGreaterThan(length);
+            expect(template.paint(text, Type.Success).length).toBeGreaterThanOrEqual(length);
+            expect(template.paint(text, Type.Skip).length).toBeGreaterThanOrEqual(length);
+            expect(template.paint(text, Type.Error).length).toBeGreaterThanOrEqual(length);
 
             expect(template.figure(Type.Default)).toBeFalsy();
             expect(stripAnsi(template.figure(Type.Success))).toBe(stripAnsi(Figures.tick));
@@ -38,10 +38,10 @@ describe('Template', (): void => {
                 error: { figure, badge },
             });
 
-            expect(template.paint(text, Type.Default).length).toBeGreaterThan(length);
-            expect(template.paint(text, Type.Success).length).toBeGreaterThan(length);
-            expect(template.paint(text, Type.Skip).length).toBeGreaterThan(length);
-            expect(template.paint(text, Type.Error).length).toBeGreaterThan(length);
+            expect(template.paint(text, Type.Default).length).toBeGreaterThanOrEqual(length);
+            expect(template.paint(text, Type.Success).length).toBeGreaterThanOrEqual(length);
+            expect(template.paint(text, Type.Skip).length).toBeGreaterThanOrEqual(length);
+            expect(template.paint(text, Type.Error).length).toBeGreaterThanOrEqual(length);
 
             expect(stripAnsi(template.figure(Type.Default))).toBeFalsy();
             expect(stripAnsi(template.figure(Type.Success))).toBe(figure);
