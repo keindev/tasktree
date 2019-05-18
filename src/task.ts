@@ -46,19 +46,24 @@ export class Task {
     }
 
     public add(text: string, status: Status = Status.Pending): Task {
-        const task = new Task(text, status);
+        const isCompleted = !this.isPending();
+        const task = new Task(text, isCompleted ? Status.Failed : status);
 
         this.subtasks.push(task);
+
+        if (isCompleted) this.fail(`Task is already complete, can't add new subtask [${task.id()}]`);
 
         return task;
     }
 
-    public complete(text?: string): void {
+    public complete(text?: string): Task {
         if (!this.subtasks.filter((task): boolean => task.isPending()).length) {
             this.update(Status.Completed, text);
         } else {
             this.fail('Subtasks is not complete.');
         }
+
+        return this;
     }
 
     public skip(text?: string): Task {

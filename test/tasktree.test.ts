@@ -4,7 +4,6 @@ import { TaskTree } from '../src/tasktree';
 import { Template } from '../src/template';
 
 const tree = TaskTree.tree();
-// TODO: test for Template
 const template = new Template();
 const titles = ['Task1', 'Task2', 'Task3'];
 
@@ -19,6 +18,7 @@ describe('TaskTree', (): void => {
     });
 
     it('manage', (): void => {
+        const error = 'Something bad happened\nat X\nat Y\nat Z';
         const result = tasks.reverse().every(
             (task, index): boolean => {
                 expect(task.isPending()).toBeTruthy();
@@ -31,8 +31,7 @@ describe('TaskTree', (): void => {
                         task.skip();
                         break;
                     case tasks.length - 1:
-                        // task.error(new Error('Something bad happened').stack).fail();
-                        task.error('Something bad happened').fail();
+                        task.error(error).fail();
                         break;
                     default:
                         task.complete();

@@ -29,7 +29,7 @@ export class TaskTree {
         this.silence = !!silence;
         this.tasks = [];
 
-        if (!this.id) {
+        if (!this.id && !this.silence) {
             this.id = setInterval((): void => {
                 this.log();
             }, TaskTree.TIMEOUT);

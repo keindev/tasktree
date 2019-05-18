@@ -17,7 +17,7 @@ export enum Type {
 }
 
 export enum Color {
-    Default = '#ffffff',
+    Default = '',
     Error = '#ff5555',
     Success = '#008000',
     Skip = '#e69500',

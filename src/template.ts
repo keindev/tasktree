@@ -12,17 +12,22 @@ export class Template {
         if (theme) {
             const { colors, figures, badges } = this;
             const options = new Map(Object.entries(theme));
+            const set = (key: Enums.Type, color?: Types.Color, figure?: Types.Figure, badge?: Types.Badge): void => {
+                if (color) colors.set(key, color);
+                if (figure) figures.set(key, figure);
+                if (badge) badges.set(key, badge);
+            };
 
             Object.values(Enums.Type).forEach(
                 (key: Enums.Type): void => {
                     const option = options.get(key);
 
                     if (Array.isArray(option)) {
-                        const [color, figure, badge] = option;
+                        set(key, ...option);
+                    } else if (typeof option === 'object') {
+                        const { color, figure, badge } = option;
 
-                        colors.set(key, color);
-                        figures.set(key, figure);
-                        badges.set(key, badge);
+                        set(key, color, figure, badge);
                     }
                 }
             );
@@ -58,7 +63,7 @@ export class Template {
             }
         );
 
-        return chalk.hex(color)(str);
+        return color ? chalk.hex(color)(str) : str;
     }
 
     public figure(type: Enums.Type): Types.Figure {
