@@ -15,3 +15,20 @@ export enum Type {
     Exception = 'exception',
     Subtask = 'subtask',
 }
+
+export enum Color {
+    Default = '#ffffff',
+    Error = '#ff5555',
+    Success = '#008000',
+    Skip = '#e69500',
+    Info = '#0000e6',
+    Warning = '#ffa500',
+    Exception = '#ff0000',
+    Subtask = '#bbbbbb',
+}
+
+export enum Badges {
+    Default = '',
+    Error = '[fail]',
+    Skip = '[skip]',
+}

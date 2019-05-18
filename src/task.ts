@@ -6,8 +6,10 @@ import { Template } from './template';
 import { Status } from './enums';
 
 const spinner = elegantSpinner();
+let uid = 0;
 
 export class Task {
+    private uid: number;
     private text: string;
     private status: Status;
     private subtasks: Task[] = [];
@@ -16,8 +18,31 @@ export class Task {
     private warnings: Set<string> = new Set();
 
     public constructor(text: string, status: Status = Status.Pending) {
+        this.uid = ++uid;
         this.text = text;
         this.status = status;
+    }
+
+    public id(): number {
+        return this.uid;
+    }
+
+    public getText(): string {
+        return this.text;
+    }
+
+    public getStatus(): Status {
+        return this.status;
+    }
+
+    public getActive(): Task {
+        const { subtasks } = this;
+        const subtask = subtasks[subtasks.length - 1];
+        let task: Task = this;
+
+        if (subtask && subtask.isPending()) task = subtask.getActive();
+
+        return task;
     }
 
     public add(text: string, status: Status = Status.Pending): Task {
@@ -73,16 +98,6 @@ export class Task {
 
     public isPending(): boolean {
         return this.status === Status.Pending;
-    }
-
-    public getActive(): Task {
-        const { subtasks } = this;
-        const subtask = subtasks[subtasks.length - 1];
-        let task: Task = this;
-
-        if (subtask && subtask.isPending()) task = subtask.getActive();
-
-        return task;
     }
 
     public render(template: Template, level = 0): string {
