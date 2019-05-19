@@ -20,11 +20,8 @@ promise.then(result => {
     task3.skip('and it skipped');
     // Log info message in task2 & complete task
     task2.log('message #1').complete();
-    // Log warning in task1 & fail it
-    task1
-        .warn('warning')
-        .error(new Error('something bad happened'))
-        .fail();
+    // Log warning and error in task1 & fail it
+    task1.warn('warning').error(new Error('something bad happened'));
     // stop task tree log update
     tree.stop();
 });
