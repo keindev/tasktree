@@ -1,6 +1,6 @@
 {
     "name": "tasktree-cli",
-    "version": "0.9.1",
+    "version": "1.0.0",
     "description": "Terminal tasks tree",
     "license": "MIT",
     "author": "Daniil Ryazanov <opensource@tagproject.ru>",
