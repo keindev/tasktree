@@ -1,8 +1,9 @@
 # Dist folders
 lib
 
-# Logs
+# Logs & Reports
 logs
+coverage
 *.log
 yarn-debug.log*
 yarn-error.log*

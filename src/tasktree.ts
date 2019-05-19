@@ -1,16 +1,25 @@
 import logUpdate from 'log-update';
-import Task from './task';
+import { Task } from './task';
+import { Theme } from './types';
+import { Template } from './template';
 
-export default class TaskTree {
+export class TaskTree {
+    public static TIMEOUT = 100;
     private static instance: TaskTree;
 
     private id: NodeJS.Timeout | undefined;
-    private tasks: Task[] = [];
-    private silence = false;
+    private tasks: Task[];
+    private template: Template;
+    private silence: boolean = false;
 
-    public static tree(): TaskTree {
+    private constructor(theme?: Theme) {
+        this.tasks = [];
+        this.template = new Template(theme);
+    }
+
+    public static tree(theme?: Theme): TaskTree {
         if (!TaskTree.instance) {
-            TaskTree.instance = new TaskTree();
+            TaskTree.instance = new TaskTree(theme);
         }
 
         return TaskTree.instance;
@@ -20,10 +29,10 @@ export default class TaskTree {
         this.silence = !!silence;
         this.tasks = [];
 
-        if (!this.id) {
+        if (!this.id && !this.silence) {
             this.id = setInterval((): void => {
                 this.log();
-            }, 100);
+            }, TaskTree.TIMEOUT);
         }
     }
 
@@ -54,7 +63,7 @@ export default class TaskTree {
     }
 
     public render(): string {
-        return this.tasks.map((task): string => task.render()).join('\n');
+        return this.tasks.map((task): string => task.render(this.template)).join('\n');
     }
 
     private log(): void {

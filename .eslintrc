@@ -13,11 +13,13 @@
         "plugin:@typescript-eslint/recommended",
         "prettier",
         "prettier/@typescript-eslint",
-        "plugin:jest/recommended"
+        "plugin:jest/recommended",
+        "plugin:security/recommended"
     ],
-    "plugins": ["@typescript-eslint", "jest"],
+    "plugins": ["@typescript-eslint", "jest", "security"],
     "rules": {
         "@typescript-eslint/member-ordering": "error",
+        "import/prefer-default-export": false,
         "max-len": [
             "error",
             {
@@ -39,7 +41,7 @@
         "import/resolver": {
             "node": {
                 "paths": ["src"],
-                "extensions": [".js", ".ts"]
+                "extensions": [".ts"]
             }
         }
     }

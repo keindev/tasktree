@@ -1,6 +1,6 @@
 {
     "name": "tasktree-cli",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "description": "Terminal tasks tree",
     "license": "MIT",
     "author": "Daniil Ryazanov <opensource@tagproject.ru>",
@@ -31,12 +31,14 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rm -rf lib",
+        "clean": "rm -rf lib coverage",
         "lint": "eslint src/**/*.ts",
         "test": "jest",
+        "coverage": "cat ./coverage/lcov.info | codacy-coverage",
+        "debug": "node --nolazy --inspect-brk=9229 example/app.js",
         "precommit": "npm-run-all clean test",
         "build:ts": "tsc",
-        "build": "npm-run-all clean build:* test"
+        "build": "npm-run-all clean test build:*"
     },
     "engines": {
         "node": ">=10.0.0"
@@ -45,7 +47,6 @@
         "chalk": "^2.4.2",
         "elegant-spinner": "^2.0.0",
         "figures": "^3.0.0",
-        "log-symbols": "^3.0.0",
         "log-update": "^3.2.0"
     },
     "devDependencies": {
@@ -53,11 +54,13 @@
         "@types/node": "^10.14.6",
         "@typescript-eslint/eslint-plugin": "^1.9.0",
         "@typescript-eslint/parser": "^1.9.0",
+        "codacy-coverage": "^3.4.0",
         "eslint": "5.16.0",
         "eslint-config-airbnb-base": "13.1.0",
-        "eslint-config-prettier": "^4.2.0",
+        "eslint-config-prettier": "^4.3.0",
         "eslint-plugin-import": "^2.17.2",
         "eslint-plugin-jest": "^22.5.1",
+        "eslint-plugin-security": "^1.4.0",
         "husky": "^2.3.0",
         "jest": "^24.8.0",
         "npm-run-all": "^4.1.5",

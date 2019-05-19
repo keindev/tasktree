@@ -1,44 +1,74 @@
 import chalk from 'chalk';
-import logSymbols from 'log-symbols';
-import figures from 'figures';
-import elegantSpinner from 'elegant-spinner';
-import TaskTree from './tasktree';
+import { TaskTree } from './tasktree';
+import { Template } from './template';
+import { Status, Type, Level } from './enums';
 
-const spinner = elegantSpinner();
+let uid = 0;
 
-export enum Status {
-    Pending,
-    Completed,
-    Failed,
-    Skipped
-}
-
-export default class Task {
+export class Task {
+    private uid: number;
     private text: string;
     private status: Status;
     private subtasks: Task[] = [];
     private logs: Set<string> = new Set();
+    private errors: string[] = [];
     private warnings: Set<string> = new Set();
 
     public constructor(text: string, status: Status = Status.Pending) {
+        this.uid = ++uid;
         this.text = text;
         this.status = status;
     }
 
-    public add(text: string, status: Status = Status.Pending): Task {
-        const task = new Task(text, status);
+    public id(): number {
+        return this.uid;
+    }
 
-        this.subtasks.push(task);
+    public getText(): string {
+        return this.text;
+    }
+
+    public getStatus(): Status {
+        return this.status;
+    }
+
+    public getActive(): Task {
+        const { subtasks } = this;
+        const subtask = subtasks[subtasks.length - 1];
+        let task: Task = this;
+
+        if (subtask && subtask.isPending()) task = subtask.getActive();
 
         return task;
     }
 
-    public complete(text?: string): void {
+    public isPending(): boolean {
+        return this.status === Status.Pending;
+    }
+
+    public isList(): boolean {
+        return !!this.subtasks.length;
+    }
+
+    public add(text: string, status: Status = Status.Pending): Task {
+        const isCompleted = !this.isPending();
+        const task = new Task(text, isCompleted ? Status.Failed : status);
+
+        this.subtasks.push(task);
+
+        if (isCompleted) this.fail(`Task is already complete, can't add new subtask [${task.id()}]`);
+
+        return task;
+    }
+
+    public complete(text?: string): Task {
         if (!this.subtasks.filter((task): boolean => task.isPending()).length) {
             this.update(Status.Completed, text);
         } else {
             this.fail('Subtasks is not complete.');
         }
+
+        return this;
     }
 
     public skip(text?: string): Task {
@@ -48,9 +78,18 @@ export default class Task {
     }
 
     public fail(text?: string): Task {
-        this.update(Status.Failed, this.error(text));
+        this.update(Status.Failed, text);
 
         TaskTree.tree().stop(false);
+
+        return this;
+    }
+
+    public error(error?: string | Error): Task {
+        const { errors } = this;
+
+        if (typeof error === 'string') errors.push(error);
+        if (error instanceof Error && error.stack) errors.push(error.stack);
 
         return this;
     }
@@ -67,57 +106,16 @@ export default class Task {
         return this;
     }
 
-    public isPending(): boolean {
-        return this.status === Status.Pending;
-    }
-
-    public getActive(): Task {
-        const { subtasks } = this;
-        const subtask = subtasks[subtasks.length - 1];
-        let task: Task = this;
-
-        if (subtask && subtask.isPending()) task = subtask.getActive();
-
-        return task;
-    }
-
-    public render(level: number = 0): string {
-        const skipped = this.status === Status.Skipped ? ` ${chalk.dim('[skip]')}` : '';
-        const prefix = level ? `${chalk.dim(figures.arrowRight)} ` : '';
-        const indent = (str: string, count: number): string => `${'  '.padStart(2 * count)}${str}`;
+    public render(template: Template, level = Level.Default): string {
         const text = [
-            indent(`${prefix}${this.getSymbol()} ${this.text}${skipped}`, level),
-            ...[...this.warnings].map((value): string => indent(`${logSymbols.warning} ${value}`, level + 1)),
-            ...[...this.logs].map((value): string => indent(`${logSymbols.info} ${value}`, level + 1)),
-            ...this.subtasks.map((task: Task): string => task.render(level + 1))
-        ].join('\n');
+            template.title(this, level),
+            ...template.errors(this.errors, level),
+            ...template.messages([...this.warnings], Type.Warning, level),
+            ...template.messages([...this.logs], Type.Info, level),
+            ...this.subtasks.map((task: Task): string => task.render(template, level + Level.Step)),
+        ].join(Template.DELIMITER);
 
-        return level ? chalk.dim(text) : text;
-    }
-
-    private getSymbol(): string {
-        let symbol: string;
-
-        switch (this.status) {
-            case Status.Skipped:
-                symbol = chalk.yellow(figures.arrowDown);
-                break;
-            case Status.Completed:
-                symbol = logSymbols.success;
-                break;
-            case Status.Failed:
-                symbol = logSymbols.error;
-                break;
-            default:
-                symbol = this.subtasks.length ? chalk.yellow(figures.pointer) : chalk.yellow(spinner());
-                break;
-        }
-
-        return symbol;
-    }
-
-    private error(text?: string): string {
-        return text ? `${this.text}: ${chalk.redBright(text)}` : this.text;
+        return template.paint(text, level ? Type.Dim : Type.Default);
     }
 
     private update(status: Status, text?: string): void {
@@ -126,7 +124,7 @@ export default class Task {
 
             this.status = status;
         } else {
-            this.text = this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
+            this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
             this.status = Status.Failed;
         }
     }

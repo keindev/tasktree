@@ -1,9 +1,12 @@
 import stripAnsi from 'strip-ansi';
-import Task from '../src/task';
-import TaskTree from '../src/tasktree';
+import { Task } from '../src/task';
+import { TaskTree } from '../src/tasktree';
+import { Template } from '../src/template';
 
 const tree = TaskTree.tree();
+const template = new Template();
 const titles = ['Task1', 'Task2', 'Task3'];
+
 let tasks: Task[];
 
 describe('TaskTree', (): void => {
@@ -15,10 +18,11 @@ describe('TaskTree', (): void => {
     });
 
     it('manage', (): void => {
+        const error = 'Something bad happened\nat X\nat Y\nat Z';
         const result = tasks.reverse().every(
             (task, index): boolean => {
                 expect(task.isPending()).toBeTruthy();
-                expect(task.render().length).toBeGreaterThan(1);
+                expect(task.render(template).length).toBeGreaterThan(1);
 
                 task.log(`Log ${index}`).warn(`Warn ${index}`);
 
@@ -27,10 +31,11 @@ describe('TaskTree', (): void => {
                         task.skip();
                         break;
                     case tasks.length - 1:
-                        task.fail('Fail');
+                        task.error(error).fail();
                         break;
                     default:
                         task.complete();
+                        break;
                 }
 
                 return !task.isPending();

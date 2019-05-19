@@ -14,7 +14,7 @@
         "noUnusedLocals": true,
         "preserveConstEnums": true,
         "pretty": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "strict": true,
         "declaration": true,
         "noImplicitAny": true,
@@ -24,5 +24,5 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true
     },
-    "exclude": ["node_modules", "lib", "test"]
+    "exclude": ["node_modules", "lib", "test", "example"]
 }
