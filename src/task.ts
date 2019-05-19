@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { TaskTree } from './tasktree';
 import { Template } from './template';
-import { Status, Type } from './enums';
+import { Status, Type, Level } from './enums';
 
 let uid = 0;
 
@@ -106,13 +106,13 @@ export class Task {
         return this;
     }
 
-    public render(template: Template, level = 0): string {
+    public render(template: Template, level = Level.Default): string {
         const text = [
             template.title(this, level),
             ...template.errors(this.errors, level),
-            ...template.messages([...this.warnings], Type.Warning, level + 1),
-            ...template.messages([...this.logs], Type.Info, level + 1),
-            ...this.subtasks.map((task: Task): string => task.render(template, level + 1)),
+            ...template.messages([...this.warnings], Type.Warning, level),
+            ...template.messages([...this.logs], Type.Info, level),
+            ...this.subtasks.map((task: Task): string => task.render(template, level + Level.Step)),
         ].join(Template.DELIMITER);
 
         return template.paint(text, level ? Type.Dim : Type.Default);

@@ -15,7 +15,7 @@ describe('Template', (): void => {
             expect(template.paint(text, Type.Skip).length).toBeGreaterThanOrEqual(length);
             expect(template.paint(text, Type.Error).length).toBeGreaterThanOrEqual(length);
 
-            expect(template.figure(Type.Default)).toBeFalsy();
+            expect(stripAnsi(template.figure(Type.Default))).toBe(Figures.play);
             expect(stripAnsi(template.figure(Type.Success))).toBe(stripAnsi(Figures.tick));
             expect(stripAnsi(template.figure(Type.Skip))).toBe(stripAnsi(Figures.arrowDown));
             expect(stripAnsi(template.figure(Type.Error))).toBe(stripAnsi(Figures.cross));
@@ -32,7 +32,7 @@ describe('Template', (): void => {
             const figure = stripAnsi(Figures.star);
             const badge = '[test]';
             const template = new Template({
-                default: [color],
+                default: [color, figure],
                 success: { figure, badge },
                 skip: { figure, badge },
                 error: { figure, badge },
@@ -43,7 +43,7 @@ describe('Template', (): void => {
             expect(template.paint(text, Type.Skip).length).toBeGreaterThanOrEqual(length);
             expect(template.paint(text, Type.Error).length).toBeGreaterThanOrEqual(length);
 
-            expect(stripAnsi(template.figure(Type.Default))).toBeFalsy();
+            expect(stripAnsi(template.figure(Type.Default))).toBe(figure);
             expect(stripAnsi(template.figure(Type.Success))).toBe(figure);
             expect(stripAnsi(template.figure(Type.Skip))).toBe(figure);
             expect(stripAnsi(template.figure(Type.Error))).toBe(figure);

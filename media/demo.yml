@@ -1,8 +1,8 @@
 config:
     env:
         recording: true
-    cols: 40
-    rows: 8
+    cols: 44
+    rows: 10
     repeat: 0
     quality: 100
     frameDelay: auto
@@ -40,51 +40,51 @@ config:
         brightCyan: '#b1c6ca'
         brightWhite: '#f9f9f4'
 records:
-    - delay: 220
-      content: "\e[?25l"
-    - delay: 11
-      content: "  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠙\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 83
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠹\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠸\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
+    - delay: 200
+      content: "  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠙\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 79
       content: "\e[?25l"
     - delay: 5
-      content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠼\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠹\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 95
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠴\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠸\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 98
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠼\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠦\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠧\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠇\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠏\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 99
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠴\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 98
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠦\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 97
       content: "\e[?25l"
     - delay: 15
-      content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠋\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 87
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠙\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠧\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 85
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠇\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 105
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠹\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l"
+    - delay: 5
+      content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠏\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 95
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠋\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 100
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠙\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 100
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠹\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠸\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠸\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠼\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 98
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠴\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠼\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠦\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠴\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 100
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠦\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 100
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠧\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠧\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 98
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠇\e[39m anower task...\e[2m\e[22m\r\n"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠇\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
     - delay: 99
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[33m❯\e[39m New task #1, level #1\r\n\e[2m  \e[2m→\e[2m \e[33m❯\e[39m New task #2, level #2\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m⠏\e[39m anower task...\e[2m\e[22m\r\n"
-    - delay: 86
-      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[31m✖\e[39m New task #1, level #1\r\n  \e[33m⚠\e[39m warning\r\n\e[2m  \e[2m→\e[2m \e[32m✔\e[39m New task #2, level #2\e[22m\r\n\e[2m    \e[34mℹ\e[39m message #1\e[22m\r\n\e[2m\e[2m    \e[2m→\e[2m \e[33m↓\e[39m and it skipped \e[2m[skip]\e[2m\e[2m\e[22m\r\n\e[?25h\e[?25h"
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;66;133;244m❯\e[39m New task #1, level #1\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m❯\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;66;133;244m⠏\e[38;2;131;133;132m Another task...\e[38;2;131;133;132m\e[39m\r\n"
+    - delay: 90
+      content: "\e[?25l\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G  \e[38;2;255;68;68m✖\e[39m New task #1, level #1 \e[38;2;131;133;132m[fail]\e[39m\r\n  \e[38;2;255;68;68m\e[38;2;46;46;46m─\e[38;2;255;68;68m \e[38;2;255;68;68m✖\e[38;2;255;68;68m Error: something bad happened\e[39m\r\n      \e[38;2;131;133;132mat FUNCTION_NAME (PATH:LINE:COLUMN)\e[39m\r\n  \e[38;2;46;46;46m─\e[39m \e[38;2;255;187;51m⚠\e[39m warning\r\n\e[38;2;131;133;132m  \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;0;200;81m✔\e[38;2;131;133;132m New task #2, level #2\e[39m\r\n\e[38;2;131;133;132m    \e[38;2;46;46;46m─\e[38;2;131;133;132m \e[38;2;51;181;229mℹ\e[38;2;131;133;132m message #1\e[39m\r\n\e[38;2;131;133;132m\e[38;2;131;133;132m    \e[38;2;46;46;46m▶\e[38;2;131;133;132m \e[38;2;255;136;0m↓\e[38;2;131;133;132m and it skipped \e[38;2;131;133;132m[skip]\e[38;2;131;133;132m\e[38;2;131;133;132m\e[39m\r\n\e[?25h\e[?25h\e]0; "
     - delay: 7000
       content: ' '
