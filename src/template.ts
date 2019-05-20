@@ -43,6 +43,10 @@ export class Template {
         }
     }
 
+    public static join(...text: string[]): string {
+        return text.filter((value): boolean => !!value.length).join(Template.SPACE);
+    }
+
     private static getType(status: Enums.Status, isList: boolean): Enums.Type {
         let type: Enums.Type;
 
@@ -63,10 +67,6 @@ export class Template {
         }
 
         return type;
-    }
-
-    private static join(...text: string[]): string {
-        return text.filter((value): boolean => !!value.length).join(Template.SPACE);
     }
 
     private static indent(count: number, ...text: string[]): string {

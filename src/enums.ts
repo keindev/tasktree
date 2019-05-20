@@ -11,6 +11,29 @@ export enum Level {
     Stride = 3,
 }
 
+export enum Progress {
+    Default = -1,
+    Start = 0,
+    End = 100,
+}
+
+export enum Tokens {
+    // the progress bar itself
+    Bar = ':bar',
+    // current tick number
+    Current = ':current',
+    // total ticks
+    Total = ':total',
+    // time elapsed in seconds
+    Elapsed = ':elapsed',
+    // completion percentage
+    Percent = ':percent',
+    // estimated completion time in seconds
+    ETA = ':eta',
+    // rate of ticks per second
+    Rate = ':rate',
+}
+
 export enum Indent {
     Default = 2,
     Empty = 0,
