@@ -2,6 +2,7 @@
     "name": "tasktree-cli",
     "version": "0.9.1",
     "description": "Terminal tasks tree",
+    "homepage": "https://github.com/keindev/tasktree#readme",
     "license": "MIT",
     "author": "Daniil Ryazanov <opensource@tagproject.ru>",
     "keywords": [
