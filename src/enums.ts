@@ -17,7 +17,7 @@ export enum Progress {
     End = 100,
 }
 
-export enum Tokens {
+export enum Token {
     // the progress bar itself
     Bar = ':bar',
     // current tick number
@@ -69,7 +69,7 @@ export enum Color {
     Dim = '#838584',
 }
 
-export enum Badges {
+export enum Badge {
     Default = '',
     Error = '[fail]',
     Skip = '[skip]',

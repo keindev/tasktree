@@ -1,10 +1,10 @@
 import stripAnsi from 'strip-ansi';
 import { Task } from '../src/task';
 import { TaskTree } from '../src/tasktree';
-import { Template } from '../src/template';
+import { Theme } from '../src/theme';
 
 const tree = TaskTree.tree();
-const template = new Template();
+const theme = new Theme();
 const titles = ['Task1', 'Task2', 'Task3'];
 
 let tasks: Task[];
@@ -22,7 +22,7 @@ describe('TaskTree', (): void => {
         const result = tasks.reverse().every(
             (task, index): boolean => {
                 expect(task.isPending()).toBeTruthy();
-                expect(task.render(template).length).toBeGreaterThan(1);
+                expect(task.render(theme).length).toBeGreaterThan(1);
 
                 task.log(`Log ${index}`).warn(`Warn ${index}`);
 

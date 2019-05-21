@@ -1,8 +1,9 @@
 import chalk from 'chalk';
 import { TaskTree } from './tasktree';
-import { Template } from './template';
+import { Theme } from './theme';
 import * as Enums from './enums';
-import { Progress, Options } from './progress';
+import { Progress } from './progress';
+import { Options } from './types';
 
 let uid = 0;
 
@@ -82,9 +83,11 @@ export class Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
         this.update(Enums.Status.Completed, text);
-        this.bars.forEach(
-            (bar): void => {
+        this.bars = this.bars.filter(
+            (bar): boolean => {
                 bar.complete();
+
+                return !bar.clear;
             }
         );
 
@@ -126,16 +129,17 @@ export class Task {
         return this;
     }
 
-    public render(template: Template, level = Enums.Level.Default): string {
+    public render(theme: Theme, level = Enums.Level.Default): string {
         const text = [
-            template.title(this, level),
-            ...template.errors(this.errors, level),
-            ...template.messages([...this.warnings], Enums.Type.Warning, level),
-            ...template.messages([...this.logs], Enums.Type.Info, level),
-            ...this.subtasks.map((task: Task): string => task.render(template, level + Enums.Level.Step)),
-        ].join(Template.DELIMITER);
+            theme.title(this, level),
+            ...theme.bars(this.bars, level),
+            ...theme.errors(this.errors, level),
+            ...theme.messages([...this.warnings], Enums.Type.Warning, level),
+            ...theme.messages([...this.logs], Enums.Type.Info, level),
+            ...this.subtasks.map((task: Task): string => task.render(theme, level + Enums.Level.Step)),
+        ].join(Theme.DELIMITER);
 
-        return template.paint(text, level ? Enums.Type.Dim : Enums.Type.Default);
+        return theme.paint(text, level ? Enums.Type.Dim : Enums.Type.Default);
     }
 
     private update(status: Enums.Status, text?: string): void {
