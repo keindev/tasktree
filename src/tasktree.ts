@@ -7,7 +7,7 @@ export class TaskTree {
     public static TIMEOUT = 100;
     private static instance: TaskTree;
 
-    private id: NodeJS.Timeout | undefined;
+    private handle: NodeJS.Timeout | undefined;
     private tasks: Task[];
     private template: Theme;
     private silence: boolean = false;
@@ -29,20 +29,20 @@ export class TaskTree {
         this.silence = !!silence;
         this.tasks = [];
 
-        if (!this.id && !this.silence) {
-            this.id = setInterval((): void => {
+        if (!this.handle && !this.silence) {
+            this.handle = setInterval((): void => {
                 this.log();
             }, TaskTree.TIMEOUT);
         }
     }
 
     public stop(success: boolean): void {
-        if (this.id) {
-            clearInterval(this.id);
+        if (this.handle) {
+            clearInterval(this.handle);
 
             this.log();
             logUpdate.done();
-            this.id = undefined;
+            this.handle = undefined;
         }
 
         if (!this.silence) process.exit(Number(success));

@@ -10,7 +10,7 @@ const spinner = elegantSpinner();
 
 export class Theme {
     public static DELIMITER = '\n';
-    public static PREFIX = '';
+    public static EMPTY = '';
     public static SPACE = ' ';
     public static INDENT = '  ';
 
@@ -151,7 +151,7 @@ export class Theme {
         const type = Theme.getType(task.getStatus(), task.isList());
         const badge = this.badge(type);
         const figure = this.figure(type);
-        let prefix = Theme.PREFIX;
+        let prefix = Theme.EMPTY;
 
         if (level) prefix = task.isList() ? this.figure(Enums.Type.Subtask) : this.figure(Enums.Type.Default);
 
@@ -184,6 +184,10 @@ export class Theme {
     }
 
     public bars(list: Progress[], level: number): string[] {
-        return list.map((bar): string => Theme.indent(level, bar.render(this)));
+        const figure = this.figure(Enums.Type.Subtask);
+
+        return list
+            .filter((bar): boolean => !bar.isCompleted() || !bar.clear)
+            .map((bar): string => Theme.indent(level, figure, bar.render(this)));
     }
 }

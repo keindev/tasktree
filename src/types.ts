@@ -11,8 +11,6 @@ export interface Options {
     complete?: string;
     // incomplete character
     incomplete?: string;
-    // head character
-    head?: string;
     // option to clear the bar on completion
     clear?: boolean;
 }

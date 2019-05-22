@@ -108,11 +108,12 @@ export class Task {
         return this;
     }
 
-    public error(error?: string | Error): Task {
+    public error(error?: string | Error, fail?: boolean): Task {
         const { errors } = this;
 
         if (typeof error === 'string') errors.push(error);
         if (error instanceof Error && error.stack) errors.push(error.stack);
+        if (fail) this.fail();
 
         return this;
     }
