@@ -9,12 +9,12 @@ export class TaskTree {
 
     private handle: NodeJS.Timeout | undefined;
     private tasks: Task[];
-    private template: Theme;
+    private theme: Theme;
     private silence: boolean = false;
 
     private constructor(theme?: Types.Theme) {
         this.tasks = [];
-        this.template = new Theme(theme);
+        this.theme = new Theme(theme);
     }
 
     public static tree(theme?: Types.Theme): TaskTree {
@@ -63,7 +63,7 @@ export class TaskTree {
     }
 
     public render(): string {
-        return this.tasks.map((task): string => task.render(this.template)).join('\n');
+        return this.tasks.map((task): string => task.render(this.theme)).join('\n');
     }
 
     private log(): void {

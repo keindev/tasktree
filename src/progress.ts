@@ -13,21 +13,31 @@ export class Progress {
     public static MIN_RATIO = 0;
     public static MAX_RATIO = 1;
 
-    public readonly total: number = Enums.Progress.End;
+    public readonly total = Enums.Progress.End;
+    public readonly completeBlock = Figures.square;
+    public readonly incompleteBlock = Figures.square;
     public readonly width: number = 20;
-    public readonly completeBlock: string = Figures.square;
-    public readonly incompleteBlock: string = Figures.square;
     public readonly clear: boolean = false;
+    public readonly badges: boolean = true;
+    public readonly gradient: boolean = true;
     public readonly template: string;
 
-    private current: number = Enums.Progress.Start;
-    private start: number = new Date().getTime();
-    private tokens: Map<string, string> = new Map();
+    private current = Enums.Progress.Start;
+    private start = new Date().getTime();
+    private end: number | undefined;
+    private status = Enums.Status.Pending;
+    private tokens: Map<Enums.Token | string, string> = new Map();
 
     public constructor(template?: string, options?: Options) {
         this.template =
             template ||
-            Theme.join(Enums.Token.Bar, `${Enums.Token.Rate}/bps`, Enums.Token.Percent, `${Enums.Token.ETA}s`);
+            Theme.join(
+                Theme.SPACE,
+                Enums.Token.Bar,
+                `${Enums.Token.Rate}/bps`,
+                Enums.Token.Percent,
+                `${Enums.Token.ETA}s`
+            );
 
         if (typeof options === 'object') {
             if (options.current) this.current = options.current;
@@ -49,7 +59,7 @@ export class Progress {
     }
 
     public getElapsed(): number {
-        return new Date().getTime() - this.start;
+        return (this.end || new Date().getTime()) - this.start;
     }
 
     public getRate(): number {
@@ -62,25 +72,61 @@ export class Progress {
             : this.getElapsed() * (this.total / this.current - Progress.MAX_RATIO);
     }
 
-    public isCompleted(): boolean {
-        return this.current >= this.total;
+    public getStart(): number {
+        return this.start;
     }
 
-    public tick(step?: number, tokens?: Token): boolean {
-        const { total } = this;
+    public getEnd(): number | undefined {
+        return this.end;
+    }
 
-        this.current = Math.min(total, this.current + (step || Progress.TICK));
+    public isCompleted(): boolean {
+        return this.current >= this.total || !!this.end;
+    }
+
+    public tick(step?: number, tokens?: Token): Progress {
+        this.current = Math.min(this.total, this.current + (step || Progress.TICK));
         this.tokens = typeof tokens === 'object' ? new Map(Object.entries(tokens)) : new Map();
 
-        return this.isCompleted();
+        if (this.isCompleted()) this.complete();
+
+        return this;
     }
 
     public complete(): void {
         this.current = this.total;
+        this.status = Enums.Status.Completed;
+        this.end = new Date().getTime();
+    }
+
+    public skip(): void {
+        if (!this.isCompleted()) {
+            this.status = Enums.Status.Skipped;
+            this.end = new Date().getTime();
+        }
+    }
+
+    public fail(): void {
+        if (!this.isCompleted()) {
+            this.status = Enums.Status.Failed;
+            this.end = new Date().getTime();
+        }
     }
 
     public render(theme: Theme): string {
         const length = Math.round(this.width * this.getRatio());
+        const type = Theme.type(this.status);
+        let blocks = Theme.EMPTY.padStart(length, this.completeBlock);
+
+        if (!this.isCompleted() && this.gradient) {
+            blocks = theme.gradient(blocks, {
+                position: this.getRatio(),
+                begin: Theme.type(this.status),
+                end: Enums.Type.Success,
+            });
+        } else {
+            blocks = theme.paint(blocks, type);
+        }
 
         let result = this.template
             .replace(Enums.Token.Current, this.current.toString())
@@ -94,10 +140,11 @@ export class Progress {
             )
             .replace(
                 Enums.Token.Bar,
-                [
-                    theme.paint(Theme.EMPTY.padStart(length, this.completeBlock), Enums.Type.Success),
-                    theme.paint(Theme.EMPTY.padStart(this.width - length, this.incompleteBlock), Enums.Type.Subtask),
-                ].join(Theme.EMPTY)
+                Theme.join(
+                    Theme.EMPTY,
+                    blocks,
+                    theme.paint(Theme.EMPTY.padStart(this.width - length, this.incompleteBlock), Enums.Type.Subtask)
+                )
             );
 
         this.tokens.forEach(
@@ -106,6 +153,6 @@ export class Progress {
             }
         );
 
-        return result;
+        return this.badges ? Theme.join(Theme.SPACE, result, theme.badge(type)) : result;
     }
 }

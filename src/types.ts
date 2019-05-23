@@ -1,5 +1,23 @@
 import { Type } from './enums';
 
+export type Color = string;
+export type Figure = string;
+export type Badge = string;
+
+export type Theme = {
+    [key in Type]?:
+        | {
+              color?: Color;
+              figure?: Figure;
+              badge?: Badge;
+          }
+        | [Color?, Figure?, Badge?]
+};
+
+export interface Token {
+    [key: string]: string;
+}
+
 export interface Options {
     // current completed index
     current?: number;
@@ -13,21 +31,14 @@ export interface Options {
     incomplete?: string;
     // option to clear the bar on completion
     clear?: boolean;
+    // option to add badge
+    badges?: boolean;
+    // option to add gradient to pending bar
+    gradient?: boolean;
 }
 
-export interface Token {
-    [key: string]: string;
+export interface Gradient {
+    position: number;
+    begin: Type;
+    end: Type;
 }
-
-export type Color = string;
-export type Figure = string;
-export type Badge = string;
-export type Theme = {
-    [key in Type]?:
-        | {
-              color?: Color;
-              figure?: Figure;
-              badge?: Badge;
-          }
-        | [Color?, Figure?, Badge?]
-};

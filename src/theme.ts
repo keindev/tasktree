@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import convert from 'color-convert';
 import elegantSpinner from 'elegant-spinner';
 import * as Figures from 'figures';
 import * as Types from './types';
@@ -9,7 +10,7 @@ import { Progress } from './progress';
 const spinner = elegantSpinner();
 
 export class Theme {
-    public static DELIMITER = '\n';
+    public static SEPARATOR = '\n';
     public static EMPTY = '';
     public static SPACE = ' ';
     public static INDENT = '  ';
@@ -44,11 +45,7 @@ export class Theme {
         }
     }
 
-    public static join(...text: string[]): string {
-        return text.filter((value): boolean => !!value.length).join(Theme.SPACE);
-    }
-
-    private static getType(status: Enums.Status, isList: boolean): Enums.Type {
+    public static type(status: Enums.Status, isList: boolean = false): Enums.Type {
         let type: Enums.Type;
 
         switch (status) {
@@ -70,8 +67,16 @@ export class Theme {
         return type;
     }
 
-    private static indent(count: number, ...text: string[]): string {
-        return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(...text)}`;
+    public static join(separator: string, ...text: string[]): string {
+        return text.filter((value): boolean => !!value.length).join(separator);
+    }
+
+    public static dye(str: string, color: Types.Color): string {
+        return color ? chalk.hex(color)(str) : str;
+    }
+
+    public static indent(count: number, ...text: string[]): string {
+        return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(Theme.SPACE, ...text)}`;
     }
 
     private static getValueBy<T>(map: Map<Enums.Type, T>, type: Enums.Type, getDefault: () => T): T {
@@ -82,10 +87,11 @@ export class Theme {
         return result;
     }
 
-    public paint(str: string, type: Enums.Type): Types.Color {
+    public getColor(type: Enums.Type): Types.Color {
         const { colors } = this;
-        const color = Theme.getValueBy(
-            colors,
+
+        return Theme.getValueBy(
+            this.colors,
             type,
             (): string => {
                 if (type === Enums.Type.Active) return Enums.Color.Active;
@@ -103,8 +109,27 @@ export class Theme {
                 return colors.get(Enums.Type.Default) || Enums.Color.Default;
             }
         );
+    }
 
-        return color ? chalk.hex(color)(str) : str;
+    public paint(str: string, type: Enums.Type): string {
+        return Theme.dye(str, this.getColor(type));
+    }
+
+    public gradient(str: string, gradient: Types.Gradient): string {
+        const begin = convert.hex.rgb(this.getColor(gradient.begin));
+        const end = convert.hex.rgb(this.getColor(gradient.end));
+        const w = gradient.position * 2 - 1;
+        const w1 = (w + 1) / 2.0;
+        const w2 = 1 - w1;
+
+        return Theme.dye(
+            str,
+            convert.rgb.hex([
+                Math.round(end[0] * w1 + begin[0] * w2),
+                Math.round(end[1] * w1 + begin[1] * w2),
+                Math.round(end[2] * w1 + begin[2] * w2),
+            ])
+        );
     }
 
     public figure(type: Enums.Type): Types.Figure {
@@ -148,7 +173,7 @@ export class Theme {
     }
 
     public title(task: Task, level: number): string {
-        const type = Theme.getType(task.getStatus(), task.isList());
+        const type = Theme.type(task.getStatus(), task.isList());
         const badge = this.badge(type);
         const figure = this.figure(type);
         let prefix = Theme.EMPTY;
@@ -164,13 +189,14 @@ export class Theme {
 
         return errors.map(
             (text): string => {
-                const [error, ...lines] = text.split(Theme.DELIMITER);
-                const title = Theme.join(this.figure(Enums.Type.Message), this.figure(type), error.trim());
+                const [error, ...lines] = text.split(Theme.SEPARATOR);
+                const title = Theme.join(Theme.SPACE, this.figure(Enums.Type.Message), this.figure(type), error.trim());
 
-                return [
+                return Theme.join(
+                    Theme.SEPARATOR,
                     Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
-                    ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
-                ].join(Theme.DELIMITER);
+                    ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim)))
+                );
             }
         );
     }
