@@ -7,7 +7,7 @@ import * as Enums from './enums';
 import { Task } from './task';
 import { Progress } from './progress';
 
-const spinner = elegantSpinner();
+const frame = elegantSpinner();
 
 export class Theme {
     public static SEPARATOR = '\n';
@@ -138,7 +138,7 @@ export class Theme {
             figures,
             type,
             (): string => {
-                if (type === Enums.Type.Active) return spinner();
+                if (type === Enums.Type.Active) return frame();
                 if (type === Enums.Type.Success) return Figures.tick;
                 if (type === Enums.Type.Skip) return Figures.arrowDown;
                 if (type === Enums.Type.Error) return Figures.cross;

@@ -59,10 +59,11 @@ const promises = [50, 75, 200].map((ms, i) => {
                 } else {
                     bars[i].fail();
                 }
+            } else {
+                once = bars[i].tick(Math.random() * 10).isCompleted();
+            }
 
-                clearInterval(handle);
-                resolve();
-            } else if ((once = bars[i].tick(Math.random() * 10).isCompleted())) {
+            if (once) {
                 clearInterval(handle);
                 resolve();
             }
