@@ -1,6 +1,8 @@
+import stripAnsi from 'strip-ansi';
 import { Task } from '../src/task';
 import { Status } from '../src/enums';
 import { TaskTree } from '../src/tasktree';
+import { Theme } from '../src/theme';
 
 TaskTree.tree().start(true);
 
@@ -98,5 +100,35 @@ describe('Task', (): void => {
             expect(task.getStatus()).toBe(Status.Failed);
             expect(subtask.getStatus()).toBe(Status.Failed);
         });
+
+        it('Clear subtask', (): void => {
+            const title = 'subtask';
+            const task = new Task(title, Status.Pending);
+            const theme = new Theme();
+
+            task.add(title, Status.Completed);
+            expect(task.getStatus()).toBe(Status.Pending);
+
+            task.bar().complete();
+            expect(task.getStatus()).toBe(Status.Pending);
+
+            task.complete().clear();
+            expect(task.getStatus()).toBe(Status.Completed);
+            expect(stripAnsi(task.render(theme))).toMatchSnapshot();
+        });
+    });
+
+    it('Progress bar', (): void => {
+        const title = 'subtask';
+        const task = new Task(title, Status.Pending);
+        const tpl = ':bar :percent :etas';
+        const theme = new Theme();
+
+        task.bar(tpl).complete();
+        expect(task.getStatus()).toBe(Status.Pending);
+
+        task.complete();
+        expect(task.getStatus()).toBe(Status.Completed);
+        expect(stripAnsi(task.render(theme))).toMatchSnapshot();
     });
 });

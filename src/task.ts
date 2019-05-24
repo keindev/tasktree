@@ -79,10 +79,15 @@ export class Task {
         return bar;
     }
 
-    public complete(text?: string): Task {
+    public clear(): void {
+        this.subtasks = [];
+        this.bars = [];
+    }
+
+    public complete(text?: string, clear: boolean = false): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
-        this.update(Enums.Status.Completed, text);
+        this.update(Enums.Status.Completed, text, clear);
         this.bars = this.bars.filter(
             (bar): boolean => {
                 bar.complete();
@@ -94,14 +99,14 @@ export class Task {
         return this;
     }
 
-    public skip(text?: string): Task {
-        this.update(Enums.Status.Skipped, text);
+    public skip(text?: string, clear: boolean = false): Task {
+        this.update(Enums.Status.Skipped, text, clear);
 
         return this;
     }
 
-    public fail(text?: string): Task {
-        this.update(Enums.Status.Failed, text);
+    public fail(text?: string, clear: boolean = false): Task {
+        this.update(Enums.Status.Failed, text, clear);
 
         TaskTree.tree().stop(false);
 
@@ -144,9 +149,10 @@ export class Task {
         return theme.paint(text, level ? Enums.Type.Dim : Enums.Type.Default);
     }
 
-    private update(status: Enums.Status, text?: string): void {
+    private update(status: Enums.Status, text?: string, clear: boolean = false): void {
         if (this.isPending()) {
             if (text) this.text = text;
+            if (clear) this.clear();
 
             this.status = status;
         } else {
