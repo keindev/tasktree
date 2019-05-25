@@ -1,17 +1,14 @@
 import { Type } from './enums';
 
-export type Color = string;
-export type Figure = string;
-export type Badge = string;
-
 export type Theme = {
     [key in Type]?:
+        | string
         | {
-              color?: Color;
-              figure?: Figure;
-              badge?: Badge;
+              color?: string;
+              symbol?: string;
+              badge?: string;
           }
-        | [Color?, Figure?, Badge?]
+        | [string?, string?, string?]
 };
 
 export interface Token {

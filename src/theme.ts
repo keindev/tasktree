@@ -15,17 +15,17 @@ export class Theme {
     public static SPACE = ' ';
     public static INDENT = '  ';
 
-    private colors: Map<Enums.Type, Types.Color> = new Map();
-    private figures: Map<Enums.Type, Types.Figure> = new Map();
-    private badges: Map<Enums.Type, Types.Badge> = new Map();
+    private colors: Map<Enums.Type, string> = new Map();
+    private symbols: Map<Enums.Type, string> = new Map();
+    private badges: Map<Enums.Type, string> = new Map();
 
     public constructor(options?: Types.Theme) {
         if (options) {
-            const { colors, figures, badges } = this;
+            const { colors, symbols, badges } = this;
             const list = new Map(Object.entries(options));
-            const set = (key: Enums.Type, color?: Types.Color, figure?: Types.Figure, badge?: Types.Badge): void => {
+            const set = (key: Enums.Type, color?: string, symbol?: string, badge?: string): void => {
                 if (color) colors.set(key, color);
-                if (figure) figures.set(key, figure);
+                if (symbol) symbols.set(key, symbol);
                 if (badge) badges.set(key, badge);
             };
 
@@ -35,10 +35,12 @@ export class Theme {
 
                     if (Array.isArray(option)) {
                         set(key, ...option);
+                    } else if (typeof option === 'string') {
+                        colors.set(key, option);
                     } else if (typeof option === 'object') {
-                        const { color, figure, badge } = option;
+                        const { color, symbol, badge } = option;
 
-                        set(key, color, figure, badge);
+                        set(key, color, symbol, badge);
                     }
                 }
             );
@@ -71,7 +73,7 @@ export class Theme {
         return text.filter((value): boolean => !!value.length).join(separator);
     }
 
-    public static dye(str: string, color: Types.Color): string {
+    public static dye(str: string, color: string): string {
         return color ? chalk.hex(color)(str) : str;
     }
 
@@ -87,7 +89,7 @@ export class Theme {
         return result;
     }
 
-    public getColor(type: Enums.Type): Types.Color {
+    public getColor(type: Enums.Type): string {
         const { colors } = this;
 
         return Theme.getValueBy(
@@ -101,7 +103,6 @@ export class Theme {
                 if (type === Enums.Type.Message) return Enums.Color.Message;
                 if (type === Enums.Type.Info) return Enums.Color.Info;
                 if (type === Enums.Type.Warning) return Enums.Color.Warning;
-                if (type === Enums.Type.Exception) return Enums.Color.Exception;
                 if (type === Enums.Type.Subtask) return Enums.Color.Subtask;
                 if (type === Enums.Type.List) return Enums.Color.List;
                 if (type === Enums.Type.Dim) return Enums.Color.Dim;
@@ -132,10 +133,10 @@ export class Theme {
         );
     }
 
-    public figure(type: Enums.Type): Types.Figure {
-        const { figures } = this;
-        const figure = Theme.getValueBy(
-            figures,
+    public symbol(type: Enums.Type): string {
+        const { symbols } = this;
+        const symbol = Theme.getValueBy(
+            symbols,
             type,
             (): string => {
                 if (type === Enums.Type.Active) return frame();
@@ -145,18 +146,17 @@ export class Theme {
                 if (type === Enums.Type.Message) return Figures.line;
                 if (type === Enums.Type.Info) return Figures.info;
                 if (type === Enums.Type.Warning) return Figures.warning;
-                if (type === Enums.Type.Exception) return Figures.arrowRight;
                 if (type === Enums.Type.Subtask) return Figures.pointerSmall;
                 if (type === Enums.Type.List) return Figures.pointer;
 
-                return figures.get(Enums.Type.Default) || this.figure(Enums.Type.Subtask);
+                return symbols.get(Enums.Type.Default) || this.symbol(Enums.Type.Subtask);
             }
         );
 
-        return figure ? this.paint(figure, type) : figure;
+        return symbol ? this.paint(symbol, type) : symbol;
     }
 
-    public badge(type: Enums.Type): Types.Badge {
+    public badge(type: Enums.Type): string {
         const { badges } = this;
         const badge = Theme.getValueBy(
             badges,
@@ -175,12 +175,12 @@ export class Theme {
     public title(task: Task, level: number): string {
         const type = Theme.type(task.getStatus(), task.isList());
         const badge = this.badge(type);
-        const figure = this.figure(type);
+        const symbol = this.symbol(type);
         let prefix = Theme.EMPTY;
 
-        if (level) prefix = task.isList() ? this.figure(Enums.Type.Subtask) : this.figure(Enums.Type.Default);
+        if (level) prefix = task.isList() ? this.symbol(Enums.Type.Subtask) : this.symbol(Enums.Type.Default);
 
-        return Theme.indent(level, prefix, figure, task.getText(), badge);
+        return Theme.indent(level, prefix, symbol, task.getText(), badge);
     }
 
     public errors(errors: string[], level: number): string[] {
@@ -190,7 +190,7 @@ export class Theme {
         return errors.map(
             (text): string => {
                 const [error, ...lines] = text.split(Theme.SEPARATOR);
-                const title = Theme.join(Theme.SPACE, this.figure(Enums.Type.Message), this.figure(type), error.trim());
+                const title = Theme.join(Theme.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
 
                 return Theme.join(
                     Theme.SEPARATOR,
@@ -202,18 +202,18 @@ export class Theme {
     }
 
     public messages(list: string[], type: Enums.Type, level: number): string[] {
-        const figure = this.figure(type);
-        const sign = this.figure(Enums.Type.Message);
+        const symbol = this.symbol(type);
+        const sign = this.symbol(Enums.Type.Message);
         const indent = level + Enums.Level.Step;
 
-        return list.map((text): string => Theme.indent(indent, sign, figure, text));
+        return list.map((text): string => Theme.indent(indent, sign, symbol, text));
     }
 
     public bars(list: Progress[], level: number): string[] {
-        const figure = this.figure(Enums.Type.Subtask);
+        const symbol = this.symbol(Enums.Type.Subtask);
 
         return list
             .filter((bar): boolean => !bar.isCompleted() || !bar.clear)
-            .map((bar): string => Theme.indent(level, figure, bar.render(this)));
+            .map((bar): string => Theme.indent(level, symbol, bar.render(this)));
     }
 }
