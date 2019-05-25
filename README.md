@@ -28,7 +28,7 @@ yarn add tasktree-cli --dev
 
 Singleton to manage the task tree.
 
-#### tree([theme])
+#### tree(\[theme\])
 
 Method to get the object to control the tree.
 
@@ -75,7 +75,47 @@ const theme = {
 };
 ```
 
-### Theme
+#### start
+
+Starts output a task tree in a terminal at a certain interval. In “silent mode” the task tree only collects tasks and is not output it in terminal. Returns the instance.
+
+##### silence
+
+Disable task tree rendering.
+
+Type: `boolean`
+
+Default: `false`
+
+#### stop
+
+Stop output a task tree in a terminal. Returns the instance.
+
+#### exit
+
+Force the process to exit (see [process.exit](https://nodejs.org/api/process.html#process_process_exit_code)). Do nothing in 'silent mode'.
+
+##### code
+
+Exit code.
+
+Type: `number`
+
+Default: `1`
+
+#### add
+
+Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task. Returns `Task` instance.
+
+##### text
+
+Text to display.
+
+Type: `string`
+
+#### render
+
+Render a task tree in to string. Return string with tasks hierarchy.
 
 ### Task
 
@@ -132,3 +172,7 @@ Promise.all(promises).then(() => {
     tree.stop();
 });
 ```
+
+## License
+
+[MIT](LICENSE)
