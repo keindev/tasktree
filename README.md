@@ -16,14 +16,64 @@ Simple terminal task tree helps you keep track of your tasks in a tree structure
 
 ## Install
 
-```shell
-$ npm install tasktree-cli --save-dev
-$ yarn add tasktree-cli --dev
+```console
+npm install tasktree-cli --save-dev
+
+yarn add tasktree-cli --dev
 ```
 
-## Usage
+## API
 
 ### TaskTree
+
+Singleton to manage the task tree.
+
+#### tree([theme])
+
+Method to get the object to control the tree.
+
+##### theme
+
+Type: `object`
+
+Theme properties. The field name is a modifier, the value is `options`.
+
+##### Modifiers
+
+| option      | color             | symbol | badge | description                                  |
+| ----------- | ----------------- | ------ | ----- | -------------------------------------------- |
+| **default** | text              | ✖      | ✖     | default color                                |
+| **active**  | symbol            | ✔      | ✖     | spinner, progress bar color                  |
+| **success** | symbol, text, bar | ✔      | ✖     | task symbol, progress bar color              |
+| **skip**    | symbol, text, bar | ✔      | ✔     | task symbol, progress bar color              |
+| **error**   | symbol, text, bar | ✔      | ✔     | task symbol, error title, progress bar color |
+| **message** | symbol            | ✔      | ✖     | dim pointer to task information              |
+| **info**    | symbol            | ✔      | ✖     | information message symbol                   |
+| **warning** | symbol            | ✔      | ✖     | warning message symbol                       |
+| **subtask** | symbol, text      | ✔      | ✖     | dim pointer to subtask                       |
+| **list**    | symbol            | ✔      | ✖     | list symbol                                  |
+| **dim**     | symbol, bar       | ✖      | ✖     | dim color                                    |
+
+###### \* If you use a gradient fill for the progress bar, the color will change from `active` to`success`
+
+##### Options:
+
+-   `color`: `hex` color.
+-   `figure`: symbol, add before title.
+-   `badge`: text, added at the end, after title.
+
+##### Example
+
+```js
+const theme = {
+    default: '#ffffff',
+    success: ['#008000', '✔'],
+    skip: {
+        symbol: '↓',
+    },
+    error: ['#ff0000', '✖', '[error]'],
+};
+```
 
 ### Theme
 
@@ -31,7 +81,7 @@ $ yarn add tasktree-cli --dev
 
 ### Bar
 
-## Examples
+## Usage
 
 ```javascript
 const { TaskTree } = require('../lib/tasktree');
