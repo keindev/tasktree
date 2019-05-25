@@ -2,6 +2,7 @@ import logUpdate from 'log-update';
 import { Task } from './task';
 import * as Types from './types';
 import { Theme } from './theme';
+import { ExitCode } from './enums';
 
 export class TaskTree {
     public static TIMEOUT = 100;
@@ -25,7 +26,7 @@ export class TaskTree {
         return TaskTree.instance;
     }
 
-    public start(silence?: boolean): void {
+    public start(silence?: boolean): TaskTree {
         this.silence = !!silence;
         this.tasks = [];
 
@@ -34,9 +35,11 @@ export class TaskTree {
                 this.log();
             }, TaskTree.TIMEOUT);
         }
+
+        return this;
     }
 
-    public stop(success: boolean): void {
+    public stop(): TaskTree {
         if (this.handle) {
             clearInterval(this.handle);
 
@@ -45,7 +48,14 @@ export class TaskTree {
             this.handle = undefined;
         }
 
-        if (!this.silence) process.exit(Number(success));
+        return this;
+    }
+
+    public exit(code: ExitCode = ExitCode.Success): void {
+        if (!this.silence) {
+            this.stop();
+            process.exit(code);
+        }
     }
 
     public add(text: string): Task {

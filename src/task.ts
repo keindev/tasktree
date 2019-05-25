@@ -108,7 +108,7 @@ export class Task {
     public fail(text?: string, clear: boolean = false): Task {
         this.update(Enums.Status.Failed, text, clear);
 
-        TaskTree.tree().stop(false);
+        TaskTree.tree().exit(Enums.ExitCode.Error);
 
         return this;
     }

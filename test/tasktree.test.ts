@@ -47,11 +47,11 @@ describe('TaskTree', (): void => {
 
     it('render', (): void => {
         expect(stripAnsi(tree.render())).toMatchSnapshot();
-        tree.stop(true);
+        tree.stop();
         expect(stripAnsi(tree.render())).toMatchSnapshot();
 
         tree.start(true);
-        tree.stop(true);
+        tree.stop();
         expect(stripAnsi(tree.render())).toMatchSnapshot();
     });
 });

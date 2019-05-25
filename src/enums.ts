@@ -1,3 +1,8 @@
+export enum ExitCode {
+    Success = 0,
+    Error = 1,
+}
+
 export enum Status {
     Pending = 0,
     Completed = 1,
