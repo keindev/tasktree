@@ -56,7 +56,7 @@ Theme properties. The field name is a modifier, the value is `options`.
 
 ###### \* If you use a gradient fill for the progress bar, the color will change from `active` to`success`
 
-##### Options:
+##### Options
 
 -   `color`: `hex` color.
 -   `figure`: symbol, add before title.
@@ -75,7 +75,7 @@ const theme = {
 };
 ```
 
-#### start
+#### start(silence)
 
 Starts output a task tree in a terminal at a certain interval. In “silent mode” the task tree only collects tasks and is not output it in terminal. Returns the instance.
 
@@ -87,11 +87,11 @@ Type: `boolean`
 
 Default: `false`
 
-#### stop
+#### stop()
 
 Stop output a task tree in a terminal. Returns the instance.
 
-#### exit
+#### exit()
 
 Force the process to exit (see [process.exit](https://nodejs.org/api/process.html#process_process_exit_code)). Do nothing in 'silent mode'.
 
@@ -103,7 +103,7 @@ Type: `number`
 
 Default: `1`
 
-#### add
+#### add(text)
 
 Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task. Returns `Task` instance.
 
@@ -113,7 +113,7 @@ Text to display.
 
 Type: `string`
 
-#### render
+#### render()
 
 Render a task tree in to string. Return string with tasks hierarchy.
 
