@@ -1,23 +1,24 @@
 import logUpdate from 'log-update';
 import { Task } from './task';
-import { Theme } from './types';
-import { Template } from './template';
+import * as Types from './types';
+import { Theme } from './theme';
+import { ExitCode } from './enums';
 
 export class TaskTree {
     public static TIMEOUT = 100;
     private static instance: TaskTree;
 
-    private id: NodeJS.Timeout | undefined;
+    private handle: NodeJS.Timeout | undefined;
     private tasks: Task[];
-    private template: Template;
+    private theme: Theme;
     private silence: boolean = false;
 
-    private constructor(theme?: Theme) {
+    private constructor(theme?: Types.Theme) {
         this.tasks = [];
-        this.template = new Template(theme);
+        this.theme = new Theme(theme);
     }
 
-    public static tree(theme?: Theme): TaskTree {
+    public static tree(theme?: Types.Theme): TaskTree {
         if (!TaskTree.instance) {
             TaskTree.instance = new TaskTree(theme);
         }
@@ -25,27 +26,36 @@ export class TaskTree {
         return TaskTree.instance;
     }
 
-    public start(silence?: boolean): void {
+    public start(silence?: boolean): TaskTree {
         this.silence = !!silence;
         this.tasks = [];
 
-        if (!this.id && !this.silence) {
-            this.id = setInterval((): void => {
+        if (!this.handle && !this.silence) {
+            this.handle = setInterval((): void => {
                 this.log();
             }, TaskTree.TIMEOUT);
         }
+
+        return this;
     }
 
-    public stop(success: boolean): void {
-        if (this.id) {
-            clearInterval(this.id);
+    public stop(): TaskTree {
+        if (this.handle) {
+            clearInterval(this.handle);
 
             this.log();
             logUpdate.done();
-            this.id = undefined;
+            this.handle = undefined;
         }
 
-        if (!this.silence) process.exit(Number(success));
+        return this;
+    }
+
+    public exit(code: ExitCode = ExitCode.Success): void {
+        if (!this.silence) {
+            this.stop();
+            process.exit(code);
+        }
     }
 
     public add(text: string): Task {
@@ -63,7 +73,7 @@ export class TaskTree {
     }
 
     public render(): string {
-        return this.tasks.map((task): string => task.render(this.template)).join('\n');
+        return this.tasks.map((task): string => task.render(this.theme)).join('\n');
     }
 
     private log(): void {

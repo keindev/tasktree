@@ -1,3 +1,8 @@
+export enum ExitCode {
+    Success = 0,
+    Error = 1,
+}
+
 export enum Status {
     Pending = 0,
     Completed = 1,
@@ -9,6 +14,29 @@ export enum Level {
     Default = 0,
     Step = 1,
     Stride = 3,
+}
+
+export enum Progress {
+    Default = -1,
+    Start = 0,
+    End = 100,
+}
+
+export enum Token {
+    // the progress bar itself
+    Bar = ':bar',
+    // current tick number
+    Current = ':current',
+    // total ticks
+    Total = ':total',
+    // time elapsed in seconds
+    Elapsed = ':elapsed',
+    // completion percentage
+    Percent = ':percent',
+    // estimated completion time in seconds
+    ETA = ':eta',
+    // rate of ticks per second
+    Rate = ':rate',
 }
 
 export enum Indent {
@@ -25,7 +53,6 @@ export enum Type {
     Message = 'message',
     Info = 'info',
     Warning = 'warning',
-    Exception = 'exception',
     Subtask = 'subtask',
     List = 'list',
     Dim = 'dim',
@@ -40,13 +67,12 @@ export enum Color {
     Message = '#2e2e2e',
     Info = '#33b5e5',
     Warning = '#ffbb33',
-    Exception = '#cc0000',
     Subtask = '#2e2e2e',
     List = '#4285f4',
     Dim = '#838584',
 }
 
-export enum Badges {
+export enum Badge {
     Default = '',
     Error = '[fail]',
     Skip = '[skip]',

@@ -26,6 +26,7 @@ yarn.lock
 
 # Docs
 README.md
+CODE_OF_CONDUCT.md
 
 # Logs
 yarn-error.log
