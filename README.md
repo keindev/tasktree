@@ -75,7 +75,7 @@ const theme = {
 };
 ```
 
-#### start(silence)
+#### start(\[silence\])
 
 Starts output a task tree in a terminal at a certain interval. In “silent mode” the task tree only collects tasks and is not output it in terminal. Returns the instance.
 
@@ -198,7 +198,7 @@ Default: `null`
 
 Remove all subtasks and bars.
 
-#### complete([text], [clear])
+#### complete(\[text\], \[clear\])
 
 Complete task. Returns self object.
 
@@ -218,7 +218,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### skip([text], [clear])
+#### skip(\[text\], \[clear\])
 
 Skip task. Returns self object.
 
@@ -238,7 +238,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### fail([text], [clear])
+#### fail(\[text\], \[clear\])
 
 Failure task. Returns self object.
 
@@ -258,7 +258,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### error(error, [fail])
+#### error(error, \[fail\])
 
 Adds an error message to the task, which will be displayed immediately under the task header. Returns self object.
 
@@ -276,7 +276,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### log([text])
+#### log(\[text\])
 
 Add informational message, which will be displayed under the task header. Returns self object.
 
@@ -286,7 +286,7 @@ Informational message.
 
 Type: `string`
 
-#### warn([text])
+#### warn(\[text\])
 
 Add warning message, which will be displayed under the task header. Returns self object.
 
@@ -295,10 +295,6 @@ Add warning message, which will be displayed under the task header. Returns self
 Warning message.
 
 Type: `string`
-
-#### render(theme, [level]): string
-
-Render a task to output in string.
 
 ### Bar
 
@@ -329,14 +325,6 @@ Total number of ticks to complete.
 Type: `number`
 
 Default: `1000`
-
-##### width
-
-The displayed width of the progress bar defaulting to total.
-
-Type: `number`
-
-Default: `20`
 
 ##### width
 
@@ -385,6 +373,78 @@ Option to add gradient to pending bar.
 Type: `boolean`
 
 Default: `true`
+
+#### getRatio()
+
+Returns ratio `current` value and `total` value.
+
+#### getPercent()
+
+Returns the percentage of completion.
+
+#### getElapsed()
+
+Returns the elapsed time from the beginning, in milliseconds.
+
+#### getRate()
+
+Returns progress rate.
+
+#### getETA()
+
+Returns progress ETA (_estimated time of arrival_).
+
+#### getStart()
+
+Returns start `Date`, in milliseconds.
+
+#### getEnd()
+
+Returns the end `Date`, in milliseconds, if progress is ended.
+
+#### isCompleted()
+
+Returns a boolean value indicating the progress bar status.
+
+#### tick(\[step\], \[tokens\]): Progress
+
+Increases current progress with specified step. Returns self object.
+
+##### step
+
+The value by which the current progress will increase.
+
+Type: `number`
+
+Default: `1`
+
+##### tokens
+
+Add custom tokens by adding a {'name': value} object parameter to your method.
+
+Type: `object`
+
+Default: `null`
+
+###### example
+
+```javascript
+const bar = new Progress(':bar tempalte with custom :token');
+
+bat.tick(10, { token: 100 });
+```
+
+##### complete()
+
+Completes progress and marks it as successful.
+
+##### skip()
+
+Stops the progress and marks it as skipped.
+
+##### fail()
+
+Stops the progress and marks it as failed.
 
 ## Usage
 
