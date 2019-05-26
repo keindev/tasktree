@@ -173,12 +173,12 @@ export class Theme {
     }
 
     public title(task: Task, level: number): string {
-        const type = Theme.type(task.getStatus(), task.isList());
+        const type = Theme.type(task.getStatus(), task.haveSubtasks());
         const badge = this.badge(type);
         const symbol = this.symbol(type);
         let prefix = Theme.EMPTY;
 
-        if (level) prefix = task.isList() ? this.symbol(Enums.Type.Subtask) : this.symbol(Enums.Type.Default);
+        if (level) prefix = task.haveSubtasks() ? this.symbol(Enums.Type.Subtask) : this.symbol(Enums.Type.Default);
 
         return Theme.indent(level, prefix, symbol, task.getText(), badge);
     }

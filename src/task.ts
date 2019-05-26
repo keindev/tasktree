@@ -53,7 +53,7 @@ export class Task {
         return !!this.subtasks.filter((task): boolean => task.isPending()).length;
     }
 
-    public isList(): boolean {
+    public haveSubtasks(): boolean {
         return !!this.subtasks.length;
     }
 
