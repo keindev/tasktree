@@ -121,7 +121,7 @@ Render a task tree in to string. Return string with tasks hierarchy.
 
 An entity for manipulating a task containing all dependent objects (informational messages, errors, progress bars and tasks).
 
-#### Task statuses:
+#### Task statuses
 
 -   Pending: `0`
 -   Completed: `1`
@@ -426,7 +426,7 @@ Type: `object`
 
 Default: `null`
 
-###### example
+###### Tick with custom tokens example
 
 ```javascript
 const bar = new Progress(':bar tempalte with custom :token');
