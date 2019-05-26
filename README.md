@@ -36,7 +36,7 @@ Method to get the object to control the tree.
 
 Type: `object`
 
-Theme properties. The field name is a modifier, the value is `options`.
+Theme properties. The field name is a modifier, the value is [options](#theme-options).
 
 ##### Modifiers
 
@@ -56,7 +56,7 @@ Theme properties. The field name is a modifier, the value is `options`.
 
 ###### \* If you use a gradient fill for the progress bar, the color will change from `active` to`success`
 
-##### Options
+##### Theme options
 
 -   `color`: `hex` color.
 -   `figure`: symbol, add before title.
@@ -119,7 +119,272 @@ Render a task tree in to string. Return string with tasks hierarchy.
 
 ### Task
 
+An entity for manipulating a task containing all dependent objects (informational messages, errors, progress bars and tasks).
+
+#### Task statuses:
+
+-   Pending: `0`
+-   Completed: `1`
+-   Failed: `2`
+-   Skipped: `3`
+
+#### id()
+
+Returns task `uid`.
+
+#### getText()
+
+Returns task text to display.
+
+#### getStatus()
+
+Returns current task [status](#task-statuses).
+
+#### getActive()
+
+Returns the first leaf subtask of the task tree, if it exists, otherwise the object itself will return.
+
+#### isPending()
+
+Returns a boolean value indicating `status` of the task.
+
+#### havePendingSubtasks()
+
+Returns a boolean value indicating `status` of the subtasks.
+
+#### haveSubtasks()
+
+Returns a boolean value indicating the presence of subtasks.
+
+#### add(text, \[status\]): Task
+
+Adds a new subtask. Returns subtask object.
+
+##### text
+
+Text to display.
+
+Type: `string`
+
+##### status
+
+New subtask [status](#task-statuses).
+
+Type: `number`
+
+Default: `0`
+
+#### bar(\[template\], \[options\])
+
+Adds a new progress bar. Returns progress bar object.
+
+##### template
+
+Text to display with [tokens](#bar-tokens).
+
+Type: `string`
+
+Default: `:bar :rate/bps :percent :etas`
+
+##### options
+
+These are keys in the options object you can pass to the progress bar along. See [Bar.Options](#bar-options)
+
+Type: `object`
+
+Default: `null`
+
+#### clear()
+
+Remove all subtasks and bars.
+
+#### complete([text], [clear])
+
+Complete task. Returns self object.
+
+##### text
+
+Text to display. Modifies task text if submitted.
+
+Type: `string`
+
+Default: `''`
+
+##### clear
+
+Calls `clear()` if true.
+
+Type: `boolean`
+
+Default: `false`
+
+#### skip([text], [clear])
+
+Skip task. Returns self object.
+
+##### text
+
+Text to display. Modifies task text if submitted.
+
+Type: `string`
+
+Default: `''`
+
+##### clear
+
+Calls `clear()` if true.
+
+Type: `boolean`
+
+Default: `false`
+
+#### fail([text], [clear])
+
+Failure task. Returns self object.
+
+##### text
+
+Text to display. Modifies task text if submitted.
+
+Type: `string`
+
+Default: `''`
+
+##### clear
+
+Calls `clear()` if true.
+
+Type: `boolean`
+
+Default: `false`
+
+#### error(error, [fail])
+
+Adds an error message to the task, which will be displayed immediately under the task header. Returns self object.
+
+##### error
+
+Error message.
+
+Type: `string | Error`
+
+##### fail
+
+Flag indicating the need to call the `fail` method.
+
+Type: `boolean`
+
+Default: `false`
+
+#### log([text])
+
+Add informational message, which will be displayed under the task header. Returns self object.
+
+##### text
+
+Informational message.
+
+Type: `string`
+
+#### warn([text])
+
+Add warning message, which will be displayed under the task header. Returns self object.
+
+##### text
+
+Warning message.
+
+Type: `string`
+
+#### render(theme, [level]): string
+
+Render a task to output in string.
+
 ### Bar
+
+#### Bar Tokens
+
+-   `:bar` - the progress bar itself.
+-   `:current` - current tick number.
+-   `:total` - total ticks.
+-   `:elapsed` - time elapsed in seconds.
+-   `:percent` - completion percentage.
+-   `:eta` - estimated completion time in seconds.
+-   `:rate` - rate of ticks per second.
+
+#### Bar Options
+
+##### current
+
+Current completed index.
+
+Type: `number`
+
+Default: `0`
+
+##### total
+
+Total number of ticks to complete.
+
+Type: `number`
+
+Default: `1000`
+
+##### width
+
+The displayed width of the progress bar defaulting to total.
+
+Type: `number`
+
+Default: `20`
+
+##### width
+
+The displayed width of the progress bar defaulting to total.
+
+Type: `number`
+
+Default: `20`
+
+##### complete
+
+Completion character.
+
+Type: `string`
+
+Default: `▇`
+
+##### incomplete
+
+Incomplete character.
+
+Type: `string`
+
+Default: `▇`
+
+##### clear
+
+Option to clear the bar on completion.
+
+Type: `boolean`
+
+Default: `false`
+
+##### badges
+
+Option to add badge.
+
+Type: `boolean`
+
+Default: `true`
+
+##### gradient
+
+Option to add gradient to pending bar.
+
+Type: `boolean`
+
+Default: `true`
 
 ## Usage
 
