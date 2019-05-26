@@ -22,6 +22,58 @@ npm install tasktree-cli --save-dev
 yarn add tasktree-cli --dev
 ```
 
+## Usage
+
+```javascript
+const { TaskTree } = require('../lib/tasktree');
+const tree = TaskTree.tree();
+
+// start task tree log update in terminal
+tree.start();
+
+// create tasks
+const task1 = tree.add('Task #1');
+const task2 = tree.add('Task #2');
+const task3 = task2.add('Subtask...');
+const tpl = ':bar :rate/bps :percent :etas';
+// create progress bars
+const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
+
+// ... whatever
+let once = false;
+const promises = [50, 75, 200].map((ms, i) => {
+    return new Promise(resolve => {
+        const handle = setInterval(() => {
+            if (once) {
+                if (bars[i].getPercent() >= 50) {
+                    bars[i].skip();
+                } else {
+                    bars[i].fail();
+                }
+            } else {
+                once = bars[i].tick(Math.random() * 10).isCompleted();
+            }
+
+            if (once) {
+                clearInterval(handle);
+                resolve();
+            }
+        }, ms);
+    });
+});
+
+Promise.all(promises).then(() => {
+    // skip task
+    task3.skip('Subtask skipped');
+    // log info message in Task #2, complete task
+    task2.log('Informational message').complete();
+    // log warning and error in Task #1, fail it
+    task1.warn('Warning message').error(new Error('Something bad happened'), true);
+    // stop task tree log update
+    tree.stop();
+});
+```
+
 ## API
 
 ### TaskTree
@@ -445,58 +497,6 @@ Stops the progress and marks it as skipped.
 ##### fail()
 
 Stops the progress and marks it as failed.
-
-## Usage
-
-```javascript
-const { TaskTree } = require('../lib/tasktree');
-const tree = TaskTree.tree();
-
-// start task tree log update in terminal
-tree.start();
-
-// create tasks
-const task1 = tree.add('Task #1');
-const task2 = tree.add('Task #2');
-const task3 = task2.add('Subtask...');
-const tpl = ':bar :rate/bps :percent :etas';
-// create progress bars
-const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
-
-// ... whatever
-let once = false;
-const promises = [50, 75, 200].map((ms, i) => {
-    return new Promise(resolve => {
-        const handle = setInterval(() => {
-            if (once) {
-                if (bars[i].getPercent() >= 50) {
-                    bars[i].skip();
-                } else {
-                    bars[i].fail();
-                }
-            } else {
-                once = bars[i].tick(Math.random() * 10).isCompleted();
-            }
-
-            if (once) {
-                clearInterval(handle);
-                resolve();
-            }
-        }, ms);
-    });
-});
-
-Promise.all(promises).then(() => {
-    // skip task
-    task3.skip('Subtask skipped');
-    // log info message in Task #2, complete task
-    task2.log('Informational message').complete();
-    // log warning and error in Task #1, fail it
-    task1.warn('Warning message').error(new Error('Something bad happened'), true);
-    // stop task tree log update
-    tree.stop();
-});
-```
 
 ## License
 
