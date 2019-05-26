@@ -180,7 +180,7 @@ Adds a new progress bar. Returns progress bar object.
 
 ##### template
 
-Text to display with [tokens](#bar-tokens).
+Text to display with [tokens](#progress-bar-tokens).
 
 Type: `string`
 
@@ -188,7 +188,7 @@ Default: `:bar :rate/bps :percent :etas`
 
 ##### options
 
-These are keys in the options object you can pass to the progress bar along. See [Bar.Options](#bar-options)
+These are keys in the options object you can pass to the progress bar along. See [Bar.Options](#progress-bar-options)
 
 Type: `object`
 
@@ -296,9 +296,9 @@ Warning message.
 
 Type: `string`
 
-### Bar
+### Progress bar
 
-#### Bar Tokens
+#### Progress bar Tokens
 
 -   `:bar` - the progress bar itself.
 -   `:current` - current tick number.
@@ -308,7 +308,7 @@ Type: `string`
 -   `:eta` - estimated completion time in seconds.
 -   `:rate` - rate of ticks per second.
 
-#### Bar Options
+#### Progress bar Options
 
 ##### current
 
