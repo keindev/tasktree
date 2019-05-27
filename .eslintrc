@@ -13,10 +13,9 @@
         "plugin:@typescript-eslint/recommended",
         "prettier",
         "prettier/@typescript-eslint",
-        "plugin:jest/recommended",
-        "plugin:security/recommended"
+        "plugin:jest/recommended"
     ],
-    "plugins": ["@typescript-eslint", "jest", "security"],
+    "plugins": ["@typescript-eslint", "jest"],
     "rules": {
         "@typescript-eslint/member-ordering": "error",
         "import/prefer-default-export": false,
