@@ -8,9 +8,7 @@
     <a href="https://www.npmjs.com/package/tasktree-cli"><img alt="NPM" src="https://img.shields.io/npm/l/tasktree-cli.svg"></a>
 </p>
 
-<h1 align="center">TaskTree</h1>
-
-Simple terminal task tree helps you keep track of your tasks in a tree structure
+Simple terminal task tree - helps you keep track of your tasks in a tree structure.
 
 <img src="media/demo.gif">
 
