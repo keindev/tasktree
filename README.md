@@ -8,18 +8,68 @@
     <a href="https://www.npmjs.com/package/tasktree-cli"><img alt="NPM" src="https://img.shields.io/npm/l/tasktree-cli.svg"></a>
 </p>
 
-<h1 align="center">TaskTree</h1>
-
-Simple terminal task tree helps you keep track of your tasks in a tree structure
+Simple terminal task tree - helps you keep track of your tasks in a tree structure.
 
 <img src="media/demo.gif">
 
 ## Install
 
 ```console
-npm install tasktree-cli --save-dev
+npm install tasktree-cli
 
-yarn add tasktree-cli --dev
+yarn add tasktree-cli
+```
+
+## Usage
+
+```javascript
+const { TaskTree } = require('../lib/tasktree');
+const tree = TaskTree.tree();
+
+// start task tree log update in terminal
+tree.start();
+
+// create tasks
+const task1 = tree.add('Task #1');
+const task2 = tree.add('Task #2');
+const task3 = task2.add('Subtask...');
+const tpl = ':bar :rate/bps :percent :etas';
+// create progress bars
+const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
+
+// ... whatever
+let once = false;
+const promises = [50, 75, 200].map((ms, i) => {
+    return new Promise(resolve => {
+        const handle = setInterval(() => {
+            if (once) {
+                if (bars[i].getPercent() >= 50) {
+                    bars[i].skip();
+                } else {
+                    bars[i].fail();
+                }
+            } else {
+                once = bars[i].tick(Math.random() * 10).isCompleted();
+            }
+
+            if (once) {
+                clearInterval(handle);
+                resolve();
+            }
+        }, ms);
+    });
+});
+
+Promise.all(promises).then(() => {
+    // skip task
+    task3.skip('Subtask skipped');
+    // log info message in Task #2, complete task
+    task2.log('Informational message').complete();
+    // log warning and error in Task #1, fail it
+    task1.warn('Warning message').error(new Error('Something bad happened'), true);
+    // stop task tree log update
+    tree.stop();
+});
 ```
 
 ## API
@@ -36,7 +86,7 @@ Method to get the object to control the tree.
 
 Type: `object`
 
-Theme properties. The field name is a modifier, the value is [options](#theme-options).
+Theme properties. The field name is a modifier the value is [options](#theme-options).
 
 ##### Modifiers
 
@@ -54,13 +104,13 @@ Theme properties. The field name is a modifier, the value is [options](#theme-op
 | **list**    | symbol            | ✔      | ✖     | list symbol                                  |
 | **dim**     | symbol, bar       | ✖      | ✖     | dim color                                    |
 
-###### \* If you use a gradient fill for the progress bar, the color will change from `active` to`success`
+###### \* If you use a gradient fill for the progress bar - the color will change from `active` to `success`.
 
 ##### Theme options
 
 -   `color`: `hex` color.
 -   `figure`: symbol, add before title.
--   `badge`: text, added at the end, after title.
+-   `badge`: text, added at the end, after the title.
 
 ##### Example
 
@@ -77,7 +127,7 @@ const theme = {
 
 #### start(\[silence\])
 
-Starts output a task tree in a terminal at a certain interval. In “silent mode” the task tree only collects tasks and is not output it in terminal. Returns the instance.
+Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal. Returns [TaskTree](#tasktree) instance.
 
 ##### silence
 
@@ -89,7 +139,7 @@ Default: `false`
 
 #### stop()
 
-Stop output a task tree in a terminal. Returns the instance.
+Stop output a task tree in a terminal. Returns [TaskTree](#tasktree) instance.
 
 #### exit()
 
@@ -105,21 +155,21 @@ Default: `1`
 
 #### add(text)
 
-Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task. Returns `Task` instance.
+Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task. Returns [Task](#task) instance.
 
 ##### text
 
-Text to display.
+Text for display.
 
 Type: `string`
 
 #### render()
 
-Render a task tree in to string. Return string with tasks hierarchy.
+Render a task tree into a string. Returns string with tasks hierarchy.
 
 ### Task
 
-An entity for manipulating a task containing all dependent objects (informational messages, errors, progress bars and tasks).
+Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks).
 
 #### Task statuses
 
@@ -142,27 +192,27 @@ Returns current task [status](#task-statuses).
 
 #### getActive()
 
-Returns the first leaf subtask of the task tree, if it exists, otherwise the object itself will return.
+Returns the first leaf subtask of the task tree, if it exists, otherwise, the object itself.
 
 #### isPending()
 
-Returns a boolean value indicating `status` of the task.
+Returns a Boolean value - indicating the [status](#task-statuses) of the task.
 
 #### havePendingSubtasks()
 
-Returns a boolean value indicating `status` of the subtasks.
+Returns a Boolean value - indicating the [status](#task-statuses) of the subtask.
 
 #### haveSubtasks()
 
-Returns a boolean value indicating the presence of subtasks.
+Returns a boolean value - indicating the presence of subtasks.
 
 #### add(text, \[status\]): Task
 
-Adds a new subtask. Returns subtask object.
+Adds a new subtask. Returns a [subtask](#task) object.
 
 ##### text
 
-Text to display.
+Text for display.
 
 Type: `string`
 
@@ -176,11 +226,11 @@ Default: `0`
 
 #### bar(\[template\], \[options\])
 
-Adds a new progress bar. Returns progress bar object.
+Adds a new progress bar. Returns a [progress bar](#progress-bar) object.
 
 ##### template
 
-Text to display with [tokens](#progress-bar-tokens).
+Text for display with [tokens](#progress-bar-tokens).
 
 Type: `string`
 
@@ -200,11 +250,11 @@ Remove all subtasks and bars.
 
 #### complete(\[text\], \[clear\])
 
-Complete task. Returns self object.
+Complete task. Returns [self-object](#task).
 
 ##### text
 
-Text to display. Modifies task text if submitted.
+Text for display. Modifies task text if submitted.
 
 Type: `string`
 
@@ -220,11 +270,11 @@ Default: `false`
 
 #### skip(\[text\], \[clear\])
 
-Skip task. Returns self object.
+Skip task. Returns [self-object](#task).
 
 ##### text
 
-Text to display. Modifies task text if submitted.
+Text for display. Modifies task text if submitted.
 
 Type: `string`
 
@@ -240,11 +290,11 @@ Default: `false`
 
 #### fail(\[text\], \[clear\])
 
-Failure task. Returns self object.
+Failure task. Returns [self-object](#task).
 
 ##### text
 
-Text to display. Modifies task text if submitted.
+Text for display. Modifies task text if submitted.
 
 Type: `string`
 
@@ -260,7 +310,7 @@ Default: `false`
 
 #### error(error, \[fail\])
 
-Adds an error message to the task, which will be displayed immediately under the task header. Returns self object.
+Adds an error message to the task, which will be displayed immediately under the task header. Returns [self-object](#task).
 
 ##### error
 
@@ -278,7 +328,7 @@ Default: `false`
 
 #### log(\[text\])
 
-Add informational message, which will be displayed under the task header. Returns self object.
+Adds an informational message, to be displayed under the task title. Returns [self-object](#task).
 
 ##### text
 
@@ -288,7 +338,7 @@ Type: `string`
 
 #### warn(\[text\])
 
-Add warning message, which will be displayed under the task header. Returns self object.
+Adds a warning message, to be displayed under the task title. Returns [self-object](#task).
 
 ##### text
 
@@ -368,7 +418,7 @@ Default: `true`
 
 ##### gradient
 
-Option to add gradient to pending bar.
+Option to add a gradient to the pending bar.
 
 Type: `boolean`
 
@@ -376,19 +426,19 @@ Default: `true`
 
 #### getRatio()
 
-Returns ratio `current` value and `total` value.
+Returns ratio between `current` value and `total` value.
 
 #### getPercent()
 
-Returns the percentage of completion.
+Returns current percent of completion.
 
 #### getElapsed()
 
-Returns the elapsed time from the beginning, in milliseconds.
+Returns an elapsed time from the beginning of progress, in milliseconds.
 
 #### getRate()
 
-Returns progress rate.
+Returns rate of progress.
 
 #### getETA()
 
@@ -396,19 +446,19 @@ Returns progress ETA (_estimated time of arrival_).
 
 #### getStart()
 
-Returns start `Date`, in milliseconds.
+Returns start `Date` in milliseconds.
 
 #### getEnd()
 
-Returns the end `Date`, in milliseconds, if progress is ended.
+Returns an end `Date` in milliseconds if progress is an ended.
 
 #### isCompleted()
 
-Returns a boolean value indicating the progress bar status.
+Returns `true` if progress is complete.
 
 #### tick(\[step\], \[tokens\]): Progress
 
-Increases current progress with specified step. Returns self object.
+Increases current progress on step value. Returns [self-object](#progress-bar).
 
 ##### step
 
@@ -420,7 +470,7 @@ Default: `1`
 
 ##### tokens
 
-Add custom tokens by adding a {'name': value} object parameter to your method.
+Add custom tokens by adding a `{'name': value}` object parameter to your method.
 
 Type: `object`
 
@@ -434,69 +484,17 @@ const bar = new Progress(':bar tempalte with custom :token');
 bat.tick(10, { token: 100 });
 ```
 
-##### complete()
+#### complete()
 
 Completes progress and marks it as successful.
 
-##### skip()
+#### skip()
 
 Stops the progress and marks it as skipped.
 
-##### fail()
+#### fail()
 
 Stops the progress and marks it as failed.
-
-## Usage
-
-```javascript
-const { TaskTree } = require('../lib/tasktree');
-const tree = TaskTree.tree();
-
-// start task tree log update in terminal
-tree.start();
-
-// create tasks
-const task1 = tree.add('Task #1');
-const task2 = tree.add('Task #2');
-const task3 = task2.add('Subtask...');
-const tpl = ':bar :rate/bps :percent :etas';
-// create progress bars
-const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
-
-// ... whatever
-let once = false;
-const promises = [50, 75, 200].map((ms, i) => {
-    return new Promise(resolve => {
-        const handle = setInterval(() => {
-            if (once) {
-                if (bars[i].getPercent() >= 50) {
-                    bars[i].skip();
-                } else {
-                    bars[i].fail();
-                }
-            } else {
-                once = bars[i].tick(Math.random() * 10).isCompleted();
-            }
-
-            if (once) {
-                clearInterval(handle);
-                resolve();
-            }
-        }, ms);
-    });
-});
-
-Promise.all(promises).then(() => {
-    // skip task
-    task3.skip('Subtask skipped');
-    // log info message in Task #2, complete task
-    task2.log('Informational message').complete();
-    // log warning and error in Task #1, fail it
-    task1.warn('Warning message').error(new Error('Something bad happened'), true);
-    // stop task tree log update
-    tree.stop();
-});
-```
 
 ## License
 

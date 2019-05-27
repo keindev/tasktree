@@ -1,20 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1100">
   <defs>
     <filter id="a" width="400%" height="400%" x="-200%" y="-200%" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
-      <feOffset dy="3" result="pf_100_offsetBlur"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+      <feOffset dy="10" result="pf_100_offsetBlur"/>
       <feFlood flood-color="#000" flood-opacity=".4"/>
       <feComposite in2="pf_100_offsetBlur" operator="in" result="pf_100_dropShadow"/>
       <feBlend in="SourceGraphic" in2="pf_100_dropShadow"/>
     </filter>
   </defs>
-  <path fill="#332642" d="M14 14h170v170H14z" filter="url(#a)" transform="matrix(.993 -.122 .122 .993 -11.351 12.83)"/>
-  <path fill="#3FA2B8" d="M76 139h45v23H76z" filter="url(#a)"/>
-  <path fill="#67C8C3" d="M76 105h79v23H76z" filter="url(#a)"/>
-  <path fill="#E33759" d="M42 71h56v23H42z" filter="url(#a)"/>
-  <path fill="#EDA11D" d="M42 37h91v23H42z" filter="url(#a)"/>
-  <g stroke="#eee" stroke-linecap="square" stroke-miterlimit="3" stroke-width=".5">
-    <path d="M148.7 12.6l5.6-.69M165 7.7l6 4.9m-5.6.7l4.9-6"/>
-    <path fill="none" d="M157 8.7l5.6-.7.7 5.6-5.6.7z"/>
+  <path fill="#332642" d="M49 159L942 49.318l110 893-893 110z" filter="url(#a)"/>
+  <path fill="#3FA2B8" d="M413 772h242v126H413z" filter="url(#a)"/>
+  <path fill="#67C8C3" d="M413 582h422v126H413z" filter="url(#a)"/>
+  <path fill="#E33759" d="M265 392h295v126H265z" filter="url(#a)"/>
+  <path fill="#EDA11D" d="M265 202h475v126H265z" filter="url(#a)"/>
+  <g stroke="#fff" stroke-linecap="round" stroke-width="3">
+    <path d="M899 105l24-31m-27 3l31 24M812 102l29-4"/>
+    <rect width="29" height="29" x="853" y="82" fill="none" rx="1.5" transform="rotate(-7 853 82)"/>
   </g>
 </svg>
