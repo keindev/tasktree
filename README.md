@@ -484,15 +484,15 @@ const bar = new Progress(':bar tempalte with custom :token');
 bat.tick(10, { token: 100 });
 ```
 
-##### complete()
+#### complete()
 
 Completes progress and marks it as successful.
 
-##### skip()
+#### skip()
 
 Stops the progress and marks it as skipped.
 
-##### fail()
+#### fail()
 
 Stops the progress and marks it as failed.
 
