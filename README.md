@@ -15,9 +15,9 @@ Simple terminal task tree - helps you keep track of your tasks in a tree structu
 ## Install
 
 ```console
-npm install tasktree-cli --save-dev
+npm install tasktree-cli
 
-yarn add tasktree-cli --dev
+yarn add tasktree-cli
 ```
 
 ## Usage
