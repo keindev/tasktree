@@ -9,7 +9,6 @@ script:
     - yarn add codecov -g
     - yarn lint
     - yarn test
-    - yarn coverage
     - yarn build
 after_success:
     - codecov -f coverage/*.json
