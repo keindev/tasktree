@@ -5,6 +5,7 @@
             "name": "Node.js (yarn)",
             "type": "node",
             "request": "launch",
+            "outputCapture": "std",
             "cwd": "${workspaceFolder}",
             "runtimeExecutable": "yarn",
             "runtimeArgs": ["run", "debug"],
