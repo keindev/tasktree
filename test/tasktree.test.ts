@@ -19,28 +19,26 @@ describe('TaskTree', (): void => {
 
     it('manage', (): void => {
         const error = 'Something bad happened\nat X\nat Y\nat Z';
-        const result = tasks.reverse().every(
-            (task, index): boolean => {
-                expect(task.isPending()).toBeTruthy();
-                expect(task.render(theme).length).toBeGreaterThan(1);
+        const result = tasks.reverse().every((task, index): boolean => {
+            expect(task.isPending()).toBeTruthy();
+            expect(task.render(theme).length).toBeGreaterThan(1);
 
-                task.log(`Log ${index}`).warn(`Warn ${index}`);
+            task.log(`Log ${index}`).warn(`Warn ${index}`);
 
-                switch (index) {
-                    case 0:
-                        task.skip();
-                        break;
-                    case tasks.length - 1:
-                        task.error(error).fail();
-                        break;
-                    default:
-                        task.complete();
-                        break;
-                }
-
-                return !task.isPending();
+            switch (index) {
+                case 0:
+                    task.skip();
+                    break;
+                case tasks.length - 1:
+                    task.error(error).fail();
+                    break;
+                default:
+                    task.complete();
+                    break;
             }
-        );
+
+            return !task.isPending();
+        });
 
         expect(result).toBeTruthy();
     });

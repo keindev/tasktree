@@ -6,6 +6,7 @@
             "type": "node",
             "request": "launch",
             "outputCapture": "std",
+            "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "runtimeExecutable": "yarn",
             "runtimeArgs": ["run", "debug"],

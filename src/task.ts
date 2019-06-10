@@ -88,13 +88,11 @@ export class Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
         this.update(Enums.Status.Completed, text, clear);
-        this.bars = this.bars.filter(
-            (bar): boolean => {
-                bar.complete();
+        this.bars = this.bars.filter((bar): boolean => {
+            bar.complete();
 
-                return !bar.clear;
-            }
-        );
+            return !bar.clear;
+        });
 
         return this;
     }
@@ -137,9 +135,9 @@ export class Task {
 
     public render(theme: Theme, level = Enums.Level.Default): string {
         const text = Theme.join(
-            Theme.SEPARATOR,
+            Theme.EOL,
             theme.title(this, level),
-            ...theme.bars(this.bars, level),
+            ...theme.bars(this.bars, level + Enums.Level.Step),
             ...theme.errors(this.errors, level),
             ...theme.messages([...this.warnings], Enums.Type.Warning, level),
             ...theme.messages([...this.logs], Enums.Type.Info, level),

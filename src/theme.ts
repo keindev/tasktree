@@ -10,7 +10,7 @@ import { Progress } from './progress';
 const frame = elegantSpinner();
 
 export class Theme {
-    public static SEPARATOR = '\n';
+    public static EOL = '\n';
     public static EMPTY = '';
     public static SPACE = ' ';
     public static INDENT = '  ';
@@ -29,21 +29,19 @@ export class Theme {
                 if (badge) badges.set(key, badge);
             };
 
-            Object.values(Enums.Type).forEach(
-                (key: Enums.Type): void => {
-                    const option = list.get(key);
+            Object.values(Enums.Type).forEach((key: Enums.Type): void => {
+                const option = list.get(key);
 
-                    if (Array.isArray(option)) {
-                        set(key, ...option);
-                    } else if (typeof option === 'string') {
-                        colors.set(key, option);
-                    } else if (typeof option === 'object') {
-                        const { color, symbol, badge } = option;
+                if (Array.isArray(option)) {
+                    set(key, ...option);
+                } else if (typeof option === 'string') {
+                    colors.set(key, option);
+                } else if (typeof option === 'object') {
+                    const { color, symbol, badge } = option;
 
-                        set(key, color, symbol, badge);
-                    }
+                    set(key, color, symbol, badge);
                 }
-            );
+            });
         }
     }
 
@@ -92,24 +90,20 @@ export class Theme {
     public getColor(type: Enums.Type): string {
         const { colors } = this;
 
-        return Theme.getValueBy(
-            this.colors,
-            type,
-            (): string => {
-                if (type === Enums.Type.Active) return Enums.Color.Active;
-                if (type === Enums.Type.Success) return Enums.Color.Success;
-                if (type === Enums.Type.Skip) return Enums.Color.Skip;
-                if (type === Enums.Type.Error) return Enums.Color.Error;
-                if (type === Enums.Type.Message) return Enums.Color.Message;
-                if (type === Enums.Type.Info) return Enums.Color.Info;
-                if (type === Enums.Type.Warning) return Enums.Color.Warning;
-                if (type === Enums.Type.Subtask) return Enums.Color.Subtask;
-                if (type === Enums.Type.List) return Enums.Color.List;
-                if (type === Enums.Type.Dim) return Enums.Color.Dim;
+        return Theme.getValueBy(this.colors, type, (): string => {
+            if (type === Enums.Type.Active) return Enums.Color.Active;
+            if (type === Enums.Type.Success) return Enums.Color.Success;
+            if (type === Enums.Type.Skip) return Enums.Color.Skip;
+            if (type === Enums.Type.Error) return Enums.Color.Error;
+            if (type === Enums.Type.Message) return Enums.Color.Message;
+            if (type === Enums.Type.Info) return Enums.Color.Info;
+            if (type === Enums.Type.Warning) return Enums.Color.Warning;
+            if (type === Enums.Type.Subtask) return Enums.Color.Subtask;
+            if (type === Enums.Type.List) return Enums.Color.List;
+            if (type === Enums.Type.Dim) return Enums.Color.Dim;
 
-                return colors.get(Enums.Type.Default) || Enums.Color.Default;
-            }
-        );
+            return colors.get(Enums.Type.Default) || Enums.Color.Default;
+        });
     }
 
     public paint(str: string, type: Enums.Type): string {
@@ -135,39 +129,31 @@ export class Theme {
 
     public symbol(type: Enums.Type): string {
         const { symbols } = this;
-        const symbol = Theme.getValueBy(
-            symbols,
-            type,
-            (): string => {
-                if (type === Enums.Type.Active) return frame();
-                if (type === Enums.Type.Success) return Figures.tick;
-                if (type === Enums.Type.Skip) return Figures.arrowDown;
-                if (type === Enums.Type.Error) return Figures.cross;
-                if (type === Enums.Type.Message) return Figures.line;
-                if (type === Enums.Type.Info) return Figures.info;
-                if (type === Enums.Type.Warning) return Figures.warning;
-                if (type === Enums.Type.Subtask) return Figures.pointerSmall;
-                if (type === Enums.Type.List) return Figures.pointer;
+        const symbol = Theme.getValueBy(symbols, type, (): string => {
+            if (type === Enums.Type.Active) return frame();
+            if (type === Enums.Type.Success) return Figures.tick;
+            if (type === Enums.Type.Skip) return Figures.arrowDown;
+            if (type === Enums.Type.Error) return Figures.cross;
+            if (type === Enums.Type.Message) return Figures.line;
+            if (type === Enums.Type.Info) return Figures.info;
+            if (type === Enums.Type.Warning) return Figures.warning;
+            if (type === Enums.Type.Subtask) return Figures.pointerSmall;
+            if (type === Enums.Type.List) return Figures.pointer;
 
-                return symbols.get(Enums.Type.Default) || this.symbol(Enums.Type.Subtask);
-            }
-        );
+            return symbols.get(Enums.Type.Default) || this.symbol(Enums.Type.Subtask);
+        });
 
         return symbol ? this.paint(symbol, type) : symbol;
     }
 
     public badge(type: Enums.Type): string {
         const { badges } = this;
-        const badge = Theme.getValueBy(
-            badges,
-            type,
-            (): string => {
-                if (type === Enums.Type.Error) return Enums.Badge.Error;
-                if (type === Enums.Type.Skip) return Enums.Badge.Skip;
+        const badge = Theme.getValueBy(badges, type, (): string => {
+            if (type === Enums.Type.Error) return Enums.Badge.Error;
+            if (type === Enums.Type.Skip) return Enums.Badge.Skip;
 
-                return badges.get(Enums.Type.Default) || Enums.Badge.Default;
-            }
-        );
+            return badges.get(Enums.Type.Default) || Enums.Badge.Default;
+        });
 
         return badge ? this.paint(badge, Enums.Type.Dim) : badge;
     }
@@ -187,18 +173,16 @@ export class Theme {
         const type = Enums.Type.Error;
         const sublevel = level + Enums.Level.Stride;
 
-        return errors.map(
-            (text): string => {
-                const [error, ...lines] = text.split(Theme.SEPARATOR);
-                const title = Theme.join(Theme.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
+        return errors.map((text): string => {
+            const [error, ...lines] = text.split(Theme.EOL);
+            const title = Theme.join(Theme.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
 
-                return Theme.join(
-                    Theme.SEPARATOR,
-                    Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
-                    ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim)))
-                );
-            }
-        );
+            return Theme.join(
+                Theme.EOL,
+                Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
+                ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim)))
+            );
+        });
     }
 
     public messages(list: string[], type: Enums.Type, level: number): string[] {

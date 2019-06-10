@@ -1,4 +1,4 @@
-import logUpdate from 'log-update';
+import { UpdateManager } from 'stdout-update';
 import { Task } from './task';
 import * as Types from './types';
 import { Theme } from './theme';
@@ -11,11 +11,13 @@ export class TaskTree {
     private handle: NodeJS.Timeout | undefined;
     private tasks: Task[];
     private theme: Theme;
+    private manager: UpdateManager;
     private silence: boolean = false;
 
     private constructor(theme?: Types.Theme) {
         this.tasks = [];
         this.theme = new Theme(theme);
+        this.manager = UpdateManager.getInstance();
     }
 
     public static tree(theme?: Types.Theme): TaskTree {
@@ -31,6 +33,7 @@ export class TaskTree {
         this.tasks = [];
 
         if (!this.handle && !this.silence) {
+            this.manager.hook();
             this.handle = setInterval((): void => {
                 this.log();
             }, TaskTree.TIMEOUT);
@@ -44,7 +47,7 @@ export class TaskTree {
             clearInterval(this.handle);
 
             this.log();
-            logUpdate.done();
+            this.manager.unhook();
             this.handle = undefined;
         }
 
@@ -73,10 +76,10 @@ export class TaskTree {
     }
 
     public render(): string {
-        return this.tasks.map((task): string => task.render(this.theme)).join('\n');
+        return this.tasks.map((task): string => task.render(this.theme)).join(Theme.EOL);
     }
 
     private log(): void {
-        logUpdate(this.render());
+        this.manager.update(this.render());
     }
 }
