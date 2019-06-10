@@ -165,7 +165,7 @@ Type: `string`
 
 #### render()
 
-Render a task tree into a string. Returns string with tasks hierarchy.
+Render a task tree into a `string[]`. Returns `strings` with tasks hierarchy.
 
 ### Task
 
