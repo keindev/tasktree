@@ -44,12 +44,12 @@ describe('TaskTree', (): void => {
     });
 
     it('render', (): void => {
-        expect(stripAnsi(tree.render())).toMatchSnapshot();
+        expect(stripAnsi(tree.render().join(Theme.EOL))).toMatchSnapshot();
         tree.stop();
-        expect(stripAnsi(tree.render())).toMatchSnapshot();
+        expect(stripAnsi(tree.render().join(Theme.EOL))).toMatchSnapshot();
 
         tree.start(true);
         tree.stop();
-        expect(stripAnsi(tree.render())).toMatchSnapshot();
+        expect(stripAnsi(tree.render().join(Theme.EOL))).toMatchSnapshot();
     });
 });

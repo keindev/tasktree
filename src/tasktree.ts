@@ -75,8 +75,8 @@ export class TaskTree {
         return task;
     }
 
-    public render(): string {
-        return this.tasks.map((task): string => task.render(this.theme)).join(Theme.EOL);
+    public render(): string[] {
+        return this.tasks.map((task): string => task.render(this.theme));
     }
 
     private log(): void {
