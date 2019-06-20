@@ -1,4 +1,5 @@
 import stripAnsi from 'strip-ansi';
+import { Terminal } from 'stdout-update/lib/terminal';
 import { Task } from '../src/task';
 import { Status } from '../src/enums';
 import { TaskTree } from '../src/tasktree';
@@ -63,14 +64,12 @@ describe('Task', (): void => {
             ];
 
             expect(
-                tasks.every(
-                    (task): boolean => {
-                        expect(task.getText()).toBe(title);
-                        expect(task.getStatus()).toBe(Status.Failed);
+                tasks.every((task): boolean => {
+                    expect(task.getText()).toBe(title);
+                    expect(task.getStatus()).toBe(Status.Failed);
 
-                        return !task.isPending();
-                    }
-                )
+                    return !task.isPending();
+                })
             ).toBeTruthy();
         });
     });
@@ -114,7 +113,7 @@ describe('Task', (): void => {
 
             task.complete().clear();
             expect(task.getStatus()).toBe(Status.Completed);
-            expect(stripAnsi(task.render(theme))).toMatchSnapshot();
+            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
         });
     });
 
@@ -129,6 +128,6 @@ describe('Task', (): void => {
 
         task.complete();
         expect(task.getStatus()).toBe(Status.Completed);
-        expect(stripAnsi(task.render(theme))).toMatchSnapshot();
+        expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
     });
 });

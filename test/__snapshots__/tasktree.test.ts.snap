@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TaskTree render 1`] = `
+exports[`TaskTree Render 1`] = `
 "  ✖ Task1 [fail]
   ─ ✖ Something bad happened
       at X
@@ -16,7 +16,7 @@ exports[`TaskTree render 1`] = `
       ─ ℹ Log 0"
 `;
 
-exports[`TaskTree render 2`] = `
+exports[`TaskTree Render 2`] = `
 "  ✖ Task1 [fail]
   ─ ✖ Something bad happened
       at X
@@ -32,4 +32,4 @@ exports[`TaskTree render 2`] = `
       ─ ℹ Log 0"
 `;
 
-exports[`TaskTree render 3`] = `""`;
+exports[`TaskTree Render 3`] = `""`;

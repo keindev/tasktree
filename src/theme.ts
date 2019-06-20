@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import convert from 'color-convert';
 import elegantSpinner from 'elegant-spinner';
+import { Wrapper } from 'stdout-update/lib/wrapper';
+import { Terminal } from 'stdout-update/lib/terminal';
 import * as Figures from 'figures';
 import * as Types from './types';
 import * as Enums from './enums';
@@ -10,9 +12,6 @@ import { Progress } from './progress';
 const frame = elegantSpinner();
 
 export class Theme {
-    public static EOL = '\n';
-    public static EMPTY = '';
-    public static SPACE = ' ';
     public static INDENT = '  ';
 
     private colors: Map<Enums.Type, string> = new Map();
@@ -76,7 +75,7 @@ export class Theme {
     }
 
     public static indent(count: number, ...text: string[]): string {
-        return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(Theme.SPACE, ...text)}`;
+        return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(Wrapper.SPACE, ...text)}`;
     }
 
     private static getValueBy<T>(map: Map<Enums.Type, T>, type: Enums.Type, getDefault: () => T): T {
@@ -162,7 +161,7 @@ export class Theme {
         const type = Theme.type(task.getStatus(), task.haveSubtasks());
         const badge = this.badge(type);
         const symbol = this.symbol(type);
-        let prefix = Theme.EMPTY;
+        let prefix = Wrapper.EMPTY;
 
         if (level) prefix = task.haveSubtasks() ? this.symbol(Enums.Type.Subtask) : this.symbol(Enums.Type.Default);
 
@@ -173,16 +172,33 @@ export class Theme {
         const type = Enums.Type.Error;
         const sublevel = level + Enums.Level.Stride;
 
-        return errors.map((text): string => {
-            const [error, ...lines] = text.split(Theme.EOL);
-            const title = Theme.join(Theme.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
+        return errors.reduce<string[]>((acc, text): string[] => {
+            const [error, ...lines] = text.split(Terminal.EOL);
+            const title = Theme.join(Wrapper.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
 
-            return Theme.join(
-                Theme.EOL,
+            return acc.concat([
                 Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
-                ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim)))
-            );
-        });
+                ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
+            ]);
+        }, []);
+        /*
+        return errors
+            .map((text): string[] => {
+                const [error, ...lines] = text.split(Terminal.EOL);
+                const title = Theme.join(
+                    Wrapper.SPACE,
+                    this.symbol(Enums.Type.Message),
+                    this.symbol(type),
+                    error.trim()
+                );
+
+                return [
+                    Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
+                    ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
+                ];
+            })
+            .flat();
+        */
     }
 
     public messages(list: string[], type: Enums.Type, level: number): string[] {

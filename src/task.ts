@@ -133,18 +133,22 @@ export class Task {
         return this;
     }
 
-    public render(theme: Theme, level = Enums.Level.Default): string {
-        const text = Theme.join(
-            Theme.EOL,
+    public render(theme: Theme, level = Enums.Level.Default): string[] {
+        const type = level ? Enums.Type.Dim : Enums.Type.Default;
+        const rows = [
             theme.title(this, level),
             ...theme.bars(this.bars, level + Enums.Level.Step),
             ...theme.errors(this.errors, level),
             ...theme.messages([...this.warnings], Enums.Type.Warning, level),
             ...theme.messages([...this.logs], Enums.Type.Info, level),
-            ...this.subtasks.map((task: Task): string => task.render(theme, level + Enums.Level.Step))
-        );
+            // ...this.subtasks.map((task: Task): string[] => task.render(theme, level + Enums.Level.Step)),
+        ];
 
-        return theme.paint(text, level ? Enums.Type.Dim : Enums.Type.Default);
+        this.subtasks.forEach((task): void => {
+            rows.push(...task.render(theme, level + Enums.Level.Step));
+        });
+
+        return rows.map((row): string => theme.paint(row, type));
     }
 
     private update(status: Enums.Status, text?: string, clear: boolean = false): void {
