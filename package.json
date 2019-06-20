@@ -48,7 +48,7 @@
         "color-convert": "^2.0.0",
         "elegant-spinner": "^2.0.0",
         "figures": "^3.0.0",
-        "stdout-update": "^1.2.0"
+        "stdout-update": "^1.2.1"
     },
     "devDependencies": {
         "@types/color-convert": "^1.9.0",
@@ -60,7 +60,7 @@
         "eslint-config-airbnb-base": "13.1.0",
         "eslint-config-prettier": "^5.0.0",
         "eslint-plugin-import": "^2.17.3",
-        "eslint-plugin-jest": "^22.6.4",
+        "eslint-plugin-jest": "^22.7.0",
         "husky": "^2.4.1",
         "jest": "^24.8.0",
         "npm-run-all": "^4.1.5",
