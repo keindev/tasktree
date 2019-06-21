@@ -181,24 +181,6 @@ export class Theme {
                 ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
             ]);
         }, []);
-        /*
-        return errors
-            .map((text): string[] => {
-                const [error, ...lines] = text.split(Terminal.EOL);
-                const title = Theme.join(
-                    Wrapper.SPACE,
-                    this.symbol(Enums.Type.Message),
-                    this.symbol(type),
-                    error.trim()
-                );
-
-                return [
-                    Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
-                    ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
-                ];
-            })
-            .flat();
-        */
     }
 
     public messages(list: string[], type: Enums.Type, level: number): string[] {

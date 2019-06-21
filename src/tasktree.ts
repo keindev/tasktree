@@ -77,7 +77,6 @@ export class TaskTree {
 
     public render(): string[] {
         return this.tasks.reduce<string[]>((acc, task): string[] => acc.concat(task.render(this.theme)), []);
-        // return this.tasks.map((task): string[] => task.render(this.theme)).flat();
     }
 
     private log(): void {

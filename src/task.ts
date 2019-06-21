@@ -141,7 +141,6 @@ export class Task {
             ...theme.errors(this.errors, level),
             ...theme.messages([...this.warnings], Enums.Type.Warning, level),
             ...theme.messages([...this.logs], Enums.Type.Info, level),
-            // ...this.subtasks.map((task: Task): string[] => task.render(theme, level + Enums.Level.Step)),
         ];
 
         this.subtasks.forEach((task): void => {
