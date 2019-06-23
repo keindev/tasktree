@@ -16,20 +16,6 @@ exports[`TaskTree Render 1`] = `
       ─ ℹ Log 0"
 `;
 
-exports[`TaskTree Render 2`] = `
-"  ✖ Task1 [fail]
-  ─ ✖ Something bad happened
-      at X
-      at Y
-      at Z
-  ─ ⚠ Warn 2
-  ─ ℹ Log 2
-  › ✔ Task2
-    ─ ⚠ Warn 1
-    ─ ℹ Log 1
-    › ↓ Task3 [skip]
-      ─ ⚠ Warn 0
-      ─ ℹ Log 0"
-`;
+exports[`TaskTree Render 2`] = `""`;
 
 exports[`TaskTree Render 3`] = `""`;

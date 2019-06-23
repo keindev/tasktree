@@ -14,12 +14,9 @@ const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
 
 // ... whatever
 let once = false;
-let test = 0;
 const promises = [50, 75, 200].map((ms, i) => {
     return new Promise(resolve => {
         const handle = setInterval(() => {
-            task3.log('test' + test++);
-
             if (once) {
                 if (bars[i].getPercent() >= 50) {
                     bars[i].skip();
@@ -39,10 +36,6 @@ const promises = [50, 75, 200].map((ms, i) => {
 });
 
 Promise.all(promises).then(() => {
-    for (let i = 0; i < 30; i++) {
-        task3.add('wow' + i).complete();
-    }
-
     // skip task
     task3.skip('Subtask skipped');
     // log info message in Task #2, complete task
