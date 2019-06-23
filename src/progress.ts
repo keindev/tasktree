@@ -1,3 +1,4 @@
+import { Wrapper } from 'stdout-update/lib/wrapper';
 import * as Figures from 'figures';
 import * as Enums from './enums';
 import { Theme } from './theme';
@@ -32,7 +33,7 @@ export class Progress {
         this.template =
             template ||
             Theme.join(
-                Theme.SPACE,
+                Wrapper.SPACE,
                 Enums.Token.Bar,
                 `${Enums.Token.Rate}/bps`,
                 Enums.Token.Percent,
@@ -116,7 +117,7 @@ export class Progress {
     public render(theme: Theme): string {
         const length = Math.round(this.width * this.getRatio());
         const type = Theme.type(this.status);
-        let blocks = Theme.EMPTY.padStart(length, this.completeBlock);
+        let blocks = Wrapper.EMPTY.padStart(length, this.completeBlock);
 
         if (!this.isCompleted() && this.gradient) {
             blocks = theme.gradient(blocks, {
@@ -141,18 +142,16 @@ export class Progress {
             .replace(
                 Enums.Token.Bar,
                 Theme.join(
-                    Theme.EMPTY,
+                    Wrapper.EMPTY,
                     blocks,
-                    theme.paint(Theme.EMPTY.padStart(this.width - length, this.incompleteBlock), Enums.Type.Subtask)
+                    theme.paint(Wrapper.EMPTY.padStart(this.width - length, this.incompleteBlock), Enums.Type.Subtask)
                 )
             );
 
-        this.tokens.forEach(
-            (value: string, key: string): void => {
-                result = result.replace(`:${key}`, value);
-            }
-        );
+        this.tokens.forEach((value: string, key: string): void => {
+            result = result.replace(`:${key}`, value);
+        });
 
-        return this.badges ? Theme.join(Theme.SPACE, result, theme.badge(type)) : result;
+        return this.badges ? Theme.join(Wrapper.SPACE, result, theme.badge(type)) : result;
     }
 }

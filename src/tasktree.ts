@@ -12,7 +12,8 @@ export class TaskTree {
     private tasks: Task[];
     private theme: Theme;
     private manager: UpdateManager;
-    private silence: boolean = false;
+    private silence = false;
+    private offset = 0;
 
     private constructor(theme?: Types.Theme) {
         this.tasks = [];
@@ -31,6 +32,7 @@ export class TaskTree {
     public start(silence?: boolean): TaskTree {
         this.silence = !!silence;
         this.tasks = [];
+        this.offset = 0;
 
         if (!this.handle && !this.silence) {
             this.manager.hook();
@@ -75,11 +77,33 @@ export class TaskTree {
         return task;
     }
 
-    public render(): string {
-        return this.tasks.map((task): string => task.render(this.theme)).join(Theme.EOL);
+    public render(): string[] {
+        const { tasks } = this;
+        let updatable = false;
+        let rows: string[];
+        let exclude = 0;
+
+        const output = tasks.reduce<string[]>((acc, task): string[] => {
+            rows = task.render(this.theme);
+            updatable = updatable || task.isPending();
+
+            if (!updatable) {
+                this.offset += rows.length;
+                exclude++;
+            }
+
+            return acc.concat(rows);
+        }, []);
+
+        if (exclude) this.tasks = tasks.slice(exclude);
+
+        return output;
     }
 
     private log(): void {
-        this.manager.update(this.render());
+        const position = this.offset;
+
+        this.offset = 0;
+        this.manager.update(this.render(), position);
     }
 }
