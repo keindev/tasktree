@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Progress Create 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s test"`;
+exports[`Progress Default 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s test"`;
 
 exports[`Progress Statuses Complete 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s :custom"`;
 

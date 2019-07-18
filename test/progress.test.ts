@@ -6,7 +6,7 @@ const tpl = ':bar :percent :etas :custom';
 const theme = new Theme();
 
 describe('Progress', (): void => {
-    it('Create', (): void => {
+    it('Default', (): void => {
         const step = 1;
         const bar = new Progress(tpl, { total: step * 2 });
 

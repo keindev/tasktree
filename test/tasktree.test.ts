@@ -6,42 +6,39 @@ import { Theme } from '../src/theme';
 
 const tree = TaskTree.tree();
 const theme = new Theme();
-const titles = ['Task1', 'Task2', 'Task3'];
-
-let tasks: Task[];
 
 describe('TaskTree', (): void => {
-    it('Creating', (): void => {
+    it('Default', (): void => {
         expect(tree).not.toBeUndefined();
 
         tree.start(true);
-        tasks = titles.map((title): Task => tree.add(title));
     });
 
-    it('Manage', (): void => {
-        const error = 'Something bad happened\nat X\nat Y\nat Z';
-        const result = tasks.reverse().every((task, index): boolean => {
-            expect(task.isPending()).toBeTruthy();
-            expect(task.render(theme).length).toBeGreaterThanOrEqual(1);
+    describe('Manage tasks', (): void => {
+        let task: Task;
 
-            task.log(`Log ${index}`).warn(`Warn ${index}`);
-
-            switch (index) {
-                case 0:
-                    task.skip();
-                    break;
-                case tasks.length - 1:
-                    task.error(error).fail();
-                    break;
-                default:
-                    task.complete();
-                    break;
-            }
-
-            return !task.isPending();
+        beforeEach((): void => {
+            task = tree.add('Task X');
+            task.log(`Log 1`).warn(`Warn 1`);
         });
 
-        expect(result).toBeTruthy();
+        it('Skip', (): void => {
+            task.skip();
+
+            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+        });
+
+        it('Fail', (): void => {
+            task.error('Something bad happened\nat X\nat Y\nat Z').fail();
+
+            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+        });
+
+        it('Complete', (): void => {
+            task.complete();
+
+            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+        });
     });
 
     it('Render', (): void => {
