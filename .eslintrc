@@ -18,7 +18,7 @@
     "plugins": ["@typescript-eslint", "jest"],
     "rules": {
         "@typescript-eslint/member-ordering": "error",
-        "import/prefer-default-export": false,
+        "import/prefer-default-export": 0,
         "max-len": [
             "error",
             {

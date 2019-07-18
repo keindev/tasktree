@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Task Progress bar 1`] = `
-"  ✔ subtask
+"  ✔ task
   › ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s"
 `;
 
-exports[`Task Subtasks Clear subtask 1`] = `"  ✔ subtask"`;
+exports[`Task Subtasks Clear subtask 1`] = `"  ✔ task"`;
