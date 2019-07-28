@@ -39,30 +39,49 @@ describe('Task', (): void => {
 
         it('Failed', (): void => {
             const title = 'complete';
-            const task = new Task('task', Status.Pending).fail(title);
+            const task = new Task('task', Status.Pending);
 
-            expect(task.isPending()).toBeFalsy();
-            expect(task.getText()).toBe(title);
-            expect(task.getStatus()).toBe(Status.Failed);
+            try {
+                task.fail(title);
+            } catch {
+                expect(task.isPending()).toBeFalsy();
+                expect(task.getText()).toBe(title);
+                expect(task.getStatus()).toBe(Status.Failed);
+            }
         });
 
         it('Incorrect status changes', (): void => {
-            [
-                // Completed => Other
-                new Task('completed', Status.Completed).complete(),
-                new Task('completed', Status.Completed).skip(),
-                new Task('completed', Status.Completed).fail(),
-                // Skipped => Other
-                new Task('skipped', Status.Skipped).complete(),
-                new Task('skipped', Status.Skipped).skip(),
-                new Task('skipped', Status.Skipped).fail(),
-                // Failed => Other
-                new Task('failed', Status.Failed).complete(),
-                new Task('failed', Status.Failed).skip(),
-                new Task('failed', Status.Failed).fail(),
-            ].forEach((task): void => {
-                expect(task.getStatus()).toBe(Status.Failed);
-                expect(task.isPending()).toBeFalsy();
+            const getTasks = (): Task[] => [
+                new Task('completed', Status.Completed),
+                new Task('skipped', Status.Skipped),
+                new Task('failed', Status.Failed),
+            ];
+
+            getTasks().forEach((task): void => {
+                try {
+                    task.complete();
+                } catch {
+                    expect(task.getStatus()).toBe(Status.Failed);
+                    expect(task.isPending()).toBeFalsy();
+                }
+            });
+
+            getTasks().forEach((task): void => {
+                try {
+                    task.skip();
+                } catch {
+                    expect(task.getStatus()).toBe(Status.Failed);
+                    expect(task.isPending()).toBeFalsy();
+                }
+            });
+
+            getTasks().forEach((task): void => {
+                try {
+                    task.fail();
+                } catch {
+                    expect(task.getStatus()).toBe(Status.Failed);
+                    expect(task.isPending()).toBeFalsy();
+                }
             });
         });
     });
@@ -82,10 +101,14 @@ describe('Task', (): void => {
 
         it('Add to Completed task', (): void => {
             const task = new Task('task', Status.Completed);
-            const subtask = task.add('subtask');
+            let subtask: Task | undefined;
 
-            expect(task.getStatus()).toBe(Status.Failed);
-            expect(subtask.getStatus()).toBe(Status.Failed);
+            try {
+                subtask = task.add('subtask');
+            } catch {
+                expect(subtask).toBeUndefined();
+                expect(task.getStatus()).toBe(Status.Failed);
+            }
         });
 
         it('Clear subtask', (): void => {

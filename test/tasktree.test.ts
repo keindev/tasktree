@@ -29,9 +29,11 @@ describe('TaskTree', (): void => {
         });
 
         it('Fail', (): void => {
-            task.error('Something bad happened\nat X\nat Y\nat Z').fail();
-
-            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+            try {
+                task.error('Something bad happened\nat X\nat Y\nat Z').fail();
+            } catch (err) {
+                expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+            }
         });
 
         it('Complete', (): void => {
@@ -49,5 +51,13 @@ describe('TaskTree', (): void => {
         tree.start(true);
         tree.stop();
         expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
+    });
+
+    it('Tree fail', (): void => {
+        try {
+            tree.fail('fail');
+        } catch (err) {
+            expect((err as Error).message).toBe('fail');
+        }
     });
 });
