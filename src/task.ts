@@ -103,12 +103,12 @@ export class Task {
         return this;
     }
 
-    public fail(text?: string, clear: boolean = false): Task {
+    public fail(text?: string, clear: boolean = false): never {
         this.update(Enums.Status.Failed, text, clear);
 
         TaskTree.tree().exit(Enums.ExitCode.Error);
 
-        return this;
+        throw new Error(text);
     }
 
     public error(error?: string | Error, fail?: boolean): Task {

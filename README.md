@@ -216,6 +216,10 @@ Returns a boolean value - indicating the presence of subtasks.
 
 Adds a new subtask. Returns a [subtask](#task) object.
 
+#### fail(\[text\])
+
+Adds a new subtask and call fail on it.
+
 ##### text
 
 Text for display.
@@ -296,7 +300,7 @@ Default: `false`
 
 #### fail(\[text\], \[clear\])
 
-Failure task. Returns [self-object](#task).
+Failure task. Throws exception in "silent mode".
 
 ##### text
 

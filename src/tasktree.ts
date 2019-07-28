@@ -56,7 +56,7 @@ export class TaskTree {
         return this;
     }
 
-    public exit(code: ExitCode = ExitCode.Success): void {
+    public exit(code: ExitCode = ExitCode.Success): void | never {
         if (!this.silence) {
             this.stop();
             process.exit(code);
@@ -75,6 +75,10 @@ export class TaskTree {
         }
 
         return task;
+    }
+
+    public fail(text: string): never {
+        return this.add(text).fail(text);
     }
 
     public render(): string[] {
