@@ -173,6 +173,24 @@ Type: `string`
 
 Render a task tree into a `string[]`. Returns `strings` with tasks hierarchy.
 
+#### fail(text [, active])
+
+Fail active task or adds a new subtask and call fail on it.
+
+##### text
+
+Text for display.
+
+Type: `string`
+
+##### active
+
+If `true` - call failed for active task, else create new task and call fail on it.
+
+Type: `boolean`
+
+Default: `true`
+
 ### Task
 
 Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks).
@@ -212,13 +230,9 @@ Returns a Boolean value - indicating the [status](#task-statuses) of the subtask
 
 Returns a boolean value - indicating the presence of subtasks.
 
-#### add(text, \[status\]): Task
+#### add(text \[, status\]): Task
 
 Adds a new subtask. Returns a [subtask](#task) object.
-
-#### fail(\[text\])
-
-Adds a new subtask and call fail on it.
 
 ##### text
 
@@ -234,7 +248,17 @@ Type: `number`
 
 Default: `0`
 
-#### bar(\[template\], \[options\])
+#### update(text): Task
+
+Update task text.
+
+##### text
+
+Text for display.
+
+Type: `string`
+
+#### bar(\[template\, options\])
 
 Adds a new progress bar. Returns a [progress bar](#progress-bar) object.
 
@@ -258,7 +282,7 @@ Default: `null`
 
 Remove all subtasks and bars.
 
-#### complete(\[text\], \[clear\])
+#### complete(\[text, clear\])
 
 Complete task. Returns [self-object](#task).
 
@@ -278,7 +302,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### skip(\[text\], \[clear\])
+#### skip(\[text, clear\])
 
 Skip task. Returns [self-object](#task).
 
@@ -298,7 +322,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### fail(\[text\], \[clear\])
+#### fail(\[text, clear\])
 
 Failure task. Throws exception in "silent mode".
 
@@ -318,7 +342,7 @@ Type: `boolean`
 
 Default: `false`
 
-#### error(error, \[fail\])
+#### error(error \[, fail\])
 
 Adds an error message to the task, which will be displayed immediately under the task header. Returns [self-object](#task).
 
@@ -466,7 +490,7 @@ Returns an end `Date` in milliseconds if progress is an ended.
 
 Returns `true` if progress is complete.
 
-#### tick(\[step\], \[tokens\]): Progress
+#### tick(\[step, tokens\]): Progress
 
 Increases current progress on step value. Returns [self-object](#progress-bar).
 
