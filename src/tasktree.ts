@@ -77,8 +77,20 @@ export class TaskTree {
         return task;
     }
 
-    public fail(text: string): never {
-        return this.add(text).fail(text);
+    public fail(text: string, active: boolean = true): never {
+        let task: Task;
+
+        if (active) {
+            task = this.tasks[this.tasks.length - 1];
+
+            if (task && task.isPending()) {
+                task = task.getActive();
+            }
+        } else {
+            task = this.add(text);
+        }
+
+        return task.fail(text);
     }
 
     public render(): string[] {

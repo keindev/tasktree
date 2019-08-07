@@ -18,6 +18,12 @@ describe('Task', (): void => {
         expect(task.getStatus()).toBe(status);
     });
 
+    it('Update', (): void => {
+        const task = new Task('text A', Status.Completed).update('text B');
+
+        expect(task.getText()).toBe('text B');
+    });
+
     describe('Statuses', (): void => {
         it('Completed', (): void => {
             const title = 'complete';

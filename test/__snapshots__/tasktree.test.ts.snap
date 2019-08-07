@@ -41,3 +41,16 @@ exports[`TaskTree Render 1`] = `
 exports[`TaskTree Render 2`] = `""`;
 
 exports[`TaskTree Render 3`] = `""`;
+
+exports[`TaskTree Tree fail 1`] = `
+Array [
+  "  [38;2;255;68;68m✖[39m fail A [38;2;131;133;132m[fail][39m",
+]
+`;
+
+exports[`TaskTree Tree fail 2`] = `
+Array [
+  "  [38;2;66;133;244m❯[39m Task B",
+  "[38;2;131;133;132m  [38;2;46;46;46m›[38;2;131;133;132m [38;2;255;68;68m✖[38;2;131;133;132m fail B [38;2;131;133;132m[fail][38;2;131;133;132m[39m",
+]
+`;
