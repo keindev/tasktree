@@ -29,6 +29,14 @@ export class TaskTree {
         return TaskTree.instance;
     }
 
+    public static add(text: string): Task {
+        return TaskTree.tree().add(text);
+    }
+
+    public static fail(text: string, active: boolean = true): never {
+        return TaskTree.tree().fail(text, active);
+    }
+
     public start(silence?: boolean): TaskTree {
         this.silence = !!silence;
         this.tasks = [];

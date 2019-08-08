@@ -16,35 +16,33 @@ exports[`TaskTree Manage tasks Fail 1`] = `
   ─ ℹ Log 1"
 `;
 
+exports[`TaskTree Manage tasks Render 1`] = `
+"  ⠙ Task X
+  ─ ⚠ Warn 1
+  ─ ℹ Log 1"
+`;
+
+exports[`TaskTree Manage tasks Render 2`] = `
+"  ⠹ Task X
+  ─ ⚠ Warn 1
+  ─ ℹ Log 1"
+`;
+
+exports[`TaskTree Manage tasks Render 3`] = `""`;
+
 exports[`TaskTree Manage tasks Skip 1`] = `
 "  ↓ Task X [skip]
   ─ ⚠ Warn 1
   ─ ℹ Log 1"
 `;
 
-exports[`TaskTree Render 1`] = `
-"  ↓ Task X [skip]
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1
-  ✖ Task X [fail]
-  ─ ✖ Something bad happened
-      at X
-      at Y
-      at Z
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1
-  ✔ Task X
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1"
-`;
+exports[`TaskTree Manage tasks from tree 1`] = `"  ✖ fail A [fail]"`;
 
-exports[`TaskTree Render 2`] = `""`;
-
-exports[`TaskTree Render 3`] = `""`;
-
-exports[`TaskTree Tree fail 1`] = `"  ✖ fail A [fail]"`;
-
-exports[`TaskTree Tree fail 2`] = `
+exports[`TaskTree Manage tasks from tree 2`] = `
 "  ❯ Task B
   › ✖ fail B [fail]"
 `;
+
+exports[`TaskTree Static Add 1`] = `"  ✔ task A"`;
+
+exports[`TaskTree Static Fail 1`] = `""`;
