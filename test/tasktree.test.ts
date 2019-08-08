@@ -59,7 +59,7 @@ describe('TaskTree', (): void => {
             tree.add('Task A');
             tree.fail('fail A');
         } catch (err) {
-            expect(tree.render()).toMatchSnapshot();
+            expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
             expect((err as Error).message).toBe('fail A');
 
             tree.stop();
@@ -70,7 +70,7 @@ describe('TaskTree', (): void => {
             tree.add('Task B');
             tree.fail('fail B', false);
         } catch (err) {
-            expect(tree.render()).toMatchSnapshot();
+            expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
             expect((err as Error).message).toBe('fail B');
 
             tree.stop();
