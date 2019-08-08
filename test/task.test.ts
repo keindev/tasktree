@@ -5,65 +5,73 @@ import { Status } from '../src/enums';
 import { TaskTree } from '../src/tasktree';
 import { Theme } from '../src/theme';
 
-TaskTree.tree().start(true);
-
 describe('Task', (): void => {
+    const $title = 'task';
+
+    beforeAll((): void => {
+        TaskTree.tree().start(true);
+    });
+
     it('Default', (): void => {
-        const title = 'task';
-        const status = Status.Completed;
-        const task = new Task(title, status);
+        const task = new Task($title, Status.Completed);
 
         expect(task.isPending()).toBeFalsy();
-        expect(task.getText()).toBe(title);
-        expect(task.getStatus()).toBe(status);
+        expect(task.getText()).toBe($title);
+        expect(task.getStatus()).toBe(Status.Completed);
     });
 
     it('Update', (): void => {
-        const task = new Task('text A', Status.Completed).update('text B');
+        const task = new Task($title, Status.Completed).update('new title');
 
-        expect(task.getText()).toBe('text B');
+        expect(task.getText()).toBe('new title');
     });
 
-    describe('Statuses', (): void => {
-        it('Completed', (): void => {
-            const title = 'complete';
-            const task = new Task('task', Status.Pending).complete(title);
+    describe('Correct status changing', (): void => {
+        let $task: Task;
 
-            expect(task.isPending()).toBeFalsy();
-            expect(task.getText()).toBe(title);
-            expect(task.getStatus()).toBe(Status.Completed);
+        beforeEach((): void => {
+            $task = new Task('pending task', Status.Pending);
+        });
+
+        afterEach((): void => {
+            expect($task.isPending()).toBeFalsy();
+            expect($task.getText()).toBe($title);
+        });
+
+        it('Completed', (): void => {
+            $task.complete($title);
+
+            expect($task.getStatus()).toBe(Status.Completed);
         });
 
         it('Skipped', (): void => {
-            const title = 'complete';
-            const task = new Task('task', Status.Pending).skip(title);
+            $task.skip($title);
 
-            expect(task.isPending()).toBeFalsy();
-            expect(task.getText()).toBe(title);
-            expect(task.getStatus()).toBe(Status.Skipped);
+            expect($task.getStatus()).toBe(Status.Skipped);
         });
 
         it('Failed', (): void => {
-            const title = 'complete';
-            const task = new Task('task', Status.Pending);
-
             try {
-                task.fail(title);
+                $task.fail($title);
             } catch {
-                expect(task.isPending()).toBeFalsy();
-                expect(task.getText()).toBe(title);
-                expect(task.getStatus()).toBe(Status.Failed);
+                expect($task.getStatus()).toBe(Status.Failed);
             }
         });
+    });
 
-        it('Incorrect status changes', (): void => {
-            const getTasks = (): Task[] => [
-                new Task('completed', Status.Completed),
-                new Task('skipped', Status.Skipped),
-                new Task('failed', Status.Failed),
+    describe('Incorrect status changes', (): void => {
+        let $tasks: Task[];
+
+        beforeEach((): void => {
+            $tasks = [
+                new Task($title, Status.Completed),
+                new Task($title, Status.Skipped),
+                new Task($title, Status.Failed),
             ];
+        });
 
-            getTasks().forEach((task): void => {
+        it('Complete', (): void => {
+            $tasks.forEach((task): void => {
                 try {
                     task.complete();
                 } catch {
@@ -71,8 +79,10 @@ describe('Task', (): void => {
                     expect(task.isPending()).toBeFalsy();
                 }
             });
+        });
 
-            getTasks().forEach((task): void => {
+        it('Skip', (): void => {
+            $tasks.forEach((task): void => {
                 try {
                     task.skip();
                 } catch {
@@ -80,8 +90,10 @@ describe('Task', (): void => {
                     expect(task.isPending()).toBeFalsy();
                 }
             });
+        });
 
-            getTasks().forEach((task): void => {
+        it('Fail', (): void => {
+            $tasks.forEach((task): void => {
                 try {
                     task.fail();
                 } catch {
@@ -94,23 +106,23 @@ describe('Task', (): void => {
 
     describe('Subtasks', (): void => {
         it('Add to Pending task', (): void => {
-            const task = new Task('task', Status.Pending);
+            const task = new Task($title, Status.Pending);
 
             expect(task.getActive()).toStrictEqual(task);
             expect(task.getActive().id()).toBe(task.id());
 
-            const subtask = task.add('subtask');
+            const subtask = task.add($title);
 
             expect(subtask.isPending()).toBeTruthy();
             expect(task.getActive()).toStrictEqual(subtask);
         });
 
         it('Add to Completed task', (): void => {
-            const task = new Task('task', Status.Completed);
+            const task = new Task($title, Status.Completed);
             let subtask: Task | undefined;
 
             try {
-                subtask = task.add('subtask');
+                subtask = task.add($title);
             } catch {
                 expect(subtask).toBeUndefined();
                 expect(task.getStatus()).toBe(Status.Failed);
@@ -118,9 +130,9 @@ describe('Task', (): void => {
         });
 
         it('Clear subtask', (): void => {
-            const task = new Task('task', Status.Pending);
+            const task = new Task($title, Status.Pending);
 
-            task.add('subtask', Status.Completed);
+            task.add($title, Status.Completed);
             task.bar().complete();
             task.complete().clear();
 
@@ -130,10 +142,9 @@ describe('Task', (): void => {
     });
 
     it('Progress bar', (): void => {
-        const task = new Task('task', Status.Pending);
-        const tpl = ':bar :percent :etas';
+        const task = new Task($title, Status.Pending);
 
-        task.bar(tpl).complete();
+        task.bar(':bar :percent :etas').complete();
         task.complete();
 
         expect(task.getStatus()).toBe(Status.Completed);

@@ -7,6 +7,8 @@ import { Theme } from '../src/theme';
 describe('TaskTree', (): void => {
     const $tree = TaskTree.tree();
     const $theme = new Theme();
+    const $renderTree = (): string => stripAnsi($tree.render().join(Terminal.EOL));
+    const $renderTask = (task: Task): string => stripAnsi(task.render($theme).join(Terminal.EOL));
 
     beforeEach((): void => {
         $tree.start(true);
@@ -18,16 +20,16 @@ describe('TaskTree', (): void => {
 
     describe('Static', (): void => {
         it('Add', (): void => {
-            TaskTree.add('task A').complete();
+            TaskTree.add('task').complete();
 
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
+            expect($renderTree()).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
             try {
-                TaskTree.fail('fail B');
+                TaskTree.fail('error');
             } catch (err) {
-                expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
+                expect($renderTree()).toMatchSnapshot();
             }
         });
     });
@@ -40,60 +42,59 @@ describe('TaskTree', (): void => {
         let task: Task;
 
         beforeEach((): void => {
-            task = $tree.add('Task X');
-            task.log(`Log 1`).warn(`Warn 1`);
+            task = $tree.add('task');
+            task.log(`message`).warn(`warning`);
         });
 
         it('Skip', (): void => {
-            task.skip();
-
-            expect(stripAnsi(task.render($theme).join(Terminal.EOL))).toMatchSnapshot();
+            expect($renderTask(task.skip())).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
             try {
                 task.error('Something bad happened\nat X\nat Y\nat Z').fail();
             } catch (err) {
-                expect(stripAnsi(task.render($theme).join(Terminal.EOL))).toMatchSnapshot();
+                expect($renderTask(task)).toMatchSnapshot();
             }
         });
 
         it('Complete', (): void => {
-            task.complete();
-
-            expect(stripAnsi(task.render($theme).join(Terminal.EOL))).toMatchSnapshot();
+            expect($renderTask(task.complete())).toMatchSnapshot();
         });
 
         it('Render', (): void => {
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
+            expect($renderTree()).toMatchSnapshot();
+
             $tree.stop();
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
+
+            expect($renderTree()).toMatchSnapshot();
 
             $tree.start(true);
             $tree.stop();
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
+
+            expect($renderTree()).toMatchSnapshot();
         });
     });
 
-    it('Manage tasks from tree', (): void => {
+    it('Manage tasks with static methods', (): void => {
         try {
             $tree.start(true);
-            $tree.add('Task A');
-            $tree.fail('fail A');
+            $tree.add('task');
+            $tree.fail('error message');
         } catch (err) {
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
-            expect((err as Error).message).toBe('fail A');
+            expect($renderTree()).toMatchSnapshot();
+            expect((err as Error).message).toBe('error message');
 
             $tree.stop();
         }
 
         try {
             $tree.start(true);
-            $tree.add('Task B');
-            $tree.fail('fail B', false);
+            $tree.add('task');
+            $tree.fail('error message', false);
         } catch (err) {
-            expect(stripAnsi($tree.render().join(Terminal.EOL))).toMatchSnapshot();
-            expect((err as Error).message).toBe('fail B');
+            expect($renderTree()).toMatchSnapshot();
+            expect((err as Error).message).toBe('error message');
 
             $tree.stop();
         }
