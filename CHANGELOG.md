@@ -33,7 +33,7 @@ Source code now under `MIT` license.
 -   Added **[eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier/v/6.0.0)** with `^6.0.0`
 -   Added **[eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import/v/2.18.2)** with `^2.18.2`
 -   Added **[eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest/v/22.15.0)** with `^22.15.0`
--   Added **[husky](https://www.npmjs.com/package/husky/v/3.0.2)** with `^3.0.2`
+-   Added **[husky](https://www.npmjs.com/package/husky/v/3.0.3)** with `^3.0.3`
 -   Added **[jest](https://www.npmjs.com/package/jest/v/24.8.0)** with `^24.8.0`
 -   Added **[npm-run-all](https://www.npmjs.com/package/npm-run-all/v/4.1.5)** with `^4.1.5`
 -   Added **[prettier](https://www.npmjs.com/package/prettier/v/1.18.2)** with `^1.18.2`
@@ -86,6 +86,7 @@ Source code now under `MIT` license.
 
 # Internal changes
 
+-   **[Changelog]** Generate changelog [`82fe258`](https://github.com/keindev/tasktree/commit/82fe258c69acb007725e570ea067e7087fd68581)
 -   **[Media]** Update logo [`57d68d4`](https://github.com/keindev/tasktree/commit/57d68d470343a3c4ad47276ff63bf8ab46f3fb6c)
 -   **[Package]** Update dependencies [`a38eaf0`](https://github.com/keindev/tasktree/commit/a38eaf08027a79913b8f28387a6038cb5d3166c7) [`a4600b6`](https://github.com/keindev/tasktree/commit/a4600b67264cbff72a165bfbccb2d3db4ffde53c) [`a5ad40c`](https://github.com/keindev/tasktree/commit/a5ad40c52bdc1b65994e544233f9583c47ee978e) [`0fe9d5e`](https://github.com/keindev/tasktree/commit/0fe9d5e1e08c2e7aba172b71b2aa4e7d04ee9495) [`f9be4c5`](https://github.com/keindev/tasktree/commit/f9be4c5781388acada75c918bf2ae1cd2530e951) [`4c6f304`](https://github.com/keindev/tasktree/commit/4c6f3047c62693e2e1a1c52e5329fbb6ff019096)
 -   **[Package]** Update critical dependencies [`7abf96e`](https://github.com/keindev/tasktree/commit/7abf96eb547ce251ea68b86b35872da5fd1bf28b)
@@ -99,7 +100,9 @@ Source code now under `MIT` license.
 -   **[Readme]** Fix headers level [`4cfb310`](https://github.com/keindev/tasktree/commit/4cfb31023b2aa9894b98c2ea85f6f3dda55e4353)
 -   **[Readme]** Update install section [`d941c82`](https://github.com/keindev/tasktree/commit/d941c8254ad3dcffdd3f3ac745cb9749207565cd)
 -   **[Readme]** Update TaskTree methods description [`f4ce351`](https://github.com/keindev/tasktree/commit/f4ce3517528f09b13ac3b7f73d4f12fb66dbfbc4)
+-   **[Readme]** Fix desc for api section [`acbd298`](https://github.com/keindev/tasktree/commit/acbd298708ab54a9dd87130d17d1ad92ee479c9a)
 -   **[Readme, Package]** Fix package description [`5a4aaff`](https://github.com/keindev/tasktree/commit/5a4aaff6e76211078860e47d38c4767f0c2225c8)
+-   **[TaskTree]** Fix test for tasktree [`ea29f62`](https://github.com/keindev/tasktree/commit/ea29f625ce42722242a13de1a0c64a99458c6c9c)
 -   **[Template]** Fix errors [`3030e90`](https://github.com/keindev/tasktree/commit/3030e90867ece8b67e1f6879ecbaea7d1723b70c)
 -   Add tests [`9549fd8`](https://github.com/keindev/tasktree/commit/9549fd8681ddca38a07cefd9f2ede225a07fa557)
 -   Add codecov badge [`0b06aa6`](https://github.com/keindev/tasktree/commit/0b06aa67b9b2b70cd0a48478211043a6eb5ef944)
@@ -121,6 +124,7 @@ Source code now under `MIT` license.
 -   Add snyk integration [`e64fdf6`](https://github.com/keindev/tasktree/commit/e64fdf620dcecdb9a5ac5c9be2fb4acfb008de1f)
 -   Add debugger out conf for vsc [`cc178cd`](https://github.com/keindev/tasktree/commit/cc178cd4487d3c9b32f2a2b0585b16aeec124e1e)
 -   Remove unused\/commented code [`2af6d1c`](https://github.com/keindev/tasktree/commit/2af6d1c68601c7996f607645938407dbb9f598a5)
+-   Refactor tests [`0539264`](https://github.com/keindev/tasktree/commit/0539264e47f2e593e9c22cc9958269605b9438b2) [`e881a33`](https://github.com/keindev/tasktree/commit/e881a33121513d5abb837ea8c03602ff2cee7a98)
 
 # Code Refactoring
 
