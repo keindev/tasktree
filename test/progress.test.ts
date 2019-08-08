@@ -2,13 +2,13 @@ import stripAnsi from 'strip-ansi';
 import { Progress } from '../src/progress';
 import { Theme } from '../src/theme';
 
-const tpl = ':bar :percent :etas :custom';
-const theme = new Theme();
-
 describe('Progress', (): void => {
+    const $template = ':bar :percent :etas :custom';
+    const $theme = new Theme();
+
     it('Default', (): void => {
         const step = 1;
-        const bar = new Progress(tpl, { total: step * 2 });
+        const bar = new Progress($template, { total: step * 2 });
 
         expect(bar.getPercent()).toBe(Progress.MIN_PERCENT);
         expect(bar.getRatio()).toBe(Progress.MIN_RATIO);
@@ -42,55 +42,45 @@ describe('Progress', (): void => {
         expect(bar.getRate()).toBeTruthy();
         expect(bar.getETA()).toBeFalsy();
         expect(bar.isCompleted()).toBeTruthy();
-        expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+        expect(stripAnsi(bar.render($theme))).toMatchSnapshot();
     });
 
     describe('Statuses', (): void => {
+        let $bar: Progress;
+        let $before: number;
+
+        beforeEach((): void => {
+            $bar = new Progress($template);
+            $before = new Date().getTime();
+
+            $bar.tick($bar.total / 2);
+        });
+
+        afterEach((): void => {
+            expect($bar.isCompleted()).toBeTruthy();
+            expect($bar.getEnd()).toBeGreaterThanOrEqual($before);
+            expect($bar.getEnd()).toBeLessThanOrEqual(new Date().getTime());
+        });
+
         it('Complete', (): void => {
-            const bar = new Progress(tpl);
-            const before = new Date().getTime();
+            $bar.complete();
 
-            bar.complete();
-
-            const after = new Date().getTime();
-
-            expect(bar.isCompleted()).toBeTruthy();
-            expect(bar.getEnd()).toBeGreaterThanOrEqual(before);
-            expect(bar.getEnd()).toBeLessThanOrEqual(after);
-            expect(bar.getPercent()).toBe(Progress.MAX_PERCENT);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT);
+            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
 
         it('Skip', (): void => {
-            const bar = new Progress(tpl);
-            const before = new Date().getTime();
+            $bar.skip();
 
-            bar.tick(bar.total / 2);
-            bar.fail();
-
-            const after = new Date().getTime();
-
-            expect(bar.isCompleted()).toBeTruthy();
-            expect(bar.getEnd()).toBeGreaterThanOrEqual(before);
-            expect(bar.getEnd()).toBeLessThanOrEqual(after);
-            expect(bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
+            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
-            const bar = new Progress(tpl);
-            const before = new Date().getTime();
+            $bar.fail();
 
-            bar.tick(bar.total / 2);
-            bar.skip();
-
-            const after = new Date().getTime();
-
-            expect(bar.isCompleted()).toBeTruthy();
-            expect(bar.getEnd()).toBeGreaterThanOrEqual(before);
-            expect(bar.getEnd()).toBeLessThanOrEqual(after);
-            expect(bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
+            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
     });
 });

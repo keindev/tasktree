@@ -4,60 +4,99 @@ import { Task } from '../src/task';
 import { TaskTree } from '../src/tasktree';
 import { Theme } from '../src/theme';
 
-const tree = TaskTree.tree();
-const theme = new Theme();
-
 describe('TaskTree', (): void => {
-    it('Default', (): void => {
-        expect(tree).not.toBeUndefined();
+    const $tree = TaskTree.tree();
+    const $theme = new Theme();
+    const $renderTree = (): string => stripAnsi($tree.render().join(Terminal.EOL));
+    const $renderTask = (task: Task): string => stripAnsi(task.render($theme).join(Terminal.EOL));
 
-        tree.start(true);
+    beforeEach((): void => {
+        $tree.start(true);
+    });
+
+    afterEach((): void => {
+        $tree.stop();
+    });
+
+    describe('Static', (): void => {
+        it('Add', (): void => {
+            TaskTree.add('task').complete();
+
+            expect($renderTree()).toMatchSnapshot();
+        });
+
+        it('Fail', (): void => {
+            try {
+                TaskTree.fail('error');
+            } catch (err) {
+                expect($renderTree()).toMatchSnapshot();
+            }
+        });
+    });
+
+    it('Default', (): void => {
+        expect($tree).toBeDefined();
     });
 
     describe('Manage tasks', (): void => {
         let task: Task;
 
         beforeEach((): void => {
-            task = tree.add('Task X');
-            task.log(`Log 1`).warn(`Warn 1`);
+            task = $tree.add('task');
+            task.log(`message`).warn(`warning`);
         });
 
         it('Skip', (): void => {
-            task.skip();
-
-            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+            expect($renderTask(task.skip())).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
             try {
                 task.error('Something bad happened\nat X\nat Y\nat Z').fail();
             } catch (err) {
-                expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+                expect($renderTask(task)).toMatchSnapshot();
             }
         });
 
         it('Complete', (): void => {
-            task.complete();
+            expect($renderTask(task.complete())).toMatchSnapshot();
+        });
 
-            expect(stripAnsi(task.render(theme).join(Terminal.EOL))).toMatchSnapshot();
+        it('Render', (): void => {
+            expect($renderTree()).toMatchSnapshot();
+
+            $tree.stop();
+
+            expect($renderTree()).toMatchSnapshot();
+
+            $tree.start(true);
+            $tree.stop();
+
+            expect($renderTree()).toMatchSnapshot();
         });
     });
 
-    it('Render', (): void => {
-        expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
-        tree.stop();
-        expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
-
-        tree.start(true);
-        tree.stop();
-        expect(stripAnsi(tree.render().join(Terminal.EOL))).toMatchSnapshot();
-    });
-
-    it('Tree fail', (): void => {
+    it('Manage tasks with static methods', (): void => {
         try {
-            tree.fail('fail');
+            $tree.start(true);
+            $tree.add('task');
+            $tree.fail('error message');
         } catch (err) {
-            expect((err as Error).message).toBe('fail');
+            expect($renderTree()).toMatchSnapshot();
+            expect((err as Error).message).toBe('error message');
+
+            $tree.stop();
+        }
+
+        try {
+            $tree.start(true);
+            $tree.add('task');
+            $tree.fail('error message', false);
+        } catch (err) {
+            expect($renderTree()).toMatchSnapshot();
+            expect((err as Error).message).toBe('error message');
+
+            $tree.stop();
         }
     });
 });

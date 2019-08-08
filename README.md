@@ -137,11 +137,11 @@ Starts output a task tree in a terminal at a defined interval. In “silent mode
 
 ##### silence
 
-Disable task tree rendering.
-
 Type: `boolean`
 
 Default: `false`
+
+Disable task tree rendering.
 
 #### stop()
 
@@ -153,11 +153,11 @@ Force the process to exit (see [process.exit](https://nodejs.org/api/process.htm
 
 ##### code
 
-Exit code.
-
 Type: `number`
 
 Default: `1`
+
+Exit code.
 
 #### add(text)
 
@@ -172,6 +172,24 @@ Type: `string`
 #### render()
 
 Render a task tree into a `string[]`. Returns `strings` with tasks hierarchy.
+
+#### fail(text [, active])
+
+Fail active task or adds a new subtask and call fail on it.
+
+##### text
+
+Text for display.
+
+Type: `string`
+
+##### active
+
+Type: `boolean`
+
+Default: `true`
+
+If `true` - call failed for active task, else create new task and call fail on it.
 
 ### Task
 
@@ -212,13 +230,9 @@ Returns a Boolean value - indicating the [status](#task-statuses) of the subtask
 
 Returns a boolean value - indicating the presence of subtasks.
 
-#### add(text, \[status\]): Task
+#### add(text \[, status\]): Task
 
 Adds a new subtask. Returns a [subtask](#task) object.
-
-#### fail(\[text\])
-
-Adds a new subtask and call fail on it.
 
 ##### text
 
@@ -228,113 +242,123 @@ Type: `string`
 
 ##### status
 
-New subtask [status](#task-statuses).
-
 Type: `number`
 
 Default: `0`
 
-#### bar(\[template\], \[options\])
+New subtask [status](#task-statuses).
+
+#### update(text): Task
+
+Update task text.
+
+##### text
+
+Text for display.
+
+Type: `string`
+
+#### bar(\[template\, options\])
 
 Adds a new progress bar. Returns a [progress bar](#progress-bar) object.
 
 ##### template
 
-Text for display with [tokens](#progress-bar-tokens).
-
 Type: `string`
 
 Default: `:bar :rate/bps :percent :etas`
 
-##### options
+Text for display with [tokens](#progress-bar-tokens).
 
-These are keys in the options object you can pass to the progress bar along. See [Bar.Options](#progress-bar-options)
+##### options
 
 Type: `object`
 
 Default: `null`
 
+These are keys in the options object you can pass to the progress bar along. See [Bar.Options](#progress-bar-options)
+
 #### clear()
 
 Remove all subtasks and bars.
 
-#### complete(\[text\], \[clear\])
+#### complete(\[text, clear\])
 
 Complete task. Returns [self-object](#task).
 
 ##### text
 
-Text for display. Modifies task text if submitted.
-
 Type: `string`
 
 Default: `''`
 
-##### clear
+Text for display. Modifies task text if submitted.
 
-Calls `clear()` if true.
+##### clear
 
 Type: `boolean`
 
 Default: `false`
 
-#### skip(\[text\], \[clear\])
+Calls `clear()` if true.
+
+#### skip(\[text, clear\])
 
 Skip task. Returns [self-object](#task).
 
 ##### text
 
-Text for display. Modifies task text if submitted.
-
 Type: `string`
 
 Default: `''`
 
-##### clear
+Text for display. Modifies task text if submitted.
 
-Calls `clear()` if true.
+##### clear
 
 Type: `boolean`
 
 Default: `false`
 
-#### fail(\[text\], \[clear\])
+Calls `clear()` if true.
+
+#### fail(\[text, clear\])
 
 Failure task. Throws exception in "silent mode".
 
 ##### text
 
-Text for display. Modifies task text if submitted.
-
 Type: `string`
 
 Default: `''`
 
-##### clear
+Text for display. Modifies task text if submitted.
 
-Calls `clear()` if true.
+##### clear
 
 Type: `boolean`
 
 Default: `false`
 
-#### error(error, \[fail\])
+Calls `clear()` if true.
+
+#### error(error \[, fail\])
 
 Adds an error message to the task, which will be displayed immediately under the task header. Returns [self-object](#task).
 
 ##### error
 
-Error message.
-
 Type: `string | Error`
 
-##### fail
+Error message.
 
-Flag indicating the need to call the `fail` method.
+##### fail
 
 Type: `boolean`
 
 Default: `false`
+
+Flag indicating the need to call the `fail` method.
 
 #### log(\[text\])
 
@@ -342,9 +366,9 @@ Adds an informational message, to be displayed under the task title. Returns [se
 
 ##### text
 
-Informational message.
-
 Type: `string`
+
+Informational message.
 
 #### warn(\[text\])
 
@@ -352,9 +376,9 @@ Adds a warning message, to be displayed under the task title. Returns [self-obje
 
 ##### text
 
-Warning message.
-
 Type: `string`
+
+Warning message.
 
 ### Progress bar
 
@@ -372,67 +396,67 @@ Type: `string`
 
 ##### current
 
-Current completed index.
-
 Type: `number`
 
 Default: `0`
 
-##### total
+Current completed index.
 
-Total number of ticks to complete.
+##### total
 
 Type: `number`
 
 Default: `1000`
 
-##### width
+Total number of ticks to complete.
 
-The displayed width of the progress bar defaulting to total.
+##### width
 
 Type: `number`
 
 Default: `20`
 
+The displayed width of the progress bar defaulting to total.
+
 ##### complete
+
+Type: `string`
+
+Default: `▇`
 
 Completion character.
 
+##### incomplete
+
 Type: `string`
 
 Default: `▇`
-
-##### incomplete
 
 Incomplete character.
 
-Type: `string`
-
-Default: `▇`
-
 ##### clear
-
-Option to clear the bar on completion.
 
 Type: `boolean`
 
 Default: `false`
 
+Option to clear the bar on completion.
+
 ##### badges
+
+Type: `boolean`
+
+Default: `true`
 
 Option to add badge.
 
-Type: `boolean`
-
-Default: `true`
-
 ##### gradient
 
-Option to add a gradient to the pending bar.
-
 Type: `boolean`
 
 Default: `true`
+
+Option to add a gradient to the pending bar.
 
 #### getRatio()
 
@@ -466,25 +490,25 @@ Returns an end `Date` in milliseconds if progress is an ended.
 
 Returns `true` if progress is complete.
 
-#### tick(\[step\], \[tokens\]): Progress
+#### tick(\[step, tokens\]): Progress
 
 Increases current progress on step value. Returns [self-object](#progress-bar).
 
 ##### step
 
-The value by which the current progress will increase.
-
 Type: `number`
 
 Default: `1`
 
-##### tokens
+The value by which the current progress will increase.
 
-Add custom tokens by adding a `{'name': value}` object parameter to your method.
+##### tokens
 
 Type: `object`
 
 Default: `null`
+
+Add custom tokens by adding a `{'name': value}` object parameter to your method.
 
 ###### Tick with custom tokens example
 

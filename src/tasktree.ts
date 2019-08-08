@@ -29,6 +29,14 @@ export class TaskTree {
         return TaskTree.instance;
     }
 
+    public static add(text: string): Task {
+        return TaskTree.tree().add(text);
+    }
+
+    public static fail(text: string, active: boolean = true): never {
+        return TaskTree.tree().fail(text, active);
+    }
+
     public start(silence?: boolean): TaskTree {
         this.silence = !!silence;
         this.tasks = [];
@@ -77,8 +85,20 @@ export class TaskTree {
         return task;
     }
 
-    public fail(text: string): never {
-        return this.add(text).fail(text);
+    public fail(text: string, active: boolean = true): never {
+        let task: Task;
+
+        if (active) {
+            task = this.tasks[this.tasks.length - 1];
+
+            if (task && task.isPending()) {
+                task = task.getActive();
+            }
+        } else {
+            task = this.add(text);
+        }
+
+        return task.fail(text);
     }
 
     public render(): string[] {

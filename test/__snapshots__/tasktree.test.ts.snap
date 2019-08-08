@@ -1,43 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TaskTree Manage tasks Complete 1`] = `
-"  ✔ Task X
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1"
+"  ✔ task
+  ─ ⚠ warning
+  ─ ℹ message"
 `;
 
 exports[`TaskTree Manage tasks Fail 1`] = `
-"  ✖ Task X [fail]
+"  ✖ task [fail]
   ─ ✖ Something bad happened
       at X
       at Y
       at Z
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1"
+  ─ ⚠ warning
+  ─ ℹ message"
 `;
+
+exports[`TaskTree Manage tasks Render 1`] = `
+"  ⠙ task
+  ─ ⚠ warning
+  ─ ℹ message"
+`;
+
+exports[`TaskTree Manage tasks Render 2`] = `
+"  ⠹ task
+  ─ ⚠ warning
+  ─ ℹ message"
+`;
+
+exports[`TaskTree Manage tasks Render 3`] = `""`;
 
 exports[`TaskTree Manage tasks Skip 1`] = `
-"  ↓ Task X [skip]
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1"
+"  ↓ task [skip]
+  ─ ⚠ warning
+  ─ ℹ message"
 `;
 
-exports[`TaskTree Render 1`] = `
-"  ↓ Task X [skip]
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1
-  ✖ Task X [fail]
-  ─ ✖ Something bad happened
-      at X
-      at Y
-      at Z
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1
-  ✔ Task X
-  ─ ⚠ Warn 1
-  ─ ℹ Log 1"
+exports[`TaskTree Manage tasks with static methods 1`] = `"  ✖ error message [fail]"`;
+
+exports[`TaskTree Manage tasks with static methods 2`] = `
+"  ❯ task
+  › ✖ error message [fail]"
 `;
 
-exports[`TaskTree Render 2`] = `""`;
+exports[`TaskTree Static Add 1`] = `"  ✔ task"`;
 
-exports[`TaskTree Render 3`] = `""`;
+exports[`TaskTree Static Fail 1`] = `""`;

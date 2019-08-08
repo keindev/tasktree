@@ -68,6 +68,12 @@ export class Task {
         return task;
     }
 
+    public update(text: string): Task {
+        this.text = text;
+
+        return this;
+    }
+
     public bar(template?: string, options?: Options): Progress {
         const isCompleted = !this.isPending();
         const bar = new Progress(template, isCompleted ? { total: Enums.Progress.End } : options);
@@ -87,7 +93,7 @@ export class Task {
     public complete(text?: string, clear: boolean = false): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
-        this.update(Enums.Status.Completed, text, clear);
+        this.setStatus(Enums.Status.Completed, text, clear);
         this.bars = this.bars.filter((bar): boolean => {
             bar.complete();
 
@@ -98,13 +104,13 @@ export class Task {
     }
 
     public skip(text?: string, clear: boolean = false): Task {
-        this.update(Enums.Status.Skipped, text, clear);
+        this.setStatus(Enums.Status.Skipped, text, clear);
 
         return this;
     }
 
     public fail(text?: string, clear: boolean = false): never {
-        this.update(Enums.Status.Failed, text, clear);
+        this.setStatus(Enums.Status.Failed, text, clear);
 
         TaskTree.tree().exit(Enums.ExitCode.Error);
 
@@ -150,7 +156,7 @@ export class Task {
         return rows.map((row): string => theme.paint(row, type));
     }
 
-    private update(status: Enums.Status, text?: string, clear: boolean = false): void {
+    private setStatus(status: Enums.Status, text?: string, clear: boolean = false): void {
         if (this.isPending()) {
             if (text) this.text = text;
             if (clear) this.clear();
