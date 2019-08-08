@@ -483,7 +483,7 @@ ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
 
-ansi-escapes@^4.2.0:
+ansi-escapes@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.2.1.tgz#4dccdb846c3eee10f6d64dea66273eab90c37228"
   integrity sha512-Cg3ymMAdN10wOk/VYfLV7KCQyv7EDirJ64500sU7n9UlmioEtDuU5Gd+hj73hXSU/ex7tHJSssmyftDdkMLO8Q==
@@ -4026,12 +4026,12 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-stdout-update@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.3.4.tgz#292681d1eaac5509f71690123fe8721c5ca973cf"
-  integrity sha512-GSMjUkdIfUPbBAGOkO+17FXhYx3xuXv0fpbHxyIY6HK9Kb4oLXGOFGtbmhvtroWv4tmgxJ2BrABq6tagKUyNvQ==
+stdout-update@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.3.5.tgz#d4a3eff2d574077369329f89b89046ad833c9601"
+  integrity sha512-aYPehNShCpbFLDDS4L+cV110mPWTF0vtsbiXspHUzlbW8C1fHADBrhLwAxmXv1s6X96Km4UFWAkjVCtVofBpiQ==
   dependencies:
-    ansi-escapes "^4.2.0"
+    ansi-escapes "^4.2.1"
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
     strip-ansi "^5.2.0"
