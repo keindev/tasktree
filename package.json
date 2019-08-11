@@ -1,6 +1,6 @@
 {
     "name": "tasktree-cli",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "description": "Simple terminal task tree - helps you keep track of your tasks in a tree structure.",
     "homepage": "https://github.com/keindev/tasktree#readme",
     "license": "MIT",
@@ -58,7 +58,7 @@
         "@typescript-eslint/parser": "^1.13.0",
         "changelog-guru": "^0.10.0",
         "eslint": "^6.1.0",
-        "eslint-config-airbnb-base": "^13.2.0",
+        "eslint-config-airbnb-base": "^14.0.0",
         "eslint-config-prettier": "^6.0.0",
         "eslint-plugin-import": "^2.18.2",
         "eslint-plugin-jest": "^22.15.0",

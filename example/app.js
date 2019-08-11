@@ -5,10 +5,10 @@ const tree = TaskTree.tree();
 tree.start();
 
 // create tasks
-const task1 = tree.add('Task #1');
-const task2 = tree.add('Task #2');
+const task1 = tree.add('{underline Task {bold #1}}');
+const task2 = tree.add('Task {bold #2}');
 const task3 = task2.add('Subtask...');
-const tpl = ':bar :rate/bps :percent :etas';
+const tpl = ':bar :rate/bps {cyan.bold :percent} :etas';
 // create progress bars
 const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
 

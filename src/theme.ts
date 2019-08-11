@@ -78,6 +78,10 @@ export class Theme {
         return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(Wrapper.SPACE, ...text)}`;
     }
 
+    public static format(template: string): string {
+        return template ? chalk(Object.assign([], { raw: [template.replace(/`/g, '\\`')] })) : '';
+    }
+
     private static getValueBy<T>(map: Map<Enums.Type, T>, type: Enums.Type, getDefault: () => T): T {
         let result = map.get(type);
 
@@ -106,7 +110,7 @@ export class Theme {
     }
 
     public paint(str: string, type: Enums.Type): string {
-        return Theme.dye(str, this.getColor(type));
+        return Theme.dye(Theme.format(str), this.getColor(type));
     }
 
     public gradient(str: string, gradient: Types.Gradient): string {
