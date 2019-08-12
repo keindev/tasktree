@@ -26,6 +26,17 @@ describe('Task', (): void => {
         expect(task.getText()).toBe('new title');
     });
 
+    it('Check for errors or warnings in the task', (): void => {
+        const task = new Task($title, Status.Pending);
+        const subtask = task.add($title, Status.Pending);
+
+        subtask.warn('warning');
+        subtask.error('error');
+
+        expect(task.haveWarnings()).toBeTruthy();
+        expect(task.haveErrors()).toBeTruthy();
+    });
+
     describe('Correct status changing', (): void => {
         let $task: Task;
 
