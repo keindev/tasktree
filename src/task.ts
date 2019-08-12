@@ -49,6 +49,14 @@ export class Task {
         return this.status === Enums.Status.Pending;
     }
 
+    public haveWarnings(): boolean {
+        return !!this.warnings.size || this.subtasks.some((task): boolean => task.haveWarnings());
+    }
+
+    public haveErrors(): boolean {
+        return !!this.errors.length || this.subtasks.some((task): boolean => task.haveErrors());
+    }
+
     public havePendingSubtasks(): boolean {
         return !!this.subtasks.filter((task): boolean => task.isPending()).length;
     }
