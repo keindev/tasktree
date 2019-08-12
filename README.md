@@ -228,6 +228,14 @@ Returns the first leaf subtask of the task tree, if it exists, otherwise, the ob
 
 Returns a Boolean value - indicating the [status](#task-statuses) of the task.
 
+#### haveWarnings()
+
+Returns a Boolean value - indicating the [task](#task) have warnings.
+
+#### haveErrors()
+
+Returns a Boolean value - indicating the [task](#task) have errors.
+
 #### havePendingSubtasks()
 
 Returns a Boolean value - indicating the [status](#task-statuses) of the subtask.
