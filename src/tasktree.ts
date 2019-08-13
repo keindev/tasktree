@@ -33,7 +33,7 @@ export class TaskTree {
         return TaskTree.tree().add(text);
     }
 
-    public static fail(text: string, active: boolean = true): never {
+    public static fail(text: string | Error, active: boolean = true): never {
         return TaskTree.tree().fail(text, active);
     }
 
@@ -85,7 +85,7 @@ export class TaskTree {
         return task;
     }
 
-    public fail(text: string, active: boolean = true): never {
+    public fail(error: string | Error, active: boolean = true): never {
         let task: Task;
 
         if (active) {
@@ -95,10 +95,10 @@ export class TaskTree {
                 task = task.getActive();
             }
         } else {
-            task = this.add(text);
+            task = this.add(error instanceof Error ? error.name : error);
         }
 
-        return task.fail(text);
+        return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
     }
 
     public render(): string[] {

@@ -6,12 +6,11 @@ exports[`TaskTree Manage tasks Complete 1`] = `
   ─ ℹ message"
 `;
 
-exports[`TaskTree Manage tasks Fail 1`] = `
-"  ✖ task [fail]
-  ─ ✖ Something bad happened
-      at X
-      at Y
-      at Z
+exports[`TaskTree Manage tasks Fail with string 1`] = `
+"  ✖ Something bad happened
+at X
+at Y
+at Z [fail]
   ─ ⚠ warning
   ─ ℹ message"
 `;
@@ -46,3 +45,5 @@ exports[`TaskTree Manage tasks with static methods 2`] = `
 exports[`TaskTree Static Add 1`] = `"  ✔ task"`;
 
 exports[`TaskTree Static Fail 1`] = `""`;
+
+exports[`TaskTree Static Fail 2`] = `""`;
