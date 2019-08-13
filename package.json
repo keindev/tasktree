@@ -32,7 +32,7 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rm -rf lib coverage",
+        "clean": "rimraf rmdir lib coverage",
         "lint": "eslint src/**/*.ts",
         "test": "jest",
         "debug": "node --nolazy --inspect-brk=9229 example/app.js",
@@ -66,6 +66,7 @@
         "jest": "^24.8.0",
         "npm-run-all": "^4.1.5",
         "prettier": "^1.18.2",
+        "rimraf": "^2.6.3",
         "strip-ansi": "^5.2.0",
         "ts-jest": "^24.0.2",
         "typescript": "^3.5.3"
