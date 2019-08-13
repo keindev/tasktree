@@ -4169,9 +4169,9 @@ static-extend@^0.1.1:
     object-copy "^0.1.0"
 
 stdout-update@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.3.5.tgz#d4a3eff2d574077369329f89b89046ad833c9601"
-  integrity sha512-aYPehNShCpbFLDDS4L+cV110mPWTF0vtsbiXspHUzlbW8C1fHADBrhLwAxmXv1s6X96Km4UFWAkjVCtVofBpiQ==
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.3.6.tgz#7dfead25a4491b42b0cb82121963885525bfbb91"
+  integrity sha512-icGq6H6Q3Rt5ZBNwON6mFyMOuwtAsie8cSdssmpjKIr8YztvRDIM1qZ1ngiX5ZR7g7HHf9LCqS3lx6mjOV/r0Q==
   dependencies:
     ansi-escapes "^4.2.1"
     ansi-styles "^4.0.0"
