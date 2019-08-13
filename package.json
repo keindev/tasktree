@@ -38,7 +38,7 @@
         "debug": "node --nolazy --inspect-brk=9229 example/app.js",
         "changelog": "changelog",
         "build:ts": "tsc",
-        "build": "npm-run-all clean test build:*"
+        "build": "npm-run-all clean lint test build:*"
     },
     "engines": {
         "node": ">=10.0.0"

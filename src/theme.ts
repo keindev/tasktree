@@ -44,7 +44,7 @@ export class Theme {
         }
     }
 
-    public static type(status: Enums.Status, isList: boolean = false): Enums.Type {
+    public static type(status: Enums.Status, isList = false): Enums.Type {
         let type: Enums.Type;
 
         switch (status) {
