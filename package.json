@@ -1,6 +1,6 @@
 {
     "name": "tasktree-cli",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "description": "Simple terminal task tree - helps you keep track of your tasks in a tree structure.",
     "homepage": "https://github.com/keindev/tasktree#readme",
     "license": "MIT",
@@ -32,13 +32,13 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rm -rf lib coverage",
+        "clean": "rimraf rmdir lib coverage",
         "lint": "eslint src/**/*.ts",
         "test": "jest",
         "debug": "node --nolazy --inspect-brk=9229 example/app.js",
         "changelog": "changelog",
         "build:ts": "tsc",
-        "build": "npm-run-all clean test build:*"
+        "build": "npm-run-all clean lint test build:*"
     },
     "engines": {
         "node": ">=10.0.0"
@@ -48,24 +48,25 @@
         "color-convert": "^2.0.0",
         "elegant-spinner": "^2.0.0",
         "figures": "^3.0.0",
-        "stdout-update": "^1.3.5"
+        "stdout-update": "^1.3.6"
     },
     "devDependencies": {
         "@types/color-convert": "^1.9.0",
         "@types/jest": "^24.0.17",
         "@types/node": "^12.7.1",
-        "@typescript-eslint/eslint-plugin": "^1.13.0",
-        "@typescript-eslint/parser": "^1.13.0",
+        "@typescript-eslint/eslint-plugin": "^2.0.0",
+        "@typescript-eslint/parser": "^2.0.0",
         "changelog-guru": "^0.10.0",
         "eslint": "^6.1.0",
         "eslint-config-airbnb-base": "^14.0.0",
         "eslint-config-prettier": "^6.0.0",
         "eslint-plugin-import": "^2.18.2",
-        "eslint-plugin-jest": "^22.15.0",
+        "eslint-plugin-jest": "^22.15.1",
         "husky": "^3.0.3",
         "jest": "^24.8.0",
         "npm-run-all": "^4.1.5",
         "prettier": "^1.18.2",
+        "rimraf": "^2.6.3",
         "strip-ansi": "^5.2.0",
         "ts-jest": "^24.0.2",
         "typescript": "^3.5.3"

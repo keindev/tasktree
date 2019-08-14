@@ -38,7 +38,7 @@ export class Task {
     public getActive(): Task {
         const { subtasks } = this;
         const subtask = subtasks[subtasks.length - 1];
-        let task: Task = this;
+        let task = this as Task;
 
         if (subtask && subtask.isPending()) task = subtask.getActive();
 
@@ -98,7 +98,7 @@ export class Task {
         this.bars = [];
     }
 
-    public complete(text?: string, clear: boolean = false): Task {
+    public complete(text?: string, clear = false): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
         this.setStatus(Enums.Status.Completed, text, clear);
@@ -111,13 +111,13 @@ export class Task {
         return this;
     }
 
-    public skip(text?: string, clear: boolean = false): Task {
+    public skip(text?: string, clear = false): Task {
         this.setStatus(Enums.Status.Skipped, text, clear);
 
         return this;
     }
 
-    public fail(text?: string, clear: boolean = false): never {
+    public fail(text?: string, clear = false): never {
         this.setStatus(Enums.Status.Failed, text, clear);
 
         TaskTree.tree().exit(Enums.ExitCode.Error);
@@ -164,7 +164,7 @@ export class Task {
         return rows.map((row): string => theme.paint(row, type));
     }
 
-    private setStatus(status: Enums.Status, text?: string, clear: boolean = false): void {
+    private setStatus(status: Enums.Status, text?: string, clear = false): void {
         if (this.isPending()) {
             if (text) this.text = text;
             if (clear) this.clear();

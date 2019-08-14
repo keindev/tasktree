@@ -3,6 +3,7 @@ import { Terminal } from 'stdout-update/lib/terminal';
 import { Task } from '../src/task';
 import { TaskTree } from '../src/tasktree';
 import { Theme } from '../src/theme';
+import { Status } from '../src/enums';
 
 describe('TaskTree', (): void => {
     const $tree = TaskTree.tree();
@@ -31,6 +32,12 @@ describe('TaskTree', (): void => {
             } catch (err) {
                 expect($renderTree()).toMatchSnapshot();
             }
+
+            try {
+                TaskTree.fail(new Error('Error message'));
+            } catch (err) {
+                expect($renderTree()).toMatchSnapshot();
+            }
         });
     });
 
@@ -39,27 +46,36 @@ describe('TaskTree', (): void => {
     });
 
     describe('Manage tasks', (): void => {
-        let task: Task;
+        let $task: Task;
 
         beforeEach((): void => {
-            task = $tree.add('task');
-            task.log(`message`).warn(`warning`);
+            $task = $tree.add('task');
+            $task.log(`message`).warn(`warning`);
         });
 
         it('Skip', (): void => {
-            expect($renderTask(task.skip())).toMatchSnapshot();
+            expect($renderTask($task.skip())).toMatchSnapshot();
         });
 
-        it('Fail', (): void => {
+        it('Fail with string', (): void => {
             try {
-                task.error('Something bad happened\nat X\nat Y\nat Z').fail();
+                $tree.fail('Something bad happened\nat X\nat Y\nat Z');
             } catch (err) {
-                expect($renderTask(task)).toMatchSnapshot();
+                expect($renderTask($task)).toMatchSnapshot();
+            }
+        });
+
+        it('Fail with new Error()', (): void => {
+            try {
+                $tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
+            } catch (err) {
+                expect($task.haveErrors()).toBeTruthy();
+                expect($task.getStatus()).toBe(Status.Failed);
             }
         });
 
         it('Complete', (): void => {
-            expect($renderTask(task.complete())).toMatchSnapshot();
+            expect($renderTask($task.complete())).toMatchSnapshot();
         });
 
         it('Render', (): void => {
