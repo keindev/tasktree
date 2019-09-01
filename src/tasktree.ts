@@ -1,8 +1,11 @@
 import { UpdateManager } from 'stdout-update';
-import { Task } from './task';
-import * as Types from './types';
-import { Theme } from './theme';
-import { ExitCode } from './enums';
+import { Task } from './entities/task';
+import { Theme, ThemeOptions } from './theme';
+
+export enum ExitCode {
+    Success = 0,
+    Error = 1,
+}
 
 export class TaskTree {
     public static TIMEOUT = 100;
@@ -15,13 +18,13 @@ export class TaskTree {
     private silence = false;
     private offset = 0;
 
-    private constructor(theme?: Types.Theme) {
+    private constructor(theme?: ThemeOptions) {
         this.tasks = [];
         this.theme = new Theme(theme);
         this.manager = UpdateManager.getInstance();
     }
 
-    public static tree(theme?: Types.Theme): TaskTree {
+    public static tree(theme?: ThemeOptions): TaskTree {
         if (!TaskTree.instance) {
             TaskTree.instance = new TaskTree(theme);
         }

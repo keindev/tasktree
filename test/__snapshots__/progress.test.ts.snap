@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Progress Default 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s test"`;
-
-exports[`Progress Statuses Complete 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100% 0.0s :custom"`;
-
-exports[`Progress Statuses Fail 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 50% 0.0s :custom [fail]"`;
-
-exports[`Progress Statuses Skip 1`] = `"▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 50% 0.0s :custom [skip]"`;

@@ -1,23 +1,28 @@
 import chalk from 'chalk';
-import { TaskTree } from './tasktree';
-import { Theme } from './theme';
-import * as Enums from './enums';
-import { Progress } from './progress';
-import { Options } from './types';
+import { TaskTree, ExitCode } from '../tasktree';
+import { Theme, IndicationType } from '../theme';
+import { ProgressBar, ProgressBarOptions, Progress } from './progress-bar';
 
 let uid = 0;
+
+export enum TaskStatus {
+    Pending = 0,
+    Completed = 1,
+    Failed = 2,
+    Skipped = 3,
+}
 
 export class Task {
     private uid: number;
     private text: string;
-    private status: Enums.Status;
-    private bars: Progress[] = [];
+    private status: TaskStatus;
+    private bars: ProgressBar[] = [];
     private subtasks: Task[] = [];
     private logs: Set<string> = new Set();
     private errors: string[] = [];
     private warnings: Set<string> = new Set();
 
-    public constructor(text: string, status: Enums.Status = Enums.Status.Pending) {
+    public constructor(text: string, status: TaskStatus = TaskStatus.Pending) {
         this.uid = ++uid;
         this.text = text;
         this.status = status;
@@ -31,7 +36,7 @@ export class Task {
         return this.text;
     }
 
-    public getStatus(): Enums.Status {
+    public getStatus(): TaskStatus {
         return this.status;
     }
 
@@ -46,7 +51,7 @@ export class Task {
     }
 
     public isPending(): boolean {
-        return this.status === Enums.Status.Pending;
+        return this.status === TaskStatus.Pending;
     }
 
     public haveWarnings(): boolean {
@@ -65,9 +70,9 @@ export class Task {
         return !!this.subtasks.length;
     }
 
-    public add(text: string, status: Enums.Status = Enums.Status.Pending): Task {
+    public add(text: string, status: TaskStatus = TaskStatus.Pending): Task {
         const isCompleted = !this.isPending();
-        const task = new Task(text, isCompleted ? Enums.Status.Failed : status);
+        const task = new Task(text, isCompleted ? TaskStatus.Failed : status);
 
         this.subtasks.push(task);
 
@@ -82,9 +87,9 @@ export class Task {
         return this;
     }
 
-    public bar(template?: string, options?: Options): Progress {
+    public bar(template?: string, options?: ProgressBarOptions): ProgressBar {
         const isCompleted = !this.isPending();
-        const bar = new Progress(template, isCompleted ? { total: Enums.Progress.End } : options);
+        const bar = new ProgressBar(template, isCompleted ? { total: Progress.End } : options);
 
         this.bars.push(bar);
 
@@ -101,7 +106,7 @@ export class Task {
     public complete(text?: string, clear = false): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
-        this.setStatus(Enums.Status.Completed, text, clear);
+        this.setStatus(TaskStatus.Completed, text, clear);
         this.bars = this.bars.filter((bar): boolean => {
             bar.complete();
 
@@ -112,15 +117,15 @@ export class Task {
     }
 
     public skip(text?: string, clear = false): Task {
-        this.setStatus(Enums.Status.Skipped, text, clear);
+        this.setStatus(TaskStatus.Skipped, text, clear);
 
         return this;
     }
 
     public fail(text?: string, clear = false): never {
-        this.setStatus(Enums.Status.Failed, text, clear);
+        this.setStatus(TaskStatus.Failed, text, clear);
 
-        TaskTree.tree().exit(Enums.ExitCode.Error);
+        TaskTree.tree().exit(ExitCode.Error);
 
         throw new Error(text);
     }
@@ -147,24 +152,24 @@ export class Task {
         return this;
     }
 
-    public render(theme: Theme, level = Enums.Level.Default): string[] {
-        const type = level ? Enums.Type.Dim : Enums.Type.Default;
+    public render(theme: Theme, level = 0): string[] {
+        const type = level ? IndicationType.Dim : IndicationType.Default;
         const rows = [
             theme.title(this, level),
-            ...theme.bars(this.bars, level + Enums.Level.Step),
+            ...theme.bars(this.bars, level + 1),
             ...theme.errors(this.errors, level),
-            ...theme.messages([...this.warnings], Enums.Type.Warning, level),
-            ...theme.messages([...this.logs], Enums.Type.Info, level),
+            ...theme.messages([...this.warnings], IndicationType.Warning, level),
+            ...theme.messages([...this.logs], IndicationType.Info, level),
         ];
 
         this.subtasks.forEach((task): void => {
-            rows.push(...task.render(theme, level + Enums.Level.Step));
+            rows.push(...task.render(theme, level + 1));
         });
 
         return rows.map((row): string => theme.paint(row, type));
     }
 
-    private setStatus(status: Enums.Status, text?: string, clear = false): void {
+    private setStatus(status: TaskStatus, text?: string, clear = false): void {
         if (this.isPending()) {
             if (text) this.text = text;
             if (clear) this.clear();
@@ -172,7 +177,7 @@ export class Task {
             this.status = status;
         } else {
             this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
-            this.status = Enums.Status.Failed;
+            this.status = TaskStatus.Failed;
         }
     }
 }

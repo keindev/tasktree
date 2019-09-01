@@ -1,10 +1,55 @@
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import * as Figures from 'figures';
-import * as Enums from './enums';
-import { Theme } from './theme';
-import { Options, Token } from './types';
+import { Theme, IndicationType } from '../theme';
+import { TaskStatus } from './task';
 
-export class Progress {
+export enum Progress {
+    Default = -1,
+    Start = 0,
+    End = 100,
+}
+
+export enum TemplateToken {
+    // the progress bar itself
+    Bar = ':bar',
+    // current tick number
+    Current = ':current',
+    // total ticks
+    Total = ':total',
+    // time elapsed in seconds
+    Elapsed = ':elapsed',
+    // completion percentage
+    Percent = ':percent',
+    // estimated completion time in seconds
+    ETA = ':eta',
+    // rate of ticks per second
+    Rate = ':rate',
+}
+
+export interface ProgressBarOptions {
+    // current completed index
+    current?: number;
+    // total number of ticks to complete
+    total?: number;
+    // the displayed width of the progress bar defaulting to total
+    width?: number;
+    // completion character
+    complete?: string;
+    // incomplete character
+    incomplete?: string;
+    // option to clear the bar on completion
+    clear?: boolean;
+    // option to add badge
+    badges?: boolean;
+    // option to add gradient to pending bar
+    gradient?: boolean;
+}
+
+export interface ProgressBarToken {
+    [key: string]: string;
+}
+
+export class ProgressBar {
     public static TICK = 1;
     public static TIME_DIMENSION = 1000;
     public static MAX_POINT_POSITION = 1;
@@ -14,7 +59,7 @@ export class Progress {
     public static MIN_RATIO = 0;
     public static MAX_RATIO = 1;
 
-    public readonly total = Enums.Progress.End;
+    public readonly total = Progress.End;
     public readonly completeBlock = Figures.square;
     public readonly incompleteBlock = Figures.square;
     public readonly width: number = 20;
@@ -23,21 +68,21 @@ export class Progress {
     public readonly gradient: boolean = true;
     public readonly template: string;
 
-    private current = Enums.Progress.Start;
+    private current = Progress.Start;
     private start = new Date().getTime();
     private end: number | undefined;
-    private status = Enums.Status.Pending;
-    private tokens: Map<Enums.Token | string, string> = new Map();
+    private status = TaskStatus.Pending;
+    private tokens: Map<TemplateToken | string, string> = new Map();
 
-    public constructor(template?: string, options?: Options) {
+    public constructor(template?: string, options?: ProgressBarOptions) {
         this.template =
             template ||
             Theme.join(
                 Wrapper.SPACE,
-                Enums.Token.Bar,
-                `${Enums.Token.Rate}/bps`,
-                Enums.Token.Percent,
-                `${Enums.Token.ETA}s`
+                TemplateToken.Bar,
+                `${TemplateToken.Rate}/bps`,
+                TemplateToken.Percent,
+                `${TemplateToken.ETA}s`
             );
 
         if (typeof options === 'object') {
@@ -52,11 +97,11 @@ export class Progress {
     }
 
     public getRatio(): number {
-        return Math.min(Math.max(this.current / this.total, Progress.MIN_RATIO), Progress.MAX_RATIO);
+        return Math.min(Math.max(this.current / this.total, ProgressBar.MIN_RATIO), ProgressBar.MAX_RATIO);
     }
 
     public getPercent(): number {
-        return Math.floor(this.getRatio() * Progress.MAX_PERCENT);
+        return Math.floor(this.getRatio() * ProgressBar.MAX_PERCENT);
     }
 
     public getElapsed(): number {
@@ -64,13 +109,13 @@ export class Progress {
     }
 
     public getRate(): number {
-        return this.current / (this.getElapsed() / Progress.TIME_DIMENSION);
+        return this.current / (this.getElapsed() / ProgressBar.TIME_DIMENSION);
     }
 
     public getETA(): number {
-        return this.getPercent() === Progress.MAX_PERCENT
-            ? Progress.MIN_PERCENT
-            : this.getElapsed() * (this.total / this.current - Progress.MAX_RATIO);
+        return this.getPercent() === ProgressBar.MAX_PERCENT
+            ? ProgressBar.MIN_PERCENT
+            : this.getElapsed() * (this.total / this.current - ProgressBar.MAX_RATIO);
     }
 
     public getStart(): number {
@@ -85,8 +130,8 @@ export class Progress {
         return this.current >= this.total || !!this.end;
     }
 
-    public tick(step?: number, tokens?: Token): Progress {
-        this.current = Math.min(this.total, this.current + (step || Progress.TICK));
+    public tick(step?: number, tokens?: ProgressBarToken): ProgressBar {
+        this.current = Math.min(this.total, this.current + (step || ProgressBar.TICK));
         this.tokens = typeof tokens === 'object' ? new Map(Object.entries(tokens)) : new Map();
 
         if (this.isCompleted()) this.complete();
@@ -96,20 +141,20 @@ export class Progress {
 
     public complete(): void {
         this.current = this.total;
-        this.status = Enums.Status.Completed;
+        this.status = TaskStatus.Completed;
         this.end = new Date().getTime();
     }
 
     public skip(): void {
         if (!this.isCompleted()) {
-            this.status = Enums.Status.Skipped;
+            this.status = TaskStatus.Skipped;
             this.end = new Date().getTime();
         }
     }
 
     public fail(): void {
         if (!this.isCompleted()) {
-            this.status = Enums.Status.Failed;
+            this.status = TaskStatus.Failed;
             this.end = new Date().getTime();
         }
     }
@@ -123,28 +168,34 @@ export class Progress {
             blocks = theme.gradient(blocks, {
                 position: this.getRatio(),
                 begin: Theme.type(this.status),
-                end: Enums.Type.Success,
+                end: IndicationType.Success,
             });
         } else {
             blocks = theme.paint(blocks, type);
         }
 
         let result = this.template
-            .replace(Enums.Token.Current, this.current.toString())
-            .replace(Enums.Token.Total, this.total.toString())
-            .replace(Enums.Token.Percent, `${this.getPercent().toFixed(Progress.MIN_POINT_POSITION)}%`)
-            .replace(Enums.Token.ETA, (this.getETA() / Progress.TIME_DIMENSION).toFixed(Progress.MAX_POINT_POSITION))
-            .replace(Enums.Token.Rate, Math.round(this.getRate()).toString())
+            .replace(TemplateToken.Current, this.current.toString())
+            .replace(TemplateToken.Total, this.total.toString())
+            .replace(TemplateToken.Percent, `${this.getPercent().toFixed(ProgressBar.MIN_POINT_POSITION)}%`)
             .replace(
-                Enums.Token.Elapsed,
-                (this.getElapsed() / Progress.TIME_DIMENSION).toFixed(Progress.MAX_POINT_POSITION)
+                TemplateToken.ETA,
+                (this.getETA() / ProgressBar.TIME_DIMENSION).toFixed(ProgressBar.MAX_POINT_POSITION)
+            )
+            .replace(TemplateToken.Rate, Math.round(this.getRate()).toString())
+            .replace(
+                TemplateToken.Elapsed,
+                (this.getElapsed() / ProgressBar.TIME_DIMENSION).toFixed(ProgressBar.MAX_POINT_POSITION)
             )
             .replace(
-                Enums.Token.Bar,
+                TemplateToken.Bar,
                 Theme.join(
                     Wrapper.EMPTY,
                     blocks,
-                    theme.paint(Wrapper.EMPTY.padStart(this.width - length, this.incompleteBlock), Enums.Type.Subtask)
+                    theme.paint(
+                        Wrapper.EMPTY.padStart(this.width - length, this.incompleteBlock),
+                        IndicationType.Subtask
+                    )
                 )
             );
 

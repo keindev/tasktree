@@ -1,9 +1,8 @@
 import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
-import { Task } from '../src/task';
+import { Task, TaskStatus } from '../src/entities/task';
 import { TaskTree } from '../src/tasktree';
 import { Theme } from '../src/theme';
-import { Status } from '../src/enums';
 
 describe('TaskTree', (): void => {
     const $tree = TaskTree.tree();
@@ -70,7 +69,7 @@ describe('TaskTree', (): void => {
                 $tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
             } catch (err) {
                 expect($task.haveErrors()).toBeTruthy();
-                expect($task.getStatus()).toBe(Status.Failed);
+                expect($task.getStatus()).toBe(TaskStatus.Failed);
             }
         });
 
