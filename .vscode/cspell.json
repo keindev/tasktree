@@ -1,0 +1,38 @@
+{
+    "version": "0.1",
+    "language": "en",
+    "enabledLanguageIds": [
+        "css",
+        "dockerfile",
+        "dotenv",
+        "html",
+        "javascript",
+        "javascriptreact",
+        "json",
+        "jsonc",
+        "markdown",
+        "plaintext",
+        "restructuredtext",
+        "scss",
+        "shellscript",
+        "text",
+        "typescript",
+        "typescriptreact",
+        "yaml",
+        "yml"
+    ],
+    "ignorePaths": [
+        "**/package-lock.json",
+        "**/package.json",
+        "**/yarn.lock",
+        "**/node_modules/**",
+        "**/vscode-extension/**",
+        "**/.git/**",
+        "**/.vscode/**",
+        "**/.yarnclean",
+        "**/tsconfig.json",
+        "CHANGELOG.md",
+        "LICENSE"
+    ],
+    "words": ["tasktree"]
+}
