@@ -3,7 +3,7 @@
         "target": "esnext",
         "module": "commonjs",
         "moduleResolution": "node",
-        "rootDir": "src",
+        "rootDir": "./src",
         "outDir": "lib",
         "newLine": "lf",
         "incremental": false,
@@ -24,5 +24,6 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true
     },
-    "exclude": ["node_modules", "lib", "test", "example"]
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
 }
