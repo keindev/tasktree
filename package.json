@@ -22,7 +22,6 @@
     ],
     "main": "lib/tasktree.js",
     "types": "lib/tasktree.d.ts",
-    "unpkg": "lib/tasktree.js",
     "module": "lib/tasktree.js",
     "repository": {
         "type": "git",
