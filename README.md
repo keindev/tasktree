@@ -16,20 +16,20 @@ Simple terminal task tree - helps you keep track of your tasks in a tree structu
 
 ### Yarn
 
-```console
+```
 yarn add tasktree-cli
 ```
 
 ### NPM
 
-```console
+```
 npm install tasktree-cli
 ```
 
 ## Usage
 
 ```javascript
-const { TaskTree } = require('../lib/tasktree');
+const { TaskTree } = require('tasktree-cli');
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
