@@ -526,7 +526,7 @@ Add custom tokens by adding a `{'name': value}` object parameter to your method.
 ###### Tick with custom tokens example
 
 ```javascript
-const bar = new Progress(':bar tempalte with custom :token');
+const bar = new Progress(':bar template with custom :token');
 
 bat.tick(10, { token: 100 });
 ```
