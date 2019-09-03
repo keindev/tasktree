@@ -4191,7 +4191,7 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-stdout-update@^1.3.6:
+stdout-update@^1.3.6, stdout-update@^1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.3.7.tgz#c85f8f0a5252492f5b94591135e778e511637225"
   integrity sha512-Dw/r63wnLgGrwQkFIL1+bH1uenwNY7sIKutuPECNM6EB8tnFe8hI5l4tvoLUjXYhCHXUItXP2Q7M288+fuZ19g==
