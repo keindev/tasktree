@@ -37,7 +37,7 @@
         "test": "jest",
         "changelog": "changelog generate",
         "build:ts": "tsc",
-        "build": "npm-run-all clean spellcheck lint test build:*"
+        "build": "npm-run-all clean spellcheck lint build:* test"
     },
     "engines": {
         "node": ">=10.0.0"
