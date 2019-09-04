@@ -1,14 +1,15 @@
 language: node_js
 sudo: false
 node_js:
-    - '12'
-    - '10'
+    - 12
+    - 10
+os:
+    - linux
+    - osx
 cache: yarn
 install: yarn
 script:
     - yarn add codecov -g
-    - yarn lint
-    - yarn test
     - yarn build
 after_success:
     - codecov -f coverage/*.json
@@ -16,18 +17,18 @@ jobs:
     include:
         - stage: npm release
           if: tag IS present
-          node_js: '10'
+          node_js: 10
+          os: linux
           script: yarn build
           deploy:
               provider: npm
-              email: '$NPM_EMAIL'
-              api_key: '$NPM_TOKEN'
+              email: $NPM_EMAIL
+              api_key: $NPM_TOKEN
               skip_cleanup: true
               on:
                   tags: true
 notifications:
     email:
         recipients:
-            - kein@tagproject.ru
-        on_success: change
+            - opensource@tagproject.ru
         on_failure: always

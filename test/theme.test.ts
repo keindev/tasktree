@@ -1,7 +1,6 @@
 import * as Figures from 'figures';
 import stripAnsi from 'strip-ansi';
-import { Theme } from '../src/theme';
-import { Type, Badge } from '../src/enums';
+import { Theme, IndicationType, IndicationBadge } from '../src/theme';
 
 describe('Theme', (): void => {
     const $text = 'text';
@@ -9,19 +8,19 @@ describe('Theme', (): void => {
     it('Default', (): void => {
         const theme = new Theme();
 
-        expect(stripAnsi(theme.paint($text, Type.Default))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Success))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Skip))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Error))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Default))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Success))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Skip))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Error))).toBe($text);
 
-        expect(stripAnsi(theme.symbol(Type.Default))).toBe(stripAnsi(Figures.pointerSmall));
-        expect(stripAnsi(theme.symbol(Type.Success))).toBe(stripAnsi(Figures.tick));
-        expect(stripAnsi(theme.symbol(Type.Skip))).toBe(stripAnsi(Figures.arrowDown));
-        expect(stripAnsi(theme.symbol(Type.Error))).toBe(stripAnsi(Figures.cross));
+        expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(stripAnsi(Figures.pointerSmall));
+        expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(stripAnsi(Figures.tick));
+        expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(stripAnsi(Figures.arrowDown));
+        expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(stripAnsi(Figures.cross));
 
-        expect(theme.badge(Type.Default)).toBe(Badge.Default);
-        expect(stripAnsi(theme.badge(Type.Skip))).toBe(Badge.Skip);
-        expect(stripAnsi(theme.badge(Type.Error))).toBe(Badge.Error);
+        expect(theme.badge(IndicationType.Default)).toBe(IndicationBadge.Default);
+        expect(stripAnsi(theme.badge(IndicationType.Skip))).toBe(IndicationBadge.Skip);
+        expect(stripAnsi(theme.badge(IndicationType.Error))).toBe(IndicationBadge.Error);
     });
 
     it('Custom', (): void => {
@@ -34,19 +33,19 @@ describe('Theme', (): void => {
             error: { symbol, badge },
         });
 
-        expect(stripAnsi(theme.paint($text, Type.Default))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Success))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Skip))).toBe($text);
-        expect(stripAnsi(theme.paint($text, Type.Error))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Default))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Success))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Skip))).toBe($text);
+        expect(stripAnsi(theme.paint($text, IndicationType.Error))).toBe($text);
 
-        expect(stripAnsi(theme.symbol(Type.Default))).toBe(symbol);
-        expect(stripAnsi(theme.symbol(Type.Success))).toBe(symbol);
-        expect(stripAnsi(theme.symbol(Type.Skip))).toBe(symbol);
-        expect(stripAnsi(theme.symbol(Type.Error))).toBe(symbol);
+        expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(symbol);
+        expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(symbol);
+        expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(symbol);
+        expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(symbol);
 
-        expect(theme.badge(Type.Default)).toBe(Badge.Default);
-        expect(stripAnsi(theme.badge(Type.Success))).toBe(badge);
-        expect(stripAnsi(theme.badge(Type.Skip))).toBe(badge);
-        expect(stripAnsi(theme.badge(Type.Error))).toBe(badge);
+        expect(theme.badge(IndicationType.Default)).toBe(IndicationBadge.Default);
+        expect(stripAnsi(theme.badge(IndicationType.Success))).toBe(badge);
+        expect(stripAnsi(theme.badge(IndicationType.Skip))).toBe(badge);
+        expect(stripAnsi(theme.badge(IndicationType.Error))).toBe(badge);
     });
 });

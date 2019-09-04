@@ -2,13 +2,14 @@
 test/
 coverage/
 media/
-example/
 src/
+docs/
 
 # Dependency directories
 node_modules/
 
 # Configs
+.github
 .vscode
 .env
 .editorconfig
@@ -20,13 +21,15 @@ node_modules/
 .prettierrc
 .travis.yml
 .yarnclean
+.changelogrc.yml
 jest.config.js
 tsconfig.json
 yarn.lock
 
 # Docs
 README.md
+CHANGELOG.md
 CODE_OF_CONDUCT.md
 
-# Logs
+# Yarn logs
 yarn-error.log

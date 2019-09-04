@@ -1,8 +1,16 @@
 import { UpdateManager } from 'stdout-update';
-import { Task } from './task';
-import * as Types from './types';
-import { Theme } from './theme';
-import { ExitCode } from './enums';
+import { Task } from './entities/task';
+import { Theme, ThemeOptions } from './theme';
+
+export enum ExitCode {
+    Success = 0,
+    Error = 1,
+}
+
+export interface TaskTreeOptions {
+    silent?: boolean;
+    autoClear?: boolean;
+}
 
 export class TaskTree {
     public static TIMEOUT = 100;
@@ -12,16 +20,17 @@ export class TaskTree {
     private tasks: Task[];
     private theme: Theme;
     private manager: UpdateManager;
-    private silence = false;
+    private silent = false;
+    private autoClear = false;
     private offset = 0;
 
-    private constructor(theme?: Types.Theme) {
+    private constructor(theme?: ThemeOptions) {
         this.tasks = [];
         this.theme = new Theme(theme);
         this.manager = UpdateManager.getInstance();
     }
 
-    public static tree(theme?: Types.Theme): TaskTree {
+    public static tree(theme?: ThemeOptions): TaskTree {
         if (!TaskTree.instance) {
             TaskTree.instance = new TaskTree(theme);
         }
@@ -33,16 +42,17 @@ export class TaskTree {
         return TaskTree.tree().add(text);
     }
 
-    public static fail(text: string | Error, active = true): never {
-        return TaskTree.tree().fail(text, active);
+    public static fail(error: string | Error, active = true): never {
+        return TaskTree.tree().fail(error, active);
     }
 
-    public start(silence?: boolean): TaskTree {
-        this.silence = !!silence;
+    public start({ silent, autoClear }: TaskTreeOptions = {}): TaskTree {
+        this.silent = !!silent;
+        this.autoClear = !!autoClear;
         this.tasks = [];
         this.offset = 0;
 
-        if (!this.handle && !this.silence) {
+        if (!this.handle && !this.silent) {
             this.manager.hook();
             this.handle = setInterval((): void => {
                 this.log();
@@ -65,8 +75,11 @@ export class TaskTree {
     }
 
     public exit(code: ExitCode = ExitCode.Success): void | never {
-        if (!this.silence) {
-            this.stop();
+        this.stop();
+
+        if (this.silent) {
+            if (code === ExitCode.Error) throw new Error();
+        } else {
             process.exit(code);
         }
     }
@@ -79,26 +92,29 @@ export class TaskTree {
             task = task.getActive();
             task = task.add(text);
         } else {
-            tasks.push((task = new Task(text)));
+            tasks.push((task = new Task(text, { autoClear: this.autoClear })));
         }
 
         return task;
     }
 
     public fail(error: string | Error, active = true): never {
-        let task: Task;
-
-        if (active) {
-            task = this.tasks[this.tasks.length - 1];
-
-            if (task && task.isPending()) {
-                task = task.getActive();
+        if (this.silent) {
+            if (error instanceof Error) {
+                throw error;
+            } else {
+                throw new Error(error);
             }
         } else {
-            task = this.add(error instanceof Error ? error.name : error);
-        }
+            let task: Task = this.tasks[this.tasks.length - 1];
 
-        return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
+            task =
+                active && task && task.isPending()
+                    ? task.getActive()
+                    : this.add(error instanceof Error ? error.name : error);
+
+            return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
+        }
     }
 
     public render(): string[] {

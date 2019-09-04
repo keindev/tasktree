@@ -4,31 +4,86 @@ import elegantSpinner from 'elegant-spinner';
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import { Terminal } from 'stdout-update/lib/terminal';
 import * as Figures from 'figures';
-import * as Types from './types';
-import * as Enums from './enums';
-import { Task } from './task';
-import { Progress } from './progress';
+import { Task, TaskStatus } from './entities/task';
+import { ProgressBar } from './entities/progress-bar';
 
 const frame = elegantSpinner();
+
+export enum IndicationType {
+    Default = 'default',
+    Active = 'active',
+    Success = 'success',
+    Skip = 'skip',
+    Error = 'error',
+    Message = 'message',
+    Info = 'info',
+    Warning = 'warning',
+    Subtask = 'subtask',
+    List = 'list',
+    Dim = 'dim',
+}
+
+export enum IndicationColor {
+    Default = '',
+    Active = '#4285f4',
+    Success = '#00c851',
+    Skip = '#ff8800',
+    Error = '#ff4444',
+    Message = '#2e2e2e',
+    Info = '#33b5e5',
+    Warning = '#ffbb33',
+    Subtask = '#2e2e2e',
+    List = '#4285f4',
+    Dim = '#838584',
+}
+
+export enum IndicationBadge {
+    Default = '',
+    Error = '[fail]',
+    Skip = '[skip]',
+}
+
+export enum Indent {
+    Default = 2,
+    Long = 3,
+    Empty = 0,
+}
+
+export interface Gradient {
+    position: number;
+    begin: IndicationType;
+    end: IndicationType;
+}
+
+export type ThemeOptions = {
+    [key in IndicationType]?:
+        | string
+        | {
+              color?: string;
+              symbol?: string;
+              badge?: string;
+          }
+        | [string?, string?, string?];
+};
 
 export class Theme {
     public static INDENT = '  ';
 
-    private colors: Map<Enums.Type, string> = new Map();
-    private symbols: Map<Enums.Type, string> = new Map();
-    private badges: Map<Enums.Type, string> = new Map();
+    private colors: Map<IndicationType, string> = new Map();
+    private symbols: Map<IndicationType, string> = new Map();
+    private badges: Map<IndicationType, string> = new Map();
 
-    public constructor(options?: Types.Theme) {
+    public constructor(options?: ThemeOptions) {
         if (options) {
             const { colors, symbols, badges } = this;
             const list = new Map(Object.entries(options));
-            const set = (key: Enums.Type, color?: string, symbol?: string, badge?: string): void => {
+            const set = (key: IndicationType, color?: string, symbol?: string, badge?: string): void => {
                 if (color) colors.set(key, color);
                 if (symbol) symbols.set(key, symbol);
                 if (badge) badges.set(key, badge);
             };
 
-            Object.values(Enums.Type).forEach((key: Enums.Type): void => {
+            Object.values(IndicationType).forEach((key: IndicationType): void => {
                 const option = list.get(key);
 
                 if (Array.isArray(option)) {
@@ -44,22 +99,22 @@ export class Theme {
         }
     }
 
-    public static type(status: Enums.Status, isList = false): Enums.Type {
-        let type: Enums.Type;
+    public static type(status: TaskStatus, isList = false): IndicationType {
+        let type: IndicationType;
 
         switch (status) {
-            case Enums.Status.Completed:
-                type = Enums.Type.Success;
+            case TaskStatus.Completed:
+                type = IndicationType.Success;
                 break;
-            case Enums.Status.Skipped:
-                type = Enums.Type.Skip;
+            case TaskStatus.Skipped:
+                type = IndicationType.Skip;
                 break;
-            case Enums.Status.Failed:
-                type = Enums.Type.Error;
+            case TaskStatus.Failed:
+                type = IndicationType.Error;
                 break;
-            case Enums.Status.Pending:
+            case TaskStatus.Pending:
             default:
-                type = isList ? Enums.Type.List : Enums.Type.Active;
+                type = isList ? IndicationType.List : IndicationType.Active;
                 break;
         }
 
@@ -75,14 +130,14 @@ export class Theme {
     }
 
     public static indent(count: number, ...text: string[]): string {
-        return `${Theme.INDENT.padStart(count * Enums.Indent.Default)}${Theme.join(Wrapper.SPACE, ...text)}`;
+        return `${Theme.INDENT.padStart(count * Indent.Default)}${Theme.join(Wrapper.SPACE, ...text)}`;
     }
 
     public static format(template: string): string {
         return template ? chalk(Object.assign([], { raw: [template.replace(/`/g, '\\`')] })) : '';
     }
 
-    private static getValueBy<T>(map: Map<Enums.Type, T>, type: Enums.Type, getDefault: () => T): T {
+    private static getValueBy<T>(map: Map<IndicationType, T>, type: IndicationType, getDefault: () => T): T {
         let result = map.get(type);
 
         if (!result) result = getDefault();
@@ -90,30 +145,30 @@ export class Theme {
         return result;
     }
 
-    public getColor(type: Enums.Type): string {
+    public getColor(type: IndicationType): string {
         const { colors } = this;
 
         return Theme.getValueBy(this.colors, type, (): string => {
-            if (type === Enums.Type.Active) return Enums.Color.Active;
-            if (type === Enums.Type.Success) return Enums.Color.Success;
-            if (type === Enums.Type.Skip) return Enums.Color.Skip;
-            if (type === Enums.Type.Error) return Enums.Color.Error;
-            if (type === Enums.Type.Message) return Enums.Color.Message;
-            if (type === Enums.Type.Info) return Enums.Color.Info;
-            if (type === Enums.Type.Warning) return Enums.Color.Warning;
-            if (type === Enums.Type.Subtask) return Enums.Color.Subtask;
-            if (type === Enums.Type.List) return Enums.Color.List;
-            if (type === Enums.Type.Dim) return Enums.Color.Dim;
+            if (type === IndicationType.Active) return IndicationColor.Active;
+            if (type === IndicationType.Success) return IndicationColor.Success;
+            if (type === IndicationType.Skip) return IndicationColor.Skip;
+            if (type === IndicationType.Error) return IndicationColor.Error;
+            if (type === IndicationType.Message) return IndicationColor.Message;
+            if (type === IndicationType.Info) return IndicationColor.Info;
+            if (type === IndicationType.Warning) return IndicationColor.Warning;
+            if (type === IndicationType.Subtask) return IndicationColor.Subtask;
+            if (type === IndicationType.List) return IndicationColor.List;
+            if (type === IndicationType.Dim) return IndicationColor.Dim;
 
-            return colors.get(Enums.Type.Default) || Enums.Color.Default;
+            return colors.get(IndicationType.Default) || IndicationColor.Default;
         });
     }
 
-    public paint(str: string, type: Enums.Type): string {
+    public paint(str: string, type: IndicationType): string {
         return Theme.dye(Theme.format(str), this.getColor(type));
     }
 
-    public gradient(str: string, gradient: Types.Gradient): string {
+    public gradient(str: string, gradient: Gradient): string {
         const begin = convert.hex.rgb(this.getColor(gradient.begin));
         const end = convert.hex.rgb(this.getColor(gradient.end));
         const w = gradient.position * 2 - 1;
@@ -130,35 +185,35 @@ export class Theme {
         );
     }
 
-    public symbol(type: Enums.Type): string {
+    public symbol(type: IndicationType): string {
         const { symbols } = this;
         const symbol = Theme.getValueBy(symbols, type, (): string => {
-            if (type === Enums.Type.Active) return frame();
-            if (type === Enums.Type.Success) return Figures.tick;
-            if (type === Enums.Type.Skip) return Figures.arrowDown;
-            if (type === Enums.Type.Error) return Figures.cross;
-            if (type === Enums.Type.Message) return Figures.line;
-            if (type === Enums.Type.Info) return Figures.info;
-            if (type === Enums.Type.Warning) return Figures.warning;
-            if (type === Enums.Type.Subtask) return Figures.pointerSmall;
-            if (type === Enums.Type.List) return Figures.pointer;
+            if (type === IndicationType.Active) return frame();
+            if (type === IndicationType.Success) return Figures.tick;
+            if (type === IndicationType.Skip) return Figures.arrowDown;
+            if (type === IndicationType.Error) return Figures.cross;
+            if (type === IndicationType.Message) return Figures.line;
+            if (type === IndicationType.Info) return Figures.info;
+            if (type === IndicationType.Warning) return Figures.warning;
+            if (type === IndicationType.Subtask) return Figures.pointerSmall;
+            if (type === IndicationType.List) return Figures.pointer;
 
-            return symbols.get(Enums.Type.Default) || this.symbol(Enums.Type.Subtask);
+            return symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
         });
 
         return symbol ? this.paint(symbol, type) : symbol;
     }
 
-    public badge(type: Enums.Type): string {
+    public badge(type: IndicationType): string {
         const { badges } = this;
         const badge = Theme.getValueBy(badges, type, (): string => {
-            if (type === Enums.Type.Error) return Enums.Badge.Error;
-            if (type === Enums.Type.Skip) return Enums.Badge.Skip;
+            if (type === IndicationType.Error) return IndicationBadge.Error;
+            if (type === IndicationType.Skip) return IndicationBadge.Skip;
 
-            return badges.get(Enums.Type.Default) || Enums.Badge.Default;
+            return badges.get(IndicationType.Default) || IndicationBadge.Default;
         });
 
-        return badge ? this.paint(badge, Enums.Type.Dim) : badge;
+        return badge ? this.paint(badge, IndicationType.Dim) : badge;
     }
 
     public title(task: Task, level: number): string {
@@ -167,36 +222,42 @@ export class Theme {
         const symbol = this.symbol(type);
         let prefix = Wrapper.EMPTY;
 
-        if (level) prefix = task.haveSubtasks() ? this.symbol(Enums.Type.Subtask) : this.symbol(Enums.Type.Default);
+        if (level)
+            prefix = task.haveSubtasks() ? this.symbol(IndicationType.Subtask) : this.symbol(IndicationType.Default);
 
         return Theme.indent(level, prefix, symbol, task.getText(), badge);
     }
 
     public errors(errors: string[], level: number): string[] {
-        const type = Enums.Type.Error;
-        const sublevel = level + Enums.Level.Stride;
+        const type = IndicationType.Error;
+        const sublevel = level + Indent.Long;
 
         return errors.reduce<string[]>((acc, text): string[] => {
             const [error, ...lines] = text.split(Terminal.EOL);
-            const title = Theme.join(Wrapper.SPACE, this.symbol(Enums.Type.Message), this.symbol(type), error.trim());
+            const title = Theme.join(
+                Wrapper.SPACE,
+                this.symbol(IndicationType.Message),
+                this.symbol(type),
+                error.trim()
+            );
 
             return acc.concat([
-                Theme.indent(level + Enums.Level.Step, this.paint(title, type)),
-                ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), Enums.Type.Dim))),
+                Theme.indent(level + 1, this.paint(title, type)),
+                ...lines.map((line): string => Theme.indent(sublevel, this.paint(line.trim(), IndicationType.Dim))),
             ]);
         }, []);
     }
 
-    public messages(list: string[], type: Enums.Type, level: number): string[] {
+    public messages(list: string[], type: IndicationType, level: number): string[] {
         const symbol = this.symbol(type);
-        const sign = this.symbol(Enums.Type.Message);
-        const indent = level + Enums.Level.Step;
+        const sign = this.symbol(IndicationType.Message);
+        const indent = level + 1;
 
         return list.map((text): string => Theme.indent(indent, sign, symbol, text));
     }
 
-    public bars(list: Progress[], level: number): string[] {
-        const symbol = this.symbol(Enums.Type.Subtask);
+    public bars(list: ProgressBar[], level: number): string[] {
+        const symbol = this.symbol(IndicationType.Subtask);
 
         return list
             .filter((bar): boolean => !bar.isCompleted() || !bar.clear)

@@ -1,17 +1,17 @@
 import stripAnsi from 'strip-ansi';
-import { Progress } from '../src/progress';
-import { Theme } from '../src/theme';
+import { ProgressBar } from '../../src/entities/progress-bar';
+import { Theme } from '../../src/theme';
 
-describe('Progress', (): void => {
+describe('ProgressBar', (): void => {
     const $template = ':bar :percent :etas :custom';
     const $theme = new Theme();
 
     it('Default', (): void => {
         const step = 1;
-        const bar = new Progress($template, { total: step * 2 });
+        const bar = new ProgressBar($template, { total: step * 2 });
 
-        expect(bar.getPercent()).toBe(Progress.MIN_PERCENT);
-        expect(bar.getRatio()).toBe(Progress.MIN_RATIO);
+        expect(bar.getPercent()).toBe(ProgressBar.MIN_PERCENT);
+        expect(bar.getRatio()).toBe(ProgressBar.MIN_RATIO);
         expect(bar.getStart()).toBeTruthy();
         expect(bar.getEnd()).toBeFalsy();
         expect(bar.getElapsed()).toBeTruthy();
@@ -21,8 +21,8 @@ describe('Progress', (): void => {
 
         bar.tick();
 
-        expect(bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
-        expect(bar.getRatio()).toBe(Progress.MAX_RATIO / 2);
+        expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
+        expect(bar.getRatio()).toBe(ProgressBar.MAX_RATIO / 2);
         expect(bar.getStart()).toBeTruthy();
         expect(bar.getEnd()).toBeFalsy();
         expect(bar.getElapsed()).toBeTruthy();
@@ -34,8 +34,8 @@ describe('Progress', (): void => {
             custom: 'test',
         });
 
-        expect(bar.getPercent()).toBe(Progress.MAX_PERCENT);
-        expect(bar.getRatio()).toBe(Progress.MAX_RATIO);
+        expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
+        expect(bar.getRatio()).toBe(ProgressBar.MAX_RATIO);
         expect(bar.getStart()).toBeTruthy();
         expect(bar.getEnd()).toBeTruthy();
         expect(bar.getElapsed()).toBeTruthy();
@@ -46,11 +46,11 @@ describe('Progress', (): void => {
     });
 
     describe('Statuses', (): void => {
-        let $bar: Progress;
+        let $bar: ProgressBar;
         let $before: number;
 
         beforeEach((): void => {
-            $bar = new Progress($template);
+            $bar = new ProgressBar($template);
             $before = new Date().getTime();
 
             $bar.tick($bar.total / 2);
@@ -65,21 +65,21 @@ describe('Progress', (): void => {
         it('Complete', (): void => {
             $bar.complete();
 
-            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT);
+            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
             expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
 
         it('Skip', (): void => {
             $bar.skip();
 
-            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
+            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
             expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
             $bar.fail();
 
-            expect($bar.getPercent()).toBe(Progress.MAX_PERCENT / 2);
+            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
             expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
         });
     });
