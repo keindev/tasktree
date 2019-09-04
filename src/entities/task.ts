@@ -12,20 +12,27 @@ export enum TaskStatus {
     Skipped = 3,
 }
 
+export interface TaskOptions {
+    status?: TaskStatus;
+    autoClear?: boolean;
+}
+
 export class Task {
     private uid: number;
     private text: string;
     private status: TaskStatus;
+    private autoClear: boolean;
     private bars: ProgressBar[] = [];
     private subtasks: Task[] = [];
     private logs: Set<string> = new Set();
     private errors: string[] = [];
     private warnings: Set<string> = new Set();
 
-    public constructor(text: string, status: TaskStatus = TaskStatus.Pending) {
+    public constructor(text: string, { status, autoClear }: TaskOptions = {}) {
         this.uid = ++uid;
         this.text = text;
-        this.status = status;
+        this.autoClear = !!autoClear;
+        this.status = status || TaskStatus.Pending;
     }
 
     public id(): number {
@@ -70,9 +77,12 @@ export class Task {
         return !!this.subtasks.length;
     }
 
-    public add(text: string, status: TaskStatus = TaskStatus.Pending): Task {
+    public add(text: string, { status, autoClear }: TaskOptions = {}): Task {
         const isCompleted = !this.isPending();
-        const task = new Task(text, isCompleted ? TaskStatus.Failed : status);
+        const task = new Task(text, {
+            status: isCompleted ? TaskStatus.Failed : status,
+            autoClear,
+        });
 
         this.subtasks.push(task);
 
@@ -82,7 +92,7 @@ export class Task {
     }
 
     public update(text: string): Task {
-        this.text = text;
+        if (this.isPending()) this.text = text;
 
         return this;
     }
@@ -103,7 +113,7 @@ export class Task {
         this.bars = [];
     }
 
-    public complete(text?: string, clear = false): Task {
+    public complete(text?: string, clear = this.autoClear): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
         this.setStatus(TaskStatus.Completed, text, clear);
@@ -116,13 +126,13 @@ export class Task {
         return this;
     }
 
-    public skip(text?: string, clear = false): Task {
+    public skip(text?: string, clear = this.autoClear): Task {
         this.setStatus(TaskStatus.Skipped, text, clear);
 
         return this;
     }
 
-    public fail(text?: string, clear = false): never {
+    public fail(text?: string, clear = this.autoClear): never {
         this.setStatus(TaskStatus.Failed, text, clear);
 
         return TaskTree.tree().exit(ExitCode.Error) as never;
@@ -167,7 +177,7 @@ export class Task {
         return rows.map((row): string => theme.paint(row, type));
     }
 
-    private setStatus(status: TaskStatus, text?: string, clear = false): void {
+    private setStatus(status: TaskStatus, text?: string, clear?: boolean): void {
         if (this.isPending()) {
             if (text) this.text = text;
             if (clear) this.clear();

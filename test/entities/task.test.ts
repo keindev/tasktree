@@ -8,11 +8,11 @@ describe('Task', (): void => {
     const $title = 'task';
 
     beforeAll((): void => {
-        TaskTree.tree().start(true);
+        TaskTree.tree().start({ silent: true });
     });
 
     it('Default', (): void => {
-        const task = new Task($title, TaskStatus.Completed);
+        const task = new Task($title).complete();
 
         expect(task.isPending()).toBeFalsy();
         expect(task.getText()).toBe($title);
@@ -20,14 +20,14 @@ describe('Task', (): void => {
     });
 
     it('Update', (): void => {
-        const task = new Task($title, TaskStatus.Completed).update('new title');
+        const task = new Task($title).update('new title');
 
         expect(task.getText()).toBe('new title');
     });
 
     it('Check for errors or warnings in the task', (): void => {
-        const task = new Task($title, TaskStatus.Pending);
-        const subtask = task.add($title, TaskStatus.Pending);
+        const task = new Task($title);
+        const subtask = task.add($title);
 
         subtask.warn('warning');
         subtask.error('error');
@@ -40,7 +40,7 @@ describe('Task', (): void => {
         let $task: Task;
 
         beforeEach((): void => {
-            $task = new Task('pending task', TaskStatus.Pending);
+            $task = new Task('pending task');
         });
 
         afterEach((): void => {
@@ -74,9 +74,9 @@ describe('Task', (): void => {
 
         beforeEach((): void => {
             $tasks = [
-                new Task($title, TaskStatus.Completed),
-                new Task($title, TaskStatus.Skipped),
-                new Task($title, TaskStatus.Failed),
+                new Task($title, { status: TaskStatus.Completed }),
+                new Task($title, { status: TaskStatus.Skipped }),
+                new Task($title, { status: TaskStatus.Failed }),
             ];
         });
 
@@ -116,7 +116,7 @@ describe('Task', (): void => {
 
     describe('Subtasks', (): void => {
         it('Add to Pending task', (): void => {
-            const task = new Task($title, TaskStatus.Pending);
+            const task = new Task($title);
 
             expect(task.getActive()).toStrictEqual(task);
             expect(task.getActive().id()).toBe(task.id());
@@ -128,7 +128,7 @@ describe('Task', (): void => {
         });
 
         it('Add to Completed task', (): void => {
-            const task = new Task($title, TaskStatus.Completed);
+            const task = new Task($title).complete();
             let subtask: Task | undefined;
 
             try {
@@ -140,9 +140,9 @@ describe('Task', (): void => {
         });
 
         it('Clear subtask', (): void => {
-            const task = new Task($title, TaskStatus.Pending);
+            const task = new Task($title);
 
-            task.add($title, TaskStatus.Completed);
+            task.add($title).complete();
             task.bar().complete();
             task.complete().clear();
 
@@ -152,7 +152,7 @@ describe('Task', (): void => {
     });
 
     it('Progress bar', (): void => {
-        const task = new Task($title, TaskStatus.Pending);
+        const task = new Task($title);
 
         task.bar(':bar :percent :etas').complete();
         task.complete();
