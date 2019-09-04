@@ -1,49 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TaskTree Manage tasks Complete 1`] = `
-"  ✔ task
-  ─ ⚠ warning
-  ─ ℹ message"
-`;
-
-exports[`TaskTree Manage tasks Fail with string 1`] = `
-"  ✖ Something bad happened
-at X
-at Y
-at Z [fail]
-  ─ ⚠ warning
-  ─ ℹ message"
-`;
-
-exports[`TaskTree Manage tasks Render 1`] = `
-"  ⠙ task
-  ─ ⚠ warning
-  ─ ℹ message"
-`;
-
-exports[`TaskTree Manage tasks Render 2`] = `
-"  ⠹ task
-  ─ ⚠ warning
-  ─ ℹ message"
-`;
-
-exports[`TaskTree Manage tasks Render 3`] = `""`;
-
 exports[`TaskTree Manage tasks Skip 1`] = `
 "  ↓ task [skip]
   ─ ⚠ warning
   ─ ℹ message"
 `;
 
-exports[`TaskTree Manage tasks with static methods 1`] = `"  ✖ error message [fail]"`;
-
-exports[`TaskTree Manage tasks with static methods 2`] = `
-"  ❯ task
-  › ✖ error message [fail]"
-`;
-
 exports[`TaskTree Static Add 1`] = `"  ✔ task"`;
-
-exports[`TaskTree Static Fail 1`] = `""`;
-
-exports[`TaskTree Static Fail 2`] = `""`;

@@ -36,8 +36,8 @@ export class TaskTree {
         return TaskTree.tree().add(text);
     }
 
-    public static fail(text: string | Error, active = true): never {
-        return TaskTree.tree().fail(text, active);
+    public static fail(error: string | Error, active = true): never {
+        return TaskTree.tree().fail(error, active);
     }
 
     public start(silence?: boolean): TaskTree {
@@ -68,8 +68,11 @@ export class TaskTree {
     }
 
     public exit(code: ExitCode = ExitCode.Success): void | never {
-        if (!this.silence) {
-            this.stop();
+        this.stop();
+
+        if (this.silence) {
+            if (code === ExitCode.Error) throw new Error();
+        } else {
             process.exit(code);
         }
     }
@@ -89,19 +92,22 @@ export class TaskTree {
     }
 
     public fail(error: string | Error, active = true): never {
-        let task: Task;
-
-        if (active) {
-            task = this.tasks[this.tasks.length - 1];
-
-            if (task && task.isPending()) {
-                task = task.getActive();
+        if (this.silence) {
+            if (error instanceof Error) {
+                throw error;
+            } else {
+                throw new Error(error);
             }
         } else {
-            task = this.add(error instanceof Error ? error.name : error);
-        }
+            let task: Task = this.tasks[this.tasks.length - 1];
 
-        return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
+            task =
+                active && task && task.isPending()
+                    ? task.getActive()
+                    : this.add(error instanceof Error ? error.name : error);
+
+            return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
+        }
     }
 
     public render(): string[] {

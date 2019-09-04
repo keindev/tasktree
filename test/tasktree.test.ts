@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
-import { Task, TaskStatus } from '../src/entities/task';
+import { Task } from '../src/entities/task';
 import { TaskTree } from '../src/tasktree';
 import { Theme } from '../src/theme';
 
@@ -27,15 +27,21 @@ describe('TaskTree', (): void => {
 
         it('Fail', (): void => {
             try {
-                TaskTree.fail('error');
-            } catch (err) {
-                expect($renderTree()).toMatchSnapshot();
+                $tree.start(true);
+                $tree.fail('error message 1');
+            } catch (error) {
+                expect((error as Error).message).toBe('error message 1');
+
+                $tree.stop();
             }
 
             try {
-                TaskTree.fail(new Error('Error message'));
-            } catch (err) {
-                expect($renderTree()).toMatchSnapshot();
+                $tree.start(true);
+                $tree.fail(new Error('error message 2'));
+            } catch (error) {
+                expect((error as Error).message).toBe('error message 2');
+
+                $tree.stop();
             }
         });
     });
@@ -59,59 +65,33 @@ describe('TaskTree', (): void => {
         it('Fail with string', (): void => {
             try {
                 $tree.fail('Something bad happened\nat X\nat Y\nat Z');
-            } catch (err) {
-                expect($renderTask($task)).toMatchSnapshot();
+            } catch (error) {
+                expect((error as Error).message).toBe('Something bad happened\nat X\nat Y\nat Z');
             }
         });
 
         it('Fail with new Error()', (): void => {
             try {
                 $tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
-            } catch (err) {
-                expect($task.haveErrors()).toBeTruthy();
-                expect($task.getStatus()).toBe(TaskStatus.Failed);
+            } catch (error) {
+                expect((error as Error).message).toBe('Something bad happened\nat X\nat Y\nat Z');
             }
         });
 
-        it('Complete', (): void => {
-            expect($renderTask($task.complete())).toMatchSnapshot();
+        it('Complete and render', (): void => {
+            const output = $renderTask($task.complete());
+
+            expect(output).toBeTruthy();
+            expect(output).toBe($renderTree());
+
+            $tree.stop();
+
+            expect($renderTree()).toBe('');
+
+            $tree.start(true);
+            $tree.stop();
+
+            expect($renderTree()).toBe('');
         });
-
-        it('Render', (): void => {
-            expect($renderTree()).toMatchSnapshot();
-
-            $tree.stop();
-
-            expect($renderTree()).toMatchSnapshot();
-
-            $tree.start(true);
-            $tree.stop();
-
-            expect($renderTree()).toMatchSnapshot();
-        });
-    });
-
-    it('Manage tasks with static methods', (): void => {
-        try {
-            $tree.start(true);
-            $tree.add('task');
-            $tree.fail('error message');
-        } catch (err) {
-            expect($renderTree()).toMatchSnapshot();
-            expect((err as Error).message).toBe('error message');
-
-            $tree.stop();
-        }
-
-        try {
-            $tree.start(true);
-            $tree.add('task');
-            $tree.fail('error message', false);
-        } catch (err) {
-            expect($renderTree()).toMatchSnapshot();
-            expect((err as Error).message).toBe('error message');
-
-            $tree.stop();
-        }
     });
 });
