@@ -1,5 +1,5 @@
 import { UpdateManager } from 'stdout-update';
-import { Task } from './entities/task';
+import { Task } from './task';
 import { Theme, ThemeOptions } from './theme';
 
 export enum ExitCode {
@@ -22,6 +22,7 @@ export class TaskTree {
     private manager: UpdateManager;
     private silent = false;
     private autoClear = false;
+    private started = false;
     private offset = 0;
 
     private constructor(theme?: ThemeOptions) {
@@ -51,6 +52,7 @@ export class TaskTree {
         this.autoClear = !!autoClear;
         this.tasks = [];
         this.offset = 0;
+        this.started = true;
 
         if (!this.handle && !this.silent) {
             this.manager.hook();
@@ -63,6 +65,8 @@ export class TaskTree {
     }
 
     public stop(): TaskTree {
+        this.started = false;
+
         if (this.handle) {
             clearInterval(this.handle);
 
@@ -74,13 +78,17 @@ export class TaskTree {
         return this;
     }
 
-    public exit(code: ExitCode = ExitCode.Success): void | never {
-        this.stop();
+    public exit(code: ExitCode = ExitCode.Success, error?: string | Error): void | never {
+        if (this.started) {
+            this.stop();
 
-        if (this.silent) {
-            if (code === ExitCode.Error) throw new Error();
-        } else {
-            process.exit(code);
+            if (this.silent) {
+                if (code === ExitCode.Error) throw error instanceof Error ? error : new Error(error);
+            } else {
+                process.exit(code);
+            }
+        } else if (code === ExitCode.Error) {
+            throw error instanceof Error ? error : new Error(error);
         }
     }
 
@@ -99,21 +107,16 @@ export class TaskTree {
     }
 
     public fail(error: string | Error, active = true): never {
-        if (this.silent) {
-            if (error instanceof Error) {
-                throw error;
-            } else {
-                throw new Error(error);
-            }
+        const errorObject = error instanceof Error ? error : new Error(error);
+
+        if (!this.started || this.silent) {
+            throw errorObject;
         } else {
             let task: Task = this.tasks[this.tasks.length - 1];
 
-            task =
-                active && task && task.isPending()
-                    ? task.getActive()
-                    : this.add(error instanceof Error ? error.name : error);
+            task = active && task && task.isPending() ? task.getActive() : this.add(errorObject.name);
 
-            return error instanceof Error ? (task.error(error, true) as never) : task.fail(error);
+            return task.error(errorObject, true) as never;
         }
     }
 

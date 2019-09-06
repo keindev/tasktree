@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi';
-import { ProgressBar } from '../../src/entities/progress-bar';
-import { Theme } from '../../src/theme';
+import { ProgressBar } from '../src/progress-bar';
+import { Theme } from '../src/theme';
 
 describe('ProgressBar', (): void => {
     const $template = ':bar :percent :etas :custom';

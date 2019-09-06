@@ -1,8 +1,8 @@
 import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
-import { Task, TaskStatus } from '../../src/entities/task';
-import { TaskTree } from '../../src/tasktree';
-import { Theme } from '../../src/theme';
+import { Task, TaskStatus } from '../src/task';
+import { TaskTree } from '../src/tasktree';
+import { Theme } from '../src/theme';
 
 describe('Task', (): void => {
     const $title = 'task';
