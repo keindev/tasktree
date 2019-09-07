@@ -137,7 +137,7 @@ export class Task {
 
         this.setStatus(TaskStatus.Failed, text, clear);
 
-        return TaskTree.tree().exit(ExitCode.Error, text) as never;
+        return TaskTree.tree().exit(ExitCode.Error, error) as never;
     }
 
     public error(error?: string | Error, fail?: boolean): Task {
