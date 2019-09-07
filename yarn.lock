@@ -10,17 +10,17 @@
     "@babel/highlight" "^7.0.0"
 
 "@babel/core@^7.1.0":
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.5.5.tgz#17b2686ef0d6bc58f963dddd68ab669755582c30"
-  integrity sha512-i4qoSr2KTtce0DmkuuQBV4AuQgGPUcPXMr9L5MyYAtk06z068lQ10a4O009fe5OB/DfNV+h+qqT7ddNV8UnRjg==
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.6.0.tgz#9b00f73554edd67bebc86df8303ef678be3d7b48"
+  integrity sha512-FuRhDRtsd6IptKpHXAa+4WPZYY2ZzgowkbLBecEDDSje1X/apG7jQM33or3NdOmjXBKWGOg4JmSiRfUfuTtHXw==
   dependencies:
     "@babel/code-frame" "^7.5.5"
-    "@babel/generator" "^7.5.5"
-    "@babel/helpers" "^7.5.5"
-    "@babel/parser" "^7.5.5"
-    "@babel/template" "^7.4.4"
-    "@babel/traverse" "^7.5.5"
-    "@babel/types" "^7.5.5"
+    "@babel/generator" "^7.6.0"
+    "@babel/helpers" "^7.6.0"
+    "@babel/parser" "^7.6.0"
+    "@babel/template" "^7.6.0"
+    "@babel/traverse" "^7.6.0"
+    "@babel/types" "^7.6.0"
     convert-source-map "^1.1.0"
     debug "^4.1.0"
     json5 "^2.1.0"
@@ -29,12 +29,12 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/generator@^7.4.0", "@babel/generator@^7.5.5":
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.5.5.tgz#873a7f936a3c89491b43536d12245b626664e3cf"
-  integrity sha512-ETI/4vyTSxTzGnU2c49XHv2zhExkv9JHLTwDAFz85kmcwuShvYG2H08FwgIguQf4JC75CBnXAUM5PqeF4fj0nQ==
+"@babel/generator@^7.4.0", "@babel/generator@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.6.0.tgz#e2c21efbfd3293ad819a2359b448f002bfdfda56"
+  integrity sha512-Ms8Mo7YBdMMn1BYuNtKuP/z0TgEIhbcyB8HVR6PPNYp4P61lMsABiS4A3VG1qznjXVCf3r+fVHhm4efTYVsySA==
   dependencies:
-    "@babel/types" "^7.5.5"
+    "@babel/types" "^7.6.0"
     jsesc "^2.5.1"
     lodash "^4.17.13"
     source-map "^0.5.0"
@@ -68,14 +68,14 @@
   dependencies:
     "@babel/types" "^7.4.4"
 
-"@babel/helpers@^7.5.5":
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.5.5.tgz#63908d2a73942229d1e6685bc2a0e730dde3b75e"
-  integrity sha512-nRq2BUhxZFnfEn/ciJuhklHvFOqjJUD5wpx+1bxUF2axL9C+v4DE/dmp5sT2dKnpOs4orZWzpAZqlCy8QqE/7g==
+"@babel/helpers@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.6.0.tgz#21961d16c6a3c3ab597325c34c465c0887d31c6e"
+  integrity sha512-W9kao7OBleOjfXtFGgArGRX6eCP0UEcA2ZWEWNkJdRZnHhW4eEbeswbG3EwaRsnQUAEGWYgMq1HsIXuNNNy2eQ==
   dependencies:
-    "@babel/template" "^7.4.4"
-    "@babel/traverse" "^7.5.5"
-    "@babel/types" "^7.5.5"
+    "@babel/template" "^7.6.0"
+    "@babel/traverse" "^7.6.0"
+    "@babel/types" "^7.6.0"
 
 "@babel/highlight@^7.0.0":
   version "7.5.0"
@@ -86,10 +86,15 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.4.3", "@babel/parser@^7.4.4", "@babel/parser@^7.5.5":
+"@babel/parser@^7.1.0", "@babel/parser@^7.4.3":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.5.5.tgz#02f077ac8817d3df4a832ef59de67565e71cca4b"
   integrity sha512-E5BN68cqR7dhKan1SfqgPGhQ178bkVKpXTPEXnFJBrEt8/DKRZlybmy+IgYLTeN7tp1R5Ccmbm2rBk17sHYU3g==
+
+"@babel/parser@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.6.0.tgz#3e05d0647432a8326cb28d0de03895ae5a57f39b"
+  integrity sha512-+o2q111WEx4srBs7L9eJmcwi655eD8sXniLqMB93TBK9GrNzGrxDWSjiqz2hLU0Ha8MTXFIP0yd9fNdP+m43ZQ==
 
 "@babel/plugin-syntax-object-rest-spread@^7.0.0":
   version "7.2.0"
@@ -98,34 +103,34 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.4.4":
-  version "7.4.4"
-  resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
-  integrity sha512-CiGzLN9KgAvgZsnivND7rkA+AeJ9JB0ciPOD4U59GKbQP2iQl+olF1l76kJOupqidozfZ32ghwBEJDhnk9MEcw==
+"@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.6.0.tgz#7f0159c7f5012230dad64cca42ec9bdb5c9536e6"
+  integrity sha512-5AEH2EXD8euCk446b7edmgFdub/qfH1SN6Nii3+fyXP807QRx9Q73A2N5hNwRRslC2H9sNzaFhsPubkS4L8oNQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
-    "@babel/parser" "^7.4.4"
-    "@babel/types" "^7.4.4"
+    "@babel/parser" "^7.6.0"
+    "@babel/types" "^7.6.0"
 
-"@babel/traverse@^7.1.0", "@babel/traverse@^7.4.3", "@babel/traverse@^7.5.5":
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.5.5.tgz#f664f8f368ed32988cd648da9f72d5ca70f165bb"
-  integrity sha512-MqB0782whsfffYfSjH4TM+LMjrJnhCNEDMDIjeTpl+ASaUvxcjoiVCo/sM1GhS1pHOXYfWVCYneLjMckuUxDaQ==
+"@babel/traverse@^7.1.0", "@babel/traverse@^7.4.3", "@babel/traverse@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.6.0.tgz#389391d510f79be7ce2ddd6717be66d3fed4b516"
+  integrity sha512-93t52SaOBgml/xY74lsmt7xOR4ufYvhb5c5qiM6lu4J/dWGMAfAh6eKw4PjLes6DI6nQgearoxnFJk60YchpvQ==
   dependencies:
     "@babel/code-frame" "^7.5.5"
-    "@babel/generator" "^7.5.5"
+    "@babel/generator" "^7.6.0"
     "@babel/helper-function-name" "^7.1.0"
     "@babel/helper-split-export-declaration" "^7.4.4"
-    "@babel/parser" "^7.5.5"
-    "@babel/types" "^7.5.5"
+    "@babel/parser" "^7.6.0"
+    "@babel/types" "^7.6.0"
     debug "^4.1.0"
     globals "^11.1.0"
     lodash "^4.17.13"
 
-"@babel/types@^7.0.0", "@babel/types@^7.3.0", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.5.5":
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.5.5.tgz#97b9f728e182785909aa4ab56264f090a028d18a"
-  integrity sha512-s63F9nJioLqOlW3UkyMd+BYhXt44YuaFm/VV0VwuteqjYwRrObkU7ra9pY4wAJR3oXi8hJrMcrcJdO/HH33vtw==
+"@babel/types@^7.0.0", "@babel/types@^7.3.0", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.6.0":
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.6.1.tgz#53abf3308add3ac2a2884d539151c57c4b3ac648"
+  integrity sha512-X7gdiuaCmA0uRjCmRtYJNAVCc/q+5xSgsfKJHqMN4iNLILX39677fJE1O40arPMh0TTtS9ItH67yre6c7k6t0g==
   dependencies:
     esutils "^2.0.2"
     lodash "^4.17.13"
@@ -390,9 +395,9 @@
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
 "@types/yargs-parser@*":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-13.0.0.tgz#453743c5bbf9f1bed61d959baab5b06be029b2d0"
-  integrity sha512-wBlsw+8n21e6eTd4yVv8YD/E3xq0O6nNnJIquutAsFGE7EyMKz7W6RNT6BRu1SmdgmlCZ9tb0X+j+D6HGr8pZw==
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-13.1.0.tgz#c563aa192f39350a1d18da36c5a8da382bbd8228"
+  integrity sha512-gCubfBUZ6KxzoibJ+SCUc/57Ms1jz5NjHe4+dI2krNmU5zCPAphyLJYyTOg06ueIyfj+SaCUqmzun7ImlxDcKg==
 
 "@types/yargs@^13.0.0":
   version "13.0.2"
@@ -1217,18 +1222,18 @@ cspell-glob@^0.1.11:
   dependencies:
     micromatch "^4.0.2"
 
-cspell-io@^4.0.17:
-  version "4.0.17"
-  resolved "https://registry.yarnpkg.com/cspell-io/-/cspell-io-4.0.17.tgz#322c0dabd8358c50693ac317a8b251c13c31b6f7"
-  integrity sha512-srJnvfTm9QdrAGPx7OIR6MIZeXJPgwWupderhy4ywDQKgds4Yj1w3f10JWzHgsfWAwExAaEs3GZ4fEMUeWhnAA==
+cspell-io@^4.0.18:
+  version "4.0.18"
+  resolved "https://registry.yarnpkg.com/cspell-io/-/cspell-io-4.0.18.tgz#c255f8c6093c3c537ba255256c17a35d484ab4e7"
+  integrity sha512-gE3C9bzE8+1W0ThLZ5xeYY5/xqbvUTtnEdsSGQ4VStNyAzcMTzfvWDTtL478z4luAiOxiyNPtQ4clWLGAugSJQ==
   dependencies:
     iconv-lite "^0.4.24"
     iterable-to-stream "^1.0.1"
 
-cspell-lib@^4.0.25:
-  version "4.0.25"
-  resolved "https://registry.yarnpkg.com/cspell-lib/-/cspell-lib-4.0.25.tgz#278de66ab3f811cc14f4076721f985504e88a372"
-  integrity sha512-EltUo+BBx15gCCYuDQ2V/pSPu1xIje9mdzCaEDoTJXIl1J5QVONmc91sukXLNEoymG4cdoZlnd2xg4fV/orynQ==
+cspell-lib@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/cspell-lib/-/cspell-lib-4.1.0.tgz#cba7653c880a3cf42911bdbed2fd1318d0e21f4f"
+  integrity sha512-2ems0LpIONO51TIQRSiLvECR8RLT8dE2kcEtJS1TVAbh3VQMB2KnAWLLcbBCgqqmCRnYZ/hDrRScd5ZJ+9uZxQ==
   dependencies:
     comment-json "^1.1.3"
     configstore "^5.0.0"
@@ -1250,17 +1255,17 @@ cspell-lib@^4.0.25:
     cspell-dict-python "^1.0.14"
     cspell-dict-rust "^1.0.10"
     cspell-dict-scala "^1.0.9"
-    cspell-io "^4.0.17"
-    cspell-trie-lib "^4.0.15"
+    cspell-io "^4.0.18"
+    cspell-trie-lib "^4.1.0"
     cspell-util-bundle "^4.0.5"
     fs-extra "^8.1.0"
     gensequence "^2.1.2"
     vscode-uri "^2.0.3"
 
-cspell-trie-lib@^4.0.15:
-  version "4.0.15"
-  resolved "https://registry.yarnpkg.com/cspell-trie-lib/-/cspell-trie-lib-4.0.15.tgz#21c86b20bb4ad01ab798c864ccacac296868216e"
-  integrity sha512-k3P03msJJh6Fhic9db7kva3+VodhvywvxxB5Q8Y7qF1xCu9zL2Zeoi+gA8ziL1QtUFqAqpzbDNPfiHhz6BaJsQ==
+cspell-trie-lib@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/cspell-trie-lib/-/cspell-trie-lib-4.1.0.tgz#b324b9eca0bd83dd373de0d8ec9cb592ffc894c7"
+  integrity sha512-R7omOBBhiz1yu0Wp1an1Vcv+upNREQEel8c4XcUp3kJFpQIP39T4KQc4+oJ4D1g5To3flB0567vVuLAY9orMdg==
   dependencies:
     gensequence "^2.1.2"
     js-xxhash "^1.0.1"
@@ -1270,16 +1275,16 @@ cspell-util-bundle@^4.0.5:
   resolved "https://registry.yarnpkg.com/cspell-util-bundle/-/cspell-util-bundle-4.0.5.tgz#1fe398e40e0a8fed4d9817296e2d26400401d36b"
   integrity sha512-luu/xIjoTRt82eJJxf77fhgjU6XJve+CfoTyfejOj7niYDRvoZkt0rTSHPgTI6MADjaZxlCLleSihEgqidt5WQ==
 
-cspell@^4.0.28:
-  version "4.0.28"
-  resolved "https://registry.yarnpkg.com/cspell/-/cspell-4.0.28.tgz#d58b0536eb430737d20e117392a35b37e3393209"
-  integrity sha512-2YH8pOUnaGCjHHKKUC2K247nAKx2/ah/JsyMYgSe0U3R1Lokl6+HwTsU2+I01o8u5GbM5sLjxsQRPzceYQkzLg==
+cspell@^4.0.30:
+  version "4.0.30"
+  resolved "https://registry.yarnpkg.com/cspell/-/cspell-4.0.30.tgz#4817d29b5bdf5076d937b7c1dc053fcb9b2adafc"
+  integrity sha512-dazX00rCgRSL8TAphqFSw7D9p3QdBGh09J8/bFH+hLpz01Yry/XzXjDiyKPlAXFkeFH5Sikgq0Cy/t3cHaLBeQ==
   dependencies:
     chalk "^2.4.2"
     commander "^2.20.0"
     comment-json "^1.1.3"
     cspell-glob "^0.1.11"
-    cspell-lib "^4.0.25"
+    cspell-lib "^4.1.0"
     fs-extra "^8.1.0"
     gensequence "^2.1.2"
     get-stdin "^7.0.0"
@@ -2242,9 +2247,9 @@ iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
     safer-buffer ">= 2.1.2 < 3"
 
 ignore-walk@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
-  integrity sha512-DTVlMx3IYPe0/JJcYP7Gxg7ttZZu3IInhuEhbchuqneY9wWe5Ojy2mXLBaQFUQmo0AW2r3qG7m1mg86js+gnlQ==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.2.tgz#99d83a246c196ea5c93ef9315ad7b0819c35069b"
+  integrity sha512-EXyErtpHbn75ZTsOADsfx6J/FPo6/5cjev46PXrcTpd8z3BoRkXgYu9/JVqrI7tusjmwCZutGeRJeU0Wo1e4Cw==
   dependencies:
     minimatch "^3.0.4"
 
