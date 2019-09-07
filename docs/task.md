@@ -151,15 +151,13 @@ Default: `false`
 
 Calls `clear()` if true.
 
-### fail(\[text, clear\])
+### fail(\[error, clear\])
 
 Failure task. Throws exception in "silent mode".
 
-#### text
+#### error
 
-Type: `string`
-
-Default: `''`
+Type: `string | Error`
 
 Text for display. Modifies task text if submitted.
 

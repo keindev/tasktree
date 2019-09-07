@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
-import { Task } from '../src/entities/task';
+import { Task } from '../src/task';
 import { TaskTree, TaskTreeOptions } from '../src/tasktree';
 import { Theme } from '../src/theme';
 

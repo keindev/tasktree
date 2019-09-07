@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { TaskTree, ExitCode } from '../tasktree';
-import { Theme, IndicationType } from '../theme';
+import { TaskTree, ExitCode } from './tasktree';
+import { Theme, IndicationType } from './theme';
 import { ProgressBar, ProgressBarOptions, Progress } from './progress-bar';
 
 let uid = 0;
@@ -132,10 +132,12 @@ export class Task {
         return this;
     }
 
-    public fail(text?: string, clear = this.autoClear): never {
+    public fail(error?: string | Error, clear = this.autoClear): never {
+        const text = error instanceof Error ? error.name : error;
+
         this.setStatus(TaskStatus.Failed, text, clear);
 
-        return TaskTree.tree().exit(ExitCode.Error) as never;
+        return TaskTree.tree().exit(ExitCode.Error, text) as never;
     }
 
     public error(error?: string | Error, fail?: boolean): Task {
@@ -143,7 +145,7 @@ export class Task {
 
         if (typeof error === 'string') errors.push(error);
         if (error instanceof Error && error.stack) errors.push(error.stack);
-        if (fail) this.fail();
+        if (fail) this.fail(error);
 
         return this;
     }

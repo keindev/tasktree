@@ -1,6 +1,6 @@
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import * as Figures from 'figures';
-import { Theme, IndicationType } from '../theme';
+import { Theme, IndicationType } from './theme';
 import { TaskStatus } from './task';
 
 export enum Progress {

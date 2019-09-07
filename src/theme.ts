@@ -4,8 +4,8 @@ import elegantSpinner from 'elegant-spinner';
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import { Terminal } from 'stdout-update/lib/terminal';
 import * as Figures from 'figures';
-import { Task, TaskStatus } from './entities/task';
-import { ProgressBar } from './entities/progress-bar';
+import { Task, TaskStatus } from './task';
+import { ProgressBar } from './progress-bar';
 
 const frame = elegantSpinner();
 
