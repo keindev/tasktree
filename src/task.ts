@@ -10,6 +10,7 @@ export enum TaskStatus {
     Completed = 1,
     Failed = 2,
     Skipped = 3,
+    Warning = 4,
 }
 
 export interface TaskOptions {

@@ -109,6 +109,9 @@ export class Theme {
             case TaskStatus.Skipped:
                 type = IndicationType.Skip;
                 break;
+            case TaskStatus.Warning:
+                type = IndicationType.Warning;
+                break;
             case TaskStatus.Failed:
                 type = IndicationType.Error;
                 break;
