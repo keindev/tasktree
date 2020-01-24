@@ -113,10 +113,10 @@ export class Task {
         this.bars = [];
     }
 
-    public complete(text?: string, clear = this.autoClear): Task {
+    public complete(text?: string, clear = this.autoClear, status = TaskStatus.Completed): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
-        this.setStatus(TaskStatus.Completed, text, clear);
+        this.setStatus(status, text, clear);
         this.bars = this.bars.filter((bar): boolean => {
             bar.complete();
 
