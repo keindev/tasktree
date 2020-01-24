@@ -31,13 +31,13 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rimraf rmdir lib coverage",
+        "clean": "rimraf rmdir lib",
         "lint": "eslint src/**/*.ts test/**/*.ts",
         "spellcheck": "cspell -c .vscode/cspell.json --no-summary \"*.*\" \"docs/**/*\" \"**/*.ts\" \"**/*.js\"",
         "test": "jest",
         "changelog": "changelog generate",
-        "build:ts": "tsc",
-        "build": "npm-run-all clean spellcheck lint build:* test"
+        "prepare": "tsc",
+        "build": "npm-run-all clean spellcheck lint prepare test"
     },
     "engines": {
         "node": ">=10.0.0"
