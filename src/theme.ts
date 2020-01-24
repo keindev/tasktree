@@ -228,7 +228,10 @@ export class Theme {
         if (level)
             prefix = task.haveSubtasks() ? this.symbol(IndicationType.Subtask) : this.symbol(IndicationType.Default);
 
-        return Theme.indent(level, prefix, symbol, task.getText(), badge);
+        const text = (type === IndicationType.Error || type === IndicationType.Warning)
+            ? this.paint(task.getText(), type) : task.getText()
+
+        return Theme.indent(level, prefix, symbol, text, badge);
     }
 
     public errors(errors: string[], level: number): string[] {
