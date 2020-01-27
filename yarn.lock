@@ -1345,7 +1345,7 @@ cspell-util-bundle@^4.0.9:
   resolved "https://registry.yarnpkg.com/cspell-util-bundle/-/cspell-util-bundle-4.0.9.tgz#9e6a7f3dcd4aef1b9c6743d33d09379cf94ecd08"
   integrity sha512-+xhIGJAkPxD7aKl97S0E34B5dF+HSTSoEL6M2f6Y46tusFGc9VdhA/iIZQooZZx2RQy4WaHw/ABfsRfxtnFVLw==
 
-cspell@^4.0.33:
+cspell@^4.0.46:
   version "4.0.46"
   resolved "https://registry.yarnpkg.com/cspell/-/cspell-4.0.46.tgz#e138d4c930e2191479eec06401b8c6fca4592a8f"
   integrity sha512-1OzY2LGMQmuoe4odLhabDAxQoPMMwYPCGFKSiJXPJIg+w50iSBpUy2fWu4ExLeMjIUt6jOZ9hTQsq6WRMyXq3g==
