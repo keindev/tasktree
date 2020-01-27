@@ -1,17 +1,17 @@
 import * as Figures from 'figures';
 import stripAnsi from 'strip-ansi';
-import { Theme, IndicationType, IndicationBadge } from '../src/theme';
+import { Theme, IndicationType, IndicationBadge } from '../Theme';
+
+const text = 'text';
 
 describe('Theme', (): void => {
-    const $text = 'text';
-
     it('Default', (): void => {
         const theme = new Theme();
 
-        expect(stripAnsi(theme.paint($text, IndicationType.Default))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Success))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Skip))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Error))).toBe($text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Default))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Success))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Skip))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Error))).toBe(text);
 
         expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(stripAnsi(Figures.pointerSmall));
         expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(stripAnsi(Figures.tick));
@@ -33,10 +33,10 @@ describe('Theme', (): void => {
             error: { symbol, badge },
         });
 
-        expect(stripAnsi(theme.paint($text, IndicationType.Default))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Success))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Skip))).toBe($text);
-        expect(stripAnsi(theme.paint($text, IndicationType.Error))).toBe($text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Default))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Success))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Skip))).toBe(text);
+        expect(stripAnsi(theme.paint(text, IndicationType.Error))).toBe(text);
 
         expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(symbol);
         expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(symbol);

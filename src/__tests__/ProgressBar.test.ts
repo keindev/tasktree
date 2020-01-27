@@ -1,14 +1,16 @@
 import stripAnsi from 'strip-ansi';
-import { ProgressBar } from '../src/progress-bar';
-import { Theme } from '../src/theme';
+import { ProgressBar } from '../ProgressBar';
+import { Theme } from '../Theme';
+
+const template = ':bar :percent :etas :custom';
+const theme = new Theme();
+const step = 1;
+let bar: ProgressBar;
+let before: number;
 
 describe('ProgressBar', (): void => {
-    const $template = ':bar :percent :etas :custom';
-    const $theme = new Theme();
-
     it('Default', (): void => {
-        const step = 1;
-        const bar = new ProgressBar($template, { total: step * 2 });
+        bar = new ProgressBar(template, { total: step * 2 });
 
         expect(bar.getPercent()).toBe(ProgressBar.MIN_PERCENT);
         expect(bar.getRatio()).toBe(ProgressBar.MIN_RATIO);
@@ -42,45 +44,38 @@ describe('ProgressBar', (): void => {
         expect(bar.getRate()).toBeTruthy();
         expect(bar.getETA()).toBeFalsy();
         expect(bar.isCompleted()).toBeTruthy();
-        expect(stripAnsi(bar.render($theme))).toMatchSnapshot();
+        expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
     });
 
     describe('Statuses', (): void => {
-        let $bar: ProgressBar;
-        let $before: number;
-
         beforeEach((): void => {
-            $bar = new ProgressBar($template);
-            $before = new Date().getTime();
-
-            $bar.tick($bar.total / 2);
-        });
-
-        afterEach((): void => {
-            expect($bar.isCompleted()).toBeTruthy();
-            expect($bar.getEnd()).toBeGreaterThanOrEqual($before);
-            expect($bar.getEnd()).toBeLessThanOrEqual(new Date().getTime());
+            bar = new ProgressBar(template);
+            before = new Date().getTime();
+            bar.tick(bar.total / 2);
         });
 
         it('Complete', (): void => {
-            $bar.complete();
+            bar.complete();
 
-            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
-            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
+            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
+            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+            expect(bar.isCompleted()).toBeTruthy();
+            expect(bar.getEnd()).toBeGreaterThanOrEqual(before);
+            expect(bar.getEnd()).toBeLessThanOrEqual(new Date().getTime());
         });
 
         it('Skip', (): void => {
-            $bar.skip();
+            bar.skip();
 
-            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
-            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
+            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
+            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
         });
 
         it('Fail', (): void => {
-            $bar.fail();
+            bar.fail();
 
-            expect($bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
-            expect(stripAnsi($bar.render($theme))).toMatchSnapshot();
+            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
+            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
         });
     });
 });
