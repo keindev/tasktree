@@ -20,9 +20,9 @@
         "wait",
         "idle"
     ],
-    "main": "lib/tasktree.js",
-    "types": "lib/tasktree.d.ts",
-    "module": "lib/tasktree.js",
+    "main": "lib/TaskTree.js",
+    "types": "lib/TaskTree.d.ts",
+    "module": "lib/TaskTree.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/keindev/tasktree.git"
@@ -32,7 +32,7 @@
     },
     "scripts": {
         "clean": "rimraf rmdir lib coverage",
-        "lint": "eslint src/**/*.ts test/**/*.ts",
+        "lint": "eslint src/**/*.ts",
         "spellcheck": "cspell -c .vscode/cspell.json --no-summary \"*.*\" \"docs/**/*\" \"**/*.ts\" \"**/*.js\"",
         "test": "jest",
         "changelog": "changelog generate",
