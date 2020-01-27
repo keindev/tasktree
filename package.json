@@ -31,13 +31,16 @@
         "url": "https://github.com/keindev/tasktree/issues"
     },
     "scripts": {
-        "clean": "rimraf rmdir lib coverage",
-        "lint": "eslint src/**/*.ts",
-        "spellcheck": "cspell -c .vscode/cspell.json --no-summary \"*.*\" \"docs/**/*\" \"**/*.ts\" \"**/*.js\"",
-        "test": "jest",
-        "changelog": "changelog generate",
+        "prepare:clean": "rimraf lib coverage",
+        "check:lint": "eslint src/**/*.ts --fix",
+        "check:spell": "cspell -c .vscode/cspell.json --no-summary \"*.*\" \"**/*.ts\" \"**/*.js\"",
+        "check:test": "jest",
         "build:ts": "tsc",
-        "build": "npm-run-all clean spellcheck lint build:* test"
+        "build:ghinfo": "ghinfo generate -d media -t utils",
+        "build": "npm-run-all prepare:* check:* build:*",
+        "util:changelog": "changelog generate",
+        "util:commit-msg": "changelog lint --message HUSKY_GIT_PARAMS --lowercase-only",
+        "util:pre-commit": "npm-run-all check:*"
     },
     "engines": {
         "node": ">=10.0.0"
@@ -62,7 +65,8 @@
         "eslint-config-prettier": "^6.9.0",
         "eslint-plugin-import": "^2.20.0",
         "eslint-plugin-jest": "^23.6.0",
-        "husky": "^3.0.9",
+        "ghinfo": "^1.0.6",
+        "husky": "^4.2.1",
         "jest": "^24.9.0",
         "npm-run-all": "^4.1.5",
         "prettier": "^1.19.1",

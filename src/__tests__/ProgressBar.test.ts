@@ -16,7 +16,6 @@ describe('ProgressBar', (): void => {
         expect(bar.getRatio()).toBe(ProgressBar.MIN_RATIO);
         expect(bar.getStart()).toBeTruthy();
         expect(bar.getEnd()).toBeFalsy();
-        expect(bar.getElapsed()).toBeTruthy();
         expect(bar.getRate()).toBeFalsy();
         expect(bar.getETA()).toBe(Infinity);
         expect(bar.isCompleted()).toBeFalsy();
