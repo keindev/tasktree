@@ -1,4 +1,4 @@
-const { TaskTree } = require('../lib/tasktree');
+const { TaskTree } = require('../lib/TaskTree');
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
