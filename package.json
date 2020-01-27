@@ -73,6 +73,6 @@
         "rimraf": "^3.0.0",
         "strip-ansi": "^6.0.0",
         "ts-jest": "^25.0.0",
-        "typescript": "^3.7.2"
+        "typescript": "^3.7.5"
     }
 }
