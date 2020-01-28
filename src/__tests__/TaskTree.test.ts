@@ -2,11 +2,17 @@ import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
 import { Task } from '../Task';
 import { TaskTree, ITaskTreeOptions } from '../TaskTree';
-import { Theme } from '../Theme';
+import { Theme, ThemeOptions } from '../Theme';
 
-const tree = TaskTree.tree();
 const options: ITaskTreeOptions = { silent: true, autoClear: false };
-const theme = new Theme();
+const themeOptions: ThemeOptions = {
+    success: { symbol: '+' },
+    skip: { symbol: '>>' },
+    info: { symbol: 'i' },
+    warning: { symbol: '!' },
+};
+const theme = new Theme(themeOptions);
+const tree = TaskTree.tree(themeOptions);
 const renderTree = (): string => stripAnsi(tree.render().join(Terminal.EOL));
 const renderTask = (task: Task): string => stripAnsi(task.render(theme).join(Terminal.EOL));
 let task: Task;

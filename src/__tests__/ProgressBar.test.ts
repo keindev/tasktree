@@ -1,16 +1,17 @@
 import stripAnsi from 'strip-ansi';
-import { ProgressBar } from '../ProgressBar';
+import { ProgressBar, IProgressBarOptions } from '../ProgressBar';
 import { Theme } from '../Theme';
 
 const template = ':bar :percent :etas :custom';
 const theme = new Theme();
+const options: IProgressBarOptions = { complete: '*', incomplete: '_' };
 const step = 1;
 let bar: ProgressBar;
 let before: number;
 
 describe('ProgressBar', (): void => {
     it('Default', (): void => {
-        bar = new ProgressBar(template, { total: step * 2 });
+        bar = new ProgressBar(template, { total: step * 2, ...options });
 
         expect(bar.getPercent()).toBe(ProgressBar.MIN_PERCENT);
         expect(bar.getRatio()).toBe(ProgressBar.MIN_RATIO);
@@ -48,7 +49,7 @@ describe('ProgressBar', (): void => {
 
     describe('Statuses', (): void => {
         beforeEach((): void => {
-            bar = new ProgressBar(template);
+            bar = new ProgressBar(template, options);
             before = new Date().getTime();
             bar.tick(bar.total / 2);
         });

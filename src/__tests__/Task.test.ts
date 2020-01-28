@@ -2,9 +2,12 @@ import stripAnsi from 'strip-ansi';
 import { Terminal } from 'stdout-update/lib/terminal';
 import { Task, TaskStatus } from '../Task';
 import { TaskTree } from '../TaskTree';
-import { Theme } from '../Theme';
+import { Theme, ThemeOptions } from '../Theme';
+import { IProgressBarOptions } from '../ProgressBar';
 
 const title = 'task';
+const themeOptions: ThemeOptions = { success: { symbol: '+' } };
+const progressBarOptions: IProgressBarOptions = { complete: '*', incomplete: '_' };
 
 describe('Task', (): void => {
     beforeAll((): void => {
@@ -159,17 +162,17 @@ describe('Task', (): void => {
             task.complete().clear();
 
             expect(task.getStatus()).toBe(TaskStatus.Completed);
-            expect(stripAnsi(task.render(new Theme()).join(Terminal.EOL))).toMatchSnapshot();
+            expect(stripAnsi(task.render(new Theme(themeOptions)).join(Terminal.EOL))).toMatchSnapshot();
         });
     });
 
     it('Progress bar', (): void => {
         const task = new Task(title);
 
-        task.bar(':bar :percent :etas').complete();
+        task.bar(':bar :percent :etas', progressBarOptions).complete();
         task.complete();
 
         expect(task.getStatus()).toBe(TaskStatus.Completed);
-        expect(stripAnsi(task.render(new Theme()).join(Terminal.EOL))).toMatchSnapshot();
+        expect(stripAnsi(task.render(new Theme(themeOptions)).join(Terminal.EOL))).toMatchSnapshot();
     });
 });
