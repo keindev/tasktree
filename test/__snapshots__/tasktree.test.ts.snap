@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`TaskTree Manage tasks Skip 1`] = `
-"  ↓ task [skip]
-  ─ ⚠ warning
-  ─ ℹ message"
-`;
-
-exports[`TaskTree Static Add 1`] = `"  ✔ task"`;

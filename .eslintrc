@@ -5,9 +5,6 @@
         "commonjs": true
     },
     "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "project": "./tsconfig.eslint.json"
-    },
     "extends": [
         "airbnb-base",
         "plugin:@typescript-eslint/recommended",
@@ -18,23 +15,16 @@
     "plugins": ["@typescript-eslint", "jest"],
     "rules": {
         "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always" }],
+        "max-lines-per-function": ["error", { "max": 40 }],
         "import/prefer-default-export": 0,
-        "max-len": [
-            "error",
-            {
-                "code": 120
-            }
-        ],
+        "import/extensions": 0,
+        "max-len": ["error", { "code": 120 }],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "lines-between-class-members": 0,
         "no-bitwise": 0,
         "no-plusplus": 0,
-        "no-underscore-dangle": [
-            "error",
-            {
-                "allowAfterThis": true
-            }
-        ],
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
         "padding-line-between-statements": [
             "error",
             { "blankLine": "always", "prev": "*", "next": "return" },
@@ -44,11 +34,19 @@
             { "blankLine": "any", "prev": "if", "next": "if" }
         ]
     },
+    "overrides": [
+        {
+            "files": "*.test.ts",
+            "rules": {
+                "max-lines-per-function": ["error", { "max": 200 }]
+            }
+        }
+    ],
     "settings": {
         "import/resolver": {
             "node": {
-                "paths": ["src", "test"],
-                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+                "paths": ["src"],
+                "extensions": [".ts", ".d.ts", ".js"]
             }
         }
     }

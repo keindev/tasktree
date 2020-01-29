@@ -3,12 +3,16 @@
         "target": "esnext",
         "module": "commonjs",
         "moduleResolution": "node",
-        "rootDir": "./src",
+        "rootDir": "src",
         "outDir": "lib",
         "newLine": "lf",
         "incremental": false,
         "allowJs": false,
         "allowUnreachableCode": false,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "noUnusedLocals": true,
@@ -25,5 +29,5 @@
         "allowSyntheticDefaultImports": true
     },
     "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "lib"]
 }
