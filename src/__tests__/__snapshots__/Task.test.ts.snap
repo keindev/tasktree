@@ -2,7 +2,7 @@
 
 exports[`Task Progress bar 1`] = `
 "  + task
-  › ******************** 100% 0.0s"
+  -- ******************** 100% 0.0s"
 `;
 
 exports[`Task Subtasks Clear subtask 1`] = `"  + task"`;

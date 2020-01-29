@@ -6,7 +6,7 @@ import { Theme, ThemeOptions } from '../Theme';
 import { IProgressBarOptions } from '../ProgressBar';
 
 const title = 'task';
-const themeOptions: ThemeOptions = { success: { symbol: '+' } };
+const themeOptions: ThemeOptions = { success: { symbol: '+' }, subtask: { symbol: '--' } };
 const progressBarOptions: IProgressBarOptions = { complete: '*', incomplete: '_' };
 
 describe('Task', (): void => {
