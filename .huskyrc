@@ -1,6 +1,6 @@
 {
     "hooks": {
-        "pre-commit": "npm-run-all clean test",
-        "commit-msg": "changelog lint --message HUSKY_GIT_PARAMS --lowercase-only"
+        "pre-commit": "yarn util:pre-commit",
+        "commit-msg": "yarn util:commit-msg"
     }
 }

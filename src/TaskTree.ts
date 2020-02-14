@@ -1,13 +1,13 @@
 import { UpdateManager } from 'stdout-update';
-import { Task } from './task';
-import { Theme, ThemeOptions } from './theme';
+import { Task } from './Task';
+import { Theme, ThemeOptions } from './Theme';
 
 export enum ExitCode {
     Success = 0,
     Error = 1,
 }
 
-export interface TaskTreeOptions {
+export interface ITaskTreeOptions {
     silent?: boolean;
     autoClear?: boolean;
 }
@@ -47,7 +47,7 @@ export class TaskTree {
         return TaskTree.tree().fail(error, active);
     }
 
-    public start({ silent, autoClear }: TaskTreeOptions = {}): TaskTree {
+    public start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
         this.silent = !!silent;
         this.autoClear = !!autoClear;
         this.tasks = [];

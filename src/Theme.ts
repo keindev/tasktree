@@ -4,8 +4,8 @@ import elegantSpinner from 'elegant-spinner';
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import { Terminal } from 'stdout-update/lib/terminal';
 import * as Figures from 'figures';
-import { Task, TaskStatus } from './task';
-import { ProgressBar } from './progress-bar';
+import { Task, TaskStatus } from './Task';
+import { ProgressBar } from './ProgressBar';
 
 const frame = elegantSpinner();
 
@@ -49,7 +49,7 @@ export enum Indent {
     Empty = 0,
 }
 
-export interface Gradient {
+export interface IGradient {
     position: number;
     begin: IndicationType;
     end: IndicationType;
@@ -171,7 +171,7 @@ export class Theme {
         return Theme.dye(Theme.format(str), this.getColor(type));
     }
 
-    public gradient(str: string, gradient: Gradient): string {
+    public gradient(str: string, gradient: IGradient): string {
         const begin = convert.hex.rgb(this.getColor(gradient.begin));
         const end = convert.hex.rgb(this.getColor(gradient.end));
         const w = gradient.position * 2 - 1;

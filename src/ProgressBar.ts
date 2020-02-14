@@ -1,7 +1,7 @@
 import { Wrapper } from 'stdout-update/lib/wrapper';
 import * as Figures from 'figures';
-import { Theme, IndicationType } from './theme';
-import { TaskStatus } from './task';
+import { Theme, IndicationType } from './Theme';
+import { TaskStatus } from './Task';
 
 export enum Progress {
     Default = -1,
@@ -26,7 +26,7 @@ export enum TemplateToken {
     Rate = ':rate',
 }
 
-export interface ProgressBarOptions {
+export interface IProgressBarOptions {
     // current completed index
     current?: number;
     // total number of ticks to complete
@@ -45,7 +45,7 @@ export interface ProgressBarOptions {
     gradient?: boolean;
 }
 
-export interface ProgressBarToken {
+export interface IProgressBarToken {
     [key: string]: string;
 }
 
@@ -74,7 +74,7 @@ export class ProgressBar {
     private status = TaskStatus.Pending;
     private tokens: Map<TemplateToken | string, string> = new Map();
 
-    public constructor(template?: string, options?: ProgressBarOptions) {
+    public constructor(template?: string, options?: IProgressBarOptions) {
         this.template =
             template ||
             Theme.join(
@@ -130,7 +130,7 @@ export class ProgressBar {
         return this.current >= this.total || !!this.end;
     }
 
-    public tick(step?: number, tokens?: ProgressBarToken): ProgressBar {
+    public tick(step?: number, tokens?: IProgressBarToken): ProgressBar {
         this.current = Math.min(this.total, this.current + (step || ProgressBar.TICK));
         this.tokens = typeof tokens === 'object' ? new Map(Object.entries(tokens)) : new Map();
 
@@ -162,17 +162,6 @@ export class ProgressBar {
     public render(theme: Theme): string {
         const length = Math.round(this.width * this.getRatio());
         const type = Theme.type(this.status);
-        let blocks = Wrapper.EMPTY.padStart(length, this.completeBlock);
-
-        if (!this.isCompleted() && this.gradient) {
-            blocks = theme.gradient(blocks, {
-                position: this.getRatio(),
-                begin: Theme.type(this.status),
-                end: IndicationType.Success,
-            });
-        } else {
-            blocks = theme.paint(blocks, type);
-        }
 
         let result = this.template
             .replace(TemplateToken.Current, this.current.toString())
@@ -191,7 +180,7 @@ export class ProgressBar {
                 TemplateToken.Bar,
                 Theme.join(
                     Wrapper.EMPTY,
-                    blocks,
+                    this.getBlocks(theme, type, length),
                     theme.paint(
                         Wrapper.EMPTY.padStart(this.width - length, this.incompleteBlock),
                         IndicationType.Subtask
@@ -204,5 +193,21 @@ export class ProgressBar {
         });
 
         return this.badges ? Theme.join(Wrapper.SPACE, result, theme.badge(type)) : result;
+    }
+
+    private getBlocks(theme: Theme, type: IndicationType, length: number): string {
+        let blocks = Wrapper.EMPTY.padStart(length, this.completeBlock);
+
+        if (!this.isCompleted() && this.gradient) {
+            blocks = theme.gradient(blocks, {
+                position: this.getRatio(),
+                begin: Theme.type(this.status),
+                end: IndicationType.Success,
+            });
+        } else {
+            blocks = theme.paint(blocks, type);
+        }
+
+        return blocks;
     }
 }

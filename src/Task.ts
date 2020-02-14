@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import { TaskTree, ExitCode } from './tasktree';
-import { Theme, IndicationType } from './theme';
-import { ProgressBar, ProgressBarOptions, Progress } from './progress-bar';
+import { TaskTree, ExitCode } from './TaskTree';
+import { Theme, IndicationType } from './Theme';
+import { ProgressBar, IProgressBarOptions, Progress } from './ProgressBar';
 
 let uid = 0;
 
@@ -13,7 +13,7 @@ export enum TaskStatus {
     Warning = 4,
 }
 
-export interface TaskOptions {
+export interface ITaskOptions {
     status?: TaskStatus;
     autoClear?: boolean;
 }
@@ -29,7 +29,7 @@ export class Task {
     private errors: string[] = [];
     private warnings: Set<string> = new Set();
 
-    public constructor(text: string, { status, autoClear }: TaskOptions = {}) {
+    public constructor(text: string, { status, autoClear }: ITaskOptions = {}) {
         this.uid = ++uid;
         this.text = text;
         this.autoClear = !!autoClear;
@@ -78,7 +78,7 @@ export class Task {
         return !!this.subtasks.length;
     }
 
-    public add(text: string, { status, autoClear }: TaskOptions = {}): Task {
+    public add(text: string, { status, autoClear }: ITaskOptions = {}): Task {
         const isCompleted = !this.isPending();
         const task = new Task(text, {
             status: isCompleted ? TaskStatus.Failed : status,
@@ -98,7 +98,7 @@ export class Task {
         return this;
     }
 
-    public bar(template?: string, options?: ProgressBarOptions): ProgressBar {
+    public bar(template?: string, options?: IProgressBarOptions): ProgressBar {
         const isCompleted = !this.isPending();
         const bar = new ProgressBar(template, isCompleted ? { total: Progress.End } : options);
 
