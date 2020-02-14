@@ -38,6 +38,7 @@
         "build:ts": "tsc",
         "build:ghinfo": "ghinfo generate -d media -t utils",
         "build": "npm-run-all prepare:* check:* build:*",
+        "prepare": "tsc",
         "util:changelog": "changelog generate",
         "util:commit-msg": "changelog lint --message HUSKY_GIT_PARAMS --lowercase-only",
         "util:pre-commit": "npm-run-all check:*"
