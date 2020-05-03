@@ -39,7 +39,8 @@ export enum IndicationColor {
 
 export enum IndicationBadge {
     Default = '',
-    Error = '[fail]',
+    Error = '[error]',
+    Fail = '[fail]',
     Skip = '[skip]',
 }
 
