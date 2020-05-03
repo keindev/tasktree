@@ -192,7 +192,7 @@ export class ProgressBar {
             result = result.replace(`:${key}`, value);
         });
 
-        return this.badges ? Theme.join(Wrapper.SPACE, result, theme.badge(type)) : result;
+        return this.badges ? Theme.join(Wrapper.SPACE, result, theme.badge(theme.type2badge(type))) : result;
     }
 
     private getBlocks(theme: Theme, type: IndicationType, length: number): string {

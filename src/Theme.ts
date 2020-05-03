@@ -207,21 +207,26 @@ export class Theme {
         return symbol ? this.paint(symbol, type) : symbol;
     }
 
-    public badge(type: IndicationType): string {
+    public type2badge(type: IndicationType): string {
         const { badges } = this;
         const badge = Theme.getValueBy(badges, type, (): string => {
             if (type === IndicationType.Error) return IndicationBadge.Error;
+            // if (type === IndicationType.Fail) return IndicationBadge.Fail;
             if (type === IndicationType.Skip) return IndicationBadge.Skip;
 
             return badges.get(IndicationType.Default) || IndicationBadge.Default;
         });
 
+        return badge;
+    }
+
+    public badge(badge: string): string {
         return badge ? this.paint(badge, IndicationType.Dim) : badge;
     }
 
     public title(task: Task, level: number): string {
         const type = Theme.type(task.getStatus(), task.haveSubtasks());
-        const badge = this.badge(type);
+        const badge = this.badge(task.getBadge() || this.type2badge(type));
         const symbol = this.symbol(type);
         let prefix = Wrapper.EMPTY;
 
