@@ -21,6 +21,7 @@ export interface ITaskOptions {
 export class Task {
     private uid: number;
     private text: string;
+    private badge = '';
     private status: TaskStatus;
     private autoClear: boolean;
     private bars: ProgressBar[] = [];
@@ -178,6 +179,16 @@ export class Task {
         });
 
         return rows.map((row): string => theme.paint(row, type));
+    }
+
+    public setBadge(badge: string): Task {
+        this.badge = badge;
+
+        return this;
+    }
+
+    public getBadge(): string {
+        return this.badge;
     }
 
     private setStatus(status: TaskStatus, text?: string, clear?: boolean): void {
