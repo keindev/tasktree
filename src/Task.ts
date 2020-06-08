@@ -10,6 +10,7 @@ export enum TaskStatus {
     Completed = 1,
     Failed = 2,
     Skipped = 3,
+    Warning = 4,
 }
 
 export interface ITaskOptions {
@@ -20,6 +21,7 @@ export interface ITaskOptions {
 export class Task {
     private uid: number;
     private text: string;
+    private badge = '';
     private status: TaskStatus;
     private autoClear: boolean;
     private bars: ProgressBar[] = [];
@@ -113,10 +115,10 @@ export class Task {
         this.bars = [];
     }
 
-    public complete(text?: string, clear = this.autoClear): Task {
+    public complete(text?: string, clear = this.autoClear, status = TaskStatus.Completed): Task {
         if (this.havePendingSubtasks()) this.fail('Subtasks is not complete.');
 
-        this.setStatus(TaskStatus.Completed, text, clear);
+        this.setStatus(status, text, clear);
         this.bars = this.bars.filter((bar): boolean => {
             bar.complete();
 
@@ -177,6 +179,16 @@ export class Task {
         });
 
         return rows.map((row): string => theme.paint(row, type));
+    }
+
+    public setBadge(badge: string): Task {
+        this.badge = badge;
+
+        return this;
+    }
+
+    public getBadge(): string {
+        return this.badge;
     }
 
     private setStatus(status: TaskStatus, text?: string, clear?: boolean): void {

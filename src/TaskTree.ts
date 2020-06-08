@@ -25,15 +25,15 @@ export class TaskTree {
     private started = false;
     private offset = 0;
 
-    private constructor(theme?: ThemeOptions) {
+    private constructor(theme?: ThemeOptions, stdout?: NodeJS.WriteStream, stderr?: NodeJS.WriteStream) {
         this.tasks = [];
         this.theme = new Theme(theme);
-        this.manager = UpdateManager.getInstance();
+        this.manager = UpdateManager.getInstance(stdout, stderr);
     }
 
-    public static tree(theme?: ThemeOptions): TaskTree {
+    public static tree(theme?: ThemeOptions, stdout?: NodeJS.WriteStream, stderr?: NodeJS.WriteStream): TaskTree {
         if (!TaskTree.instance) {
-            TaskTree.instance = new TaskTree(theme);
+            TaskTree.instance = new TaskTree(theme, stdout, stderr);
         }
 
         return TaskTree.instance;

@@ -18,9 +18,9 @@ describe('Theme', (): void => {
         expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(stripAnsi(Figures.arrowDown));
         expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(stripAnsi(Figures.cross));
 
-        expect(theme.badge(IndicationType.Default)).toBe(IndicationBadge.Default);
-        expect(stripAnsi(theme.badge(IndicationType.Skip))).toBe(IndicationBadge.Skip);
-        expect(stripAnsi(theme.badge(IndicationType.Error))).toBe(IndicationBadge.Error);
+        expect(theme.badge(theme.type2badge(IndicationType.Default))).toBe(IndicationBadge.Default);
+        expect(stripAnsi(theme.badge(theme.type2badge(IndicationType.Skip)))).toBe(IndicationBadge.Skip);
+        expect(stripAnsi(theme.badge(theme.type2badge(IndicationType.Error)))).toBe(IndicationBadge.Error);
     });
 
     it('Custom', (): void => {
@@ -43,9 +43,9 @@ describe('Theme', (): void => {
         expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(symbol);
         expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(symbol);
 
-        expect(theme.badge(IndicationType.Default)).toBe(IndicationBadge.Default);
-        expect(stripAnsi(theme.badge(IndicationType.Success))).toBe(badge);
-        expect(stripAnsi(theme.badge(IndicationType.Skip))).toBe(badge);
-        expect(stripAnsi(theme.badge(IndicationType.Error))).toBe(badge);
+        expect(theme.badge(theme.type2badge(IndicationType.Default))).toBe(IndicationBadge.Default);
+        expect(stripAnsi(theme.badge(theme.type2badge(IndicationType.Success)))).toBe(badge);
+        expect(stripAnsi(theme.badge(theme.type2badge(IndicationType.Skip)))).toBe(badge);
+        expect(stripAnsi(theme.badge(theme.type2badge(IndicationType.Error)))).toBe(badge);
     });
 });
