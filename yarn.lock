@@ -689,12 +689,12 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.0.tgz#a4ce2b33d6b214b7950d8595c212f12ac9cc569d"
-  integrity sha512-EiYhwo0v255HUL6eDyuLrXEkTi7WwVCLAw+SeOQ7M7qdun1z1pum4DEm/nuqIVbPvi9RPPc9k9LbyBv6H0DwVg==
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
+  integrity sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==
   dependencies:
-    type-fest "^0.8.1"
+    type-fest "^0.11.0"
 
 ansi-regex@^4.1.0:
   version "4.1.0"
@@ -4842,11 +4842,11 @@ static-extend@^0.1.1:
     object-copy "^0.1.0"
 
 stdout-update@^1.3.6, stdout-update@^1.3.7, stdout-update@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.4.1.tgz#fc3d263f52831ff6a4b3a4796f06394b159154ca"
-  integrity sha512-XCDfu4qslpFYgFFfyMv81kdgrpc6f/8TwgXOILKXklZXduRvRvVlpOlidXGnDN2XnpgVqj12lvR0kxfa+/77qg==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/stdout-update/-/stdout-update-1.5.0.tgz#d4af43356d364de2ee08e498d98e4d30c148d083"
+  integrity sha512-V5GJtyTv117IGpJrb9PQskPgAtbq3EcAXnhP/o13451ggEqcThiwIznKMXDzMUQZL14pLi8LWfCJkCV37Bkzjg==
   dependencies:
-    ansi-escapes "^4.3.0"
+    ansi-escapes "^4.3.1"
     ansi-styles "^4.2.1"
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
@@ -5183,6 +5183,11 @@ type-detect@4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
+
+type-fest@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.11.0.tgz#97abf0872310fed88a5c466b25681576145e33f1"
+  integrity sha512-OdjXJxnCN1AvyLSzeKIgXTXxV+99ZuXl3Hpo9XpJAv9MBcHrrJOQ5kV7ypXOuQie+AmWG25hLbiKdwYTifzcfQ==
 
 type-fest@^0.4.1:
   version "0.4.1"
