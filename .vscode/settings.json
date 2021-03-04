@@ -1,35 +1,31 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "cSpell.enabledLanguageIds": [
-        "css",
-        "dockerfile",
-        "dotenv",
-        "html",
-        "javascript",
-        "javascriptreact",
-        "json",
-        "jsonc",
-        "markdown",
-        "plaintext",
-        "restructuredtext",
-        "scss",
-        "shellscript",
-        "text",
-        "typescript",
-        "typescriptreact",
-        "yaml",
-        "yml"
-    ],
-    "cSpell.ignorePaths": [
-        "**/package-lock.json",
-        "**/package.json",
-        "**/yarn.lock",
-        "**/node_modules/**",
-        "**/vscode-extension/**",
-        "**/.git/**",
-        ".vscode",
-        ".yarnclean",
-        "tsconfig.json",
-        "typings"
-    ]
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.enabledLanguageIds": [
+    "css",
+    "dockerfile",
+    "dotenv",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "jsonc",
+    "markdown",
+    "plaintext",
+    "restructuredtext",
+    "scss",
+    "shellscript",
+    "text",
+    "typescript",
+    "typescriptreact",
+    "yaml",
+    "yml"
+  ],
+  "cSpell.ignorePaths": [
+    "**/.git/**",
+    "**/.vscode/**",
+    "**/docs/**",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/__snapshots__/**"
+  ]
 }

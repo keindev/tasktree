@@ -1,6 +1,6 @@
 {
-    "hooks": {
-        "pre-commit": "yarn util:pre-commit",
-        "commit-msg": "yarn util:commit-msg"
-    }
+  "hooks": {
+    "pre-commit": "npm run util:pre-commit",
+    "commit-msg": "npm run util:commit-msg"
+  }
 }

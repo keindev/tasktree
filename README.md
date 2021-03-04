@@ -85,9 +85,7 @@ const task = new Task('{underline.cyan.bold Awesome task}');
 
 ## API
 
--   [Task Tree](./docs/task-tree.md) - Singleton to manage the task tree.
--   [Task](./docs/task.md) - Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks)
--   [Progress Bar](./docs/progress-bar.md)
+Read the [API documentation](docs/api/index.md) for more information.
 
 ## License
 
