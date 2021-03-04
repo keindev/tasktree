@@ -1,152 +1,202 @@
 import { UpdateManager } from 'stdout-update';
+
 import { Task } from './Task';
 import { Theme, ThemeOptions } from './Theme';
 
 export enum ExitCode {
-    Success = 0,
-    Error = 1,
+  Success = 0,
+  Error = 1,
 }
 
 export interface ITaskTreeOptions {
-    silent?: boolean;
-    autoClear?: boolean;
+  /** Disable task tree rendering */
+  silent?: boolean;
+  /** Removes all subtasks and bars from the main task */
+  autoClear?: boolean;
 }
 
+/** Singleton to manage the task tree */
 export class TaskTree {
-    public static TIMEOUT = 100;
-    private static instance: TaskTree;
+  static TIMEOUT = 100;
+  private static instance: TaskTree;
 
-    private handle: NodeJS.Timeout | undefined;
-    private tasks: Task[];
-    private theme: Theme;
-    private manager: UpdateManager;
-    private silent = false;
-    private autoClear = false;
-    private started = false;
-    private offset = 0;
+  #handle: NodeJS.Timeout | undefined;
+  #tasks: Task[];
+  #theme: Theme;
+  #manager: UpdateManager;
+  #silent = false;
+  #autoClear = false;
+  #started = false;
+  #offset = 0;
 
-    private constructor(theme?: ThemeOptions) {
-        this.tasks = [];
-        this.theme = new Theme(theme);
-        this.manager = UpdateManager.getInstance();
+  private constructor(theme?: ThemeOptions) {
+    this.#tasks = [];
+    this.#theme = new Theme(theme);
+    this.#manager = UpdateManager.getInstance();
+  }
+
+  /**
+   * Method to get the object to control the tree
+   *
+   * @param theme - Theme properties. The field name is a modifier the value is options
+   * @example
+   * ```javascript
+   * const theme = {
+   *   default: '#ffffff',
+   *   success: ['#008000', '✔'],
+   *   skip: {
+   *     symbol: '↓',
+   *   },
+   *   error: ['#ff0000', '✖', '[error]'],
+   *   ...
+   * };
+   * ```
+   * @description
+   * | option      | color             | symbol | badge | description                                  |
+   * | ----------- | ----------------- | ------ | ----- | -------------------------------------------- |
+   * | **default** | text              | ✖      | ✖     | default color                                |
+   * | **active**  | symbol            | ✔      | ✖     | spinner, progress bar color                  |
+   * | **success** | symbol, text, bar | ✔      | ✖     | task symbol, progress bar color              |
+   * | **skip**    | symbol, text, bar | ✔      | ✔     | task symbol, progress bar color              |
+   * | **error**   | symbol, text, bar | ✔      | ✔     | task symbol, error title, progress bar color |
+   * | **message** | symbol            | ✔      | ✖     | dim pointer to task information              |
+   * | **info**    | symbol            | ✔      | ✖     | information message symbol                   |
+   * | **warning** | symbol            | ✔      | ✖     | warning message symbol                       |
+   * | **subtask** | symbol, text      | ✔      | ✖     | dim pointer to subtask                       |
+   * | **list**    | symbol            | ✔      | ✖     | list symbol                                  |
+   * | **dim**     | symbol, bar       | ✖      | ✖     | dim color                                    |
+   *
+   * > If you use a gradient fill for the progress bar - the color will change from `active` to `success`
+   */
+  static tree(theme?: ThemeOptions): TaskTree {
+    if (!TaskTree.instance) {
+      TaskTree.instance = new TaskTree(theme);
     }
 
-    public static tree(theme?: ThemeOptions): TaskTree {
-        if (!TaskTree.instance) {
-            TaskTree.instance = new TaskTree(theme);
-        }
+    return TaskTree.instance;
+  }
 
-        return TaskTree.instance;
+  /** Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task */
+  static add(text: string): Task {
+    return TaskTree.tree().add(text);
+  }
+
+  /** Fail active task or adds a new subtask and call fail on it */
+  static fail(error: string | Error, active = true): never {
+    return TaskTree.tree().fail(error, active);
+  }
+
+  /** Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal */
+  start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
+    this.#silent = !!silent;
+    this.#autoClear = !!autoClear;
+    this.#tasks = [];
+    this.#offset = 0;
+    this.#started = true;
+
+    if (!this.#handle && !this.#silent) {
+      this.#manager.hook();
+      this.#handle = setInterval((): void => {
+        this.log();
+      }, TaskTree.TIMEOUT);
     }
 
-    public static add(text: string): Task {
-        return TaskTree.tree().add(text);
+    return this;
+  }
+
+  /** Stop output a task tree in a terminal */
+  stop(): TaskTree {
+    this.#started = false;
+
+    if (this.#handle) {
+      clearInterval(this.#handle);
+
+      this.log();
+      this.#manager.unhook();
+      this.#handle = undefined;
     }
 
-    public static fail(error: string | Error, active = true): never {
-        return TaskTree.tree().fail(error, active);
+    return this;
+  }
+
+  /** Force the process to exit (see process.exit). Do nothing in "silent mode" */
+  exit(code: ExitCode = ExitCode.Success, error?: string | Error): void | never {
+    if (this.#started) {
+      this.stop();
+
+      if (this.#silent) {
+        if (code === ExitCode.Error) throw error instanceof Error ? error : new Error(error);
+      } else {
+        process.exit(code);
+      }
+    } else if (code === ExitCode.Error) {
+      throw error instanceof Error ? error : new Error(error);
+    }
+  }
+
+  /**
+   * Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task
+   * @param text - Text for display
+   */
+  add(text: string): Task {
+    let task = this.#tasks[this.#tasks.length - 1];
+
+    if (task && task.isPending) {
+      task = task.activeSubtask;
+      task = task.add(text);
+    } else {
+      this.#tasks.push((task = new Task(text, { autoClear: this.#autoClear })));
     }
 
-    public start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
-        this.silent = !!silent;
-        this.autoClear = !!autoClear;
-        this.tasks = [];
-        this.offset = 0;
-        this.started = true;
+    return task;
+  }
 
-        if (!this.handle && !this.silent) {
-            this.manager.hook();
-            this.handle = setInterval((): void => {
-                this.log();
-            }, TaskTree.TIMEOUT);
-        }
+  /**
+   * Fail active task or adds a new subtask and call fail on it
+   * @param error - Text or Error object for display
+   * @param active - If `true` - call failed for active task, else create new task and call fail on it
+   */
+  fail(error: string | Error, active = true): never {
+    const errorObject = error instanceof Error ? error : new Error(error);
 
-        return this;
+    if (!this.#started || this.#silent) {
+      throw errorObject;
+    } else {
+      let task: Task = this.#tasks[this.#tasks.length - 1];
+
+      task = active && task && task.isPending ? task.activeSubtask : this.add(errorObject.name);
+
+      return task.error(errorObject, true) as never;
     }
+  }
 
-    public stop(): TaskTree {
-        this.started = false;
+  /** Render a task tree into a `string[]`. Returns strings with tasks hierarchy */
+  render(): string[] {
+    let updatable = false;
+    let rows: string[];
+    let exclude = 0;
 
-        if (this.handle) {
-            clearInterval(this.handle);
+    const output = this.#tasks.reduce<string[]>((acc, task): string[] => {
+      rows = task.render(this.#theme);
+      updatable = updatable || task.isPending;
 
-            this.log();
-            this.manager.unhook();
-            this.handle = undefined;
-        }
+      if (!updatable) {
+        this.#offset += rows.length;
+        exclude++;
+      }
 
-        return this;
-    }
+      return acc.concat(rows);
+    }, []);
 
-    public exit(code: ExitCode = ExitCode.Success, error?: string | Error): void | never {
-        if (this.started) {
-            this.stop();
+    if (exclude) this.#tasks = this.#tasks.slice(exclude);
 
-            if (this.silent) {
-                if (code === ExitCode.Error) throw error instanceof Error ? error : new Error(error);
-            } else {
-                process.exit(code);
-            }
-        } else if (code === ExitCode.Error) {
-            throw error instanceof Error ? error : new Error(error);
-        }
-    }
+    return output;
+  }
 
-    public add(text: string): Task {
-        const { tasks } = this;
-        let task = tasks[tasks.length - 1];
+  private log(): void {
+    const offset = this.#offset;
 
-        if (task && task.isPending()) {
-            task = task.getActive();
-            task = task.add(text);
-        } else {
-            tasks.push((task = new Task(text, { autoClear: this.autoClear })));
-        }
-
-        return task;
-    }
-
-    public fail(error: string | Error, active = true): never {
-        const errorObject = error instanceof Error ? error : new Error(error);
-
-        if (!this.started || this.silent) {
-            throw errorObject;
-        } else {
-            let task: Task = this.tasks[this.tasks.length - 1];
-
-            task = active && task && task.isPending() ? task.getActive() : this.add(errorObject.name);
-
-            return task.error(errorObject, true) as never;
-        }
-    }
-
-    public render(): string[] {
-        const { tasks } = this;
-        let updatable = false;
-        let rows: string[];
-        let exclude = 0;
-
-        const output = tasks.reduce<string[]>((acc, task): string[] => {
-            rows = task.render(this.theme);
-            updatable = updatable || task.isPending();
-
-            if (!updatable) {
-                this.offset += rows.length;
-                exclude++;
-            }
-
-            return acc.concat(rows);
-        }, []);
-
-        if (exclude) this.tasks = tasks.slice(exclude);
-
-        return output;
-    }
-
-    private log(): void {
-        const position = this.offset;
-
-        this.offset = 0;
-        this.manager.update(this.render(), position);
-    }
+    this.#offset = 0;
+    this.#manager.update(this.render(), offset);
+  }
 }
