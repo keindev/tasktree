@@ -45,35 +45,35 @@ const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
 // ... whatever
 let once = false;
 const promises = [50, 75, 200].map((ms, i) => {
-    return new Promise(resolve => {
-        const handle = setInterval(() => {
-            if (once) {
-                if (bars[i].getPercent() >= 50) {
-                    bars[i].skip();
-                } else {
-                    bars[i].fail();
-                }
-            } else {
-                once = bars[i].tick(Math.random() * 10).isCompleted();
-            }
+  return new Promise((resolve) => {
+    const handle = setInterval(() => {
+      if (once) {
+        if (bars[i].percent >= 50) {
+          bars[i].skip();
+        } else {
+          bars[i].fail();
+        }
+      } else {
+        once = bars[i].tick(Math.random() * 10).isCompleted;
+      }
 
-            if (once) {
-                clearInterval(handle);
-                resolve();
-            }
-        }, ms);
-    });
+      if (once) {
+        clearInterval(handle);
+        resolve();
+      }
+    }, ms);
+  });
 });
 
 Promise.all(promises).then(() => {
-    // skip task
-    task3.skip('Subtask skipped');
-    // log info message in Task #2, complete task
-    task2.log('Informational message').complete();
-    // log warning and error in Task #1, fail it
-    task1.warn('Warning message').error(new Error('Something bad happened'), true);
-    // stop task tree log update
-    tree.stop();
+  // skip task
+  task3.skip('Subtask skipped');
+  // log info message in Task #2, complete task
+  task2.log('Informational message').complete();
+  // log warning and error in Task #1, fail it
+  task1.warn('Warning message').error(new Error('Something bad happened'), true);
+  // stop task tree log update
+  tree.stop();
 });
 ```
 
@@ -85,9 +85,7 @@ const task = new Task('{underline.cyan.bold Awesome task}');
 
 ## API
 
--   [Task Tree](./docs/task-tree.md) - Singleton to manage the task tree.
--   [Task](./docs/task.md) - Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks)
--   [Progress Bar](./docs/progress-bar.md)
+Read the [API documentation](docs/api/index.md) for more information.
 
 ## License
 

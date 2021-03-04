@@ -1,15 +1,16 @@
+import { Terminal } from 'stdout-update/lib/Terminal';
 import stripAnsi from 'strip-ansi';
-import { Terminal } from 'stdout-update/lib/terminal';
+
 import { Task } from '../Task';
-import { TaskTree, ITaskTreeOptions } from '../TaskTree';
+import { ITaskTreeOptions, TaskTree } from '../TaskTree';
 import { Theme, ThemeOptions } from '../Theme';
 
 const options: ITaskTreeOptions = { silent: true, autoClear: false };
 const themeOptions: ThemeOptions = {
-    success: { symbol: '+' },
-    skip: { symbol: '>>' },
-    info: { symbol: 'i' },
-    warning: { symbol: '!' },
+  success: { symbol: '+' },
+  skip: { symbol: '>>' },
+  info: { symbol: 'i' },
+  warning: { symbol: '!' },
 };
 const theme = new Theme(themeOptions);
 const tree = TaskTree.tree(themeOptions);
@@ -18,90 +19,74 @@ const renderTask = (task: Task): string => stripAnsi(task.render(theme).join(Ter
 let task: Task;
 
 describe('TaskTree', (): void => {
+  beforeEach((): void => {
+    tree.start(options);
+  });
+
+  afterEach((): void => {
+    tree.stop();
+  });
+
+  describe('Static', (): void => {
+    it('Add', (): void => {
+      TaskTree.add('task').complete();
+
+      expect(renderTree()).toMatchSnapshot();
+    });
+  });
+
+  it('Default', (): void => {
+    expect(tree).toBeDefined();
+  });
+
+  describe('Manage tasks', (): void => {
     beforeEach((): void => {
-        tree.start(options);
+      task = tree.add('task');
+      task.log(`message`).warn(`warning`);
     });
 
-    afterEach((): void => {
-        tree.stop();
+    it('Skip', (): void => {
+      expect(renderTask(task.skip())).toMatchSnapshot();
     });
 
-    describe('Static', (): void => {
-        it('Add', (): void => {
-            TaskTree.add('task').complete();
+    it('Fail with string', (): void => {
+      let message = '';
 
-            expect(renderTree()).toMatchSnapshot();
-        });
-
-        it('Fail', (): void => {
-            try {
-                tree.start(options);
-                tree.fail('error message 1');
-            } catch (error) {
-                // eslint-disable-next-line jest/no-try-expect
-                expect((error as Error).message).toBe('error message 1');
-
-                tree.stop();
-            }
-
-            try {
-                tree.start(options);
-                tree.fail(new Error('error message 2'));
-            } catch (error) {
-                // eslint-disable-next-line jest/no-try-expect
-                expect((error as Error).message).toBe('error message 2');
-
-                tree.stop();
-            }
-        });
+      try {
+        tree.fail('Something bad happened\nat X\nat Y\nat Z');
+      } catch (error) {
+        message = (error as Error).message;
+      } finally {
+        expect(message).toBe('Something bad happened\nat X\nat Y\nat Z');
+      }
     });
 
-    it('Default', (): void => {
-        expect(tree).toBeDefined();
+    it('Fail with new Error()', (): void => {
+      let message = '';
+
+      try {
+        tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
+      } catch (error) {
+        message = (error as Error).message;
+      } finally {
+        expect(message).toBe('Something bad happened\nat X\nat Y\nat Z');
+      }
     });
 
-    describe('Manage tasks', (): void => {
-        beforeEach((): void => {
-            task = tree.add('task');
-            task.log(`message`).warn(`warning`);
-        });
+    it('Complete and render', (): void => {
+      const output = renderTask(task.complete());
 
-        it('Skip', (): void => {
-            expect(renderTask(task.skip())).toMatchSnapshot();
-        });
+      expect(output).toBeTruthy();
+      expect(output).toBe(renderTree());
 
-        it('Fail with string', (): void => {
-            try {
-                tree.fail('Something bad happened\nat X\nat Y\nat Z');
-            } catch (error) {
-                // eslint-disable-next-line jest/no-try-expect
-                expect((error as Error).message).toBe('Something bad happened\nat X\nat Y\nat Z');
-            }
-        });
+      tree.stop();
 
-        it('Fail with new Error()', (): void => {
-            try {
-                tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
-            } catch (error) {
-                // eslint-disable-next-line jest/no-try-expect
-                expect((error as Error).message).toBe('Something bad happened\nat X\nat Y\nat Z');
-            }
-        });
+      expect(renderTree()).toBe('');
 
-        it('Complete and render', (): void => {
-            const output = renderTask(task.complete());
+      tree.start(options);
+      tree.stop();
 
-            expect(output).toBeTruthy();
-            expect(output).toBe(renderTree());
-
-            tree.stop();
-
-            expect(renderTree()).toBe('');
-
-            tree.start(options);
-            tree.stop();
-
-            expect(renderTree()).toBe('');
-        });
+      expect(renderTree()).toBe('');
     });
+  });
 });

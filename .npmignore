@@ -1,4 +1,3 @@
-
 # folders
 **/__mocks__/**
 **/__tests__/**
@@ -7,6 +6,7 @@ coverage/
 media/
 src/
 docs/
+example/
 
 # configs
 .github
@@ -23,14 +23,12 @@ docs/
 .yarnclean
 .changelogrc.yml
 .ghinfo
-.dependabot
 jest.config.js
 tsconfig.json
 yarn.lock
+typedoc.json
 
 # docs
-README.md
-CHANGELOG.md
 CODE_OF_CONDUCT.md
 
 # logs

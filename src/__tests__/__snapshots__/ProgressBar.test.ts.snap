@@ -4,6 +4,6 @@ exports[`ProgressBar Default 1`] = `"******************** 100% 0.0s test"`;
 
 exports[`ProgressBar Statuses Complete 1`] = `"******************** 100% 0.0s :custom"`;
 
-exports[`ProgressBar Statuses Fail 1`] = `"**********__________ 50% 0.0s :custom [error]"`;
+exports[`ProgressBar Statuses Fail 1`] = `"**********__________ 50% 0.0s :custom [fail]"`;
 
 exports[`ProgressBar Statuses Skip 1`] = `"**********__________ 50% 0.0s :custom [skip]"`;

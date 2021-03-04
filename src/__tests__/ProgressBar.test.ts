@@ -1,81 +1,82 @@
 import stripAnsi from 'strip-ansi';
-import { ProgressBar, IProgressBarOptions } from '../ProgressBar';
+
+import { IProgressBarOptions, ProgressBar } from '../ProgressBar';
 import { Theme } from '../Theme';
 
 const template = ':bar :percent :etas :custom';
 const theme = new Theme();
-const options: IProgressBarOptions = { complete: '*', incomplete: '_' };
+const options: IProgressBarOptions = { completeChar: '*', incompleteChar: '_' };
 const step = 1;
 let bar: ProgressBar;
 let before: number;
 
 describe('ProgressBar', (): void => {
-    it('Default', (): void => {
-        bar = new ProgressBar(template, { total: step * 2, ...options });
+  it('Default', (): void => {
+    bar = new ProgressBar(template, { total: step * 2, ...options });
 
-        expect(bar.getPercent()).toBe(ProgressBar.MIN_PERCENT);
-        expect(bar.getRatio()).toBe(ProgressBar.MIN_RATIO);
-        expect(bar.getStart()).toBeTruthy();
-        expect(bar.getEnd()).toBeFalsy();
-        expect(bar.getRate()).toBeFalsy();
-        expect(bar.getETA()).toBe(Infinity);
-        expect(bar.isCompleted()).toBeFalsy();
+    expect(bar.percent).toBe(ProgressBar.MIN_PERCENT);
+    expect(bar.ratio).toBe(ProgressBar.MIN_RATIO);
+    expect(bar.start).toBeTruthy();
+    expect(bar.end).toBeFalsy();
+    expect(bar.rate).toBeFalsy();
+    expect(bar.ETA).toBe(Infinity);
+    expect(bar.isCompleted).toBeFalsy();
 
-        bar.tick();
+    bar.tick();
 
-        expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
-        expect(bar.getRatio()).toBe(ProgressBar.MAX_RATIO / 2);
-        expect(bar.getStart()).toBeTruthy();
-        expect(bar.getEnd()).toBeFalsy();
-        expect(bar.getElapsed()).toBeTruthy();
-        expect(bar.getRate()).toBeTruthy();
-        expect(bar.getETA()).toBeTruthy();
-        expect(bar.isCompleted()).toBeFalsy();
+    expect(bar.percent).toBe(ProgressBar.MAX_PERCENT / 2);
+    expect(bar.ratio).toBe(ProgressBar.MAX_RATIO / 2);
+    expect(bar.start).toBeTruthy();
+    expect(bar.end).toBeFalsy();
+    expect(bar.elapsed).toBeTruthy();
+    expect(bar.rate).toBeTruthy();
+    expect(bar.ETA).toBeTruthy();
+    expect(bar.isCompleted).toBeFalsy();
 
-        bar.tick(step, {
-            custom: 'test',
-        });
-
-        expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
-        expect(bar.getRatio()).toBe(ProgressBar.MAX_RATIO);
-        expect(bar.getStart()).toBeTruthy();
-        expect(bar.getEnd()).toBeTruthy();
-        expect(bar.getElapsed()).toBeTruthy();
-        expect(bar.getRate()).toBeTruthy();
-        expect(bar.getETA()).toBeFalsy();
-        expect(bar.isCompleted()).toBeTruthy();
-        expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+    bar.tick(step, {
+      custom: 'test',
     });
 
-    describe('Statuses', (): void => {
-        beforeEach((): void => {
-            bar = new ProgressBar(template, options);
-            before = new Date().getTime();
-            bar.tick(bar.total / 2);
-        });
+    expect(bar.percent).toBe(ProgressBar.MAX_PERCENT);
+    expect(bar.ratio).toBe(ProgressBar.MAX_RATIO);
+    expect(bar.start).toBeTruthy();
+    expect(bar.end).toBeTruthy();
+    expect(bar.elapsed).toBeTruthy();
+    expect(bar.rate).toBeTruthy();
+    expect(bar.ETA).toBeFalsy();
+    expect(bar.isCompleted).toBeTruthy();
+    expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+  });
 
-        it('Complete', (): void => {
-            bar.complete();
-
-            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
-            expect(bar.isCompleted()).toBeTruthy();
-            expect(bar.getEnd()).toBeGreaterThanOrEqual(before);
-            expect(bar.getEnd()).toBeLessThanOrEqual(new Date().getTime());
-        });
-
-        it('Skip', (): void => {
-            bar.skip();
-
-            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
-        });
-
-        it('Fail', (): void => {
-            bar.fail();
-
-            expect(bar.getPercent()).toBe(ProgressBar.MAX_PERCENT / 2);
-            expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
-        });
+  describe('Statuses', (): void => {
+    beforeEach((): void => {
+      bar = new ProgressBar(template, options);
+      before = new Date().getTime();
+      bar.tick(bar.total / 2);
     });
+
+    it('Complete', (): void => {
+      bar.complete();
+
+      expect(bar.percent).toBe(ProgressBar.MAX_PERCENT);
+      expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+      expect(bar.isCompleted).toBeTruthy();
+      expect(bar.end).toBeGreaterThanOrEqual(before);
+      expect(bar.end).toBeLessThanOrEqual(new Date().getTime());
+    });
+
+    it('Skip', (): void => {
+      bar.skip();
+
+      expect(bar.percent).toBe(ProgressBar.MAX_PERCENT / 2);
+      expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+    });
+
+    it('Fail', (): void => {
+      bar.fail();
+
+      expect(bar.percent).toBe(ProgressBar.MAX_PERCENT / 2);
+      expect(stripAnsi(bar.render(theme))).toMatchSnapshot();
+    });
+  });
 });
