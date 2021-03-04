@@ -23,8 +23,6 @@ example/
 .yarnclean
 .changelogrc.yml
 .ghinfo
-.dependabot
-.mergify.yml
 jest.config.js
 tsconfig.json
 yarn.lock
