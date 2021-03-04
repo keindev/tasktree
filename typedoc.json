@@ -1,0 +1,13 @@
+{
+  "entryPoints": ["src/TaskTree.ts", "src/Task.ts", "src/ProgressBar.ts"],
+  "out": "docs/api",
+  "hideGenerator": true,
+  "hideBreadcrumbs": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "disableSources": true,
+  "readme": "none",
+  "entryDocument": "index.md",
+  "exclude": ["**/__tests__/**/*", "**/__mocks__/**/*"]
+}
