@@ -42,7 +42,7 @@ describe('TaskTree', (): void => {
   describe('Manage tasks', (): void => {
     beforeEach((): void => {
       task = tree.add('task');
-      task.log(`message`).warn(`warning`);
+      task.log('message').warn('warning');
     });
 
     it('Skip', (): void => {
@@ -50,26 +50,26 @@ describe('TaskTree', (): void => {
     });
 
     it('Fail with string', (): void => {
-      let message = '';
+      let msg = '';
 
       try {
         tree.fail('Something bad happened\nat X\nat Y\nat Z');
       } catch (error) {
-        message = (error as Error).message;
+        msg = (error as Error).message;
       } finally {
-        expect(message).toBe('Something bad happened\nat X\nat Y\nat Z');
+        expect(msg).toBe('Something bad happened\nat X\nat Y\nat Z');
       }
     });
 
     it('Fail with new Error()', (): void => {
-      let message = '';
+      let msg = '';
 
       try {
         tree.fail(new Error('Something bad happened\nat X\nat Y\nat Z'));
       } catch (error) {
-        message = (error as Error).message;
+        msg = (error as Error).message;
       } finally {
-        expect(message).toBe('Something bad happened\nat X\nat Y\nat Z');
+        expect(msg).toBe('Something bad happened\nat X\nat Y\nat Z');
       }
     });
 

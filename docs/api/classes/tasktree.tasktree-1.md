@@ -26,7 +26,7 @@ Singleton to manage the task tree
 
 ### TIMEOUT
 
-▪ `Static` **TIMEOUT**: *number*= 100
+▪ `Readonly` `Static` **TIMEOUT**: *100*= 100
 
 ## Methods
 

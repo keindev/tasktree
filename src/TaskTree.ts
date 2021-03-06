@@ -17,7 +17,7 @@ export interface ITaskTreeOptions {
 
 /** Singleton to manage the task tree */
 export class TaskTree {
-  static TIMEOUT = 100;
+  static readonly TIMEOUT = 100;
   private static instance: TaskTree;
 
   #handle: NodeJS.Timeout | undefined;
@@ -69,9 +69,7 @@ export class TaskTree {
    * > If you use a gradient fill for the progress bar - the color will change from `active` to `success`
    */
   static tree(theme?: ThemeOptions): TaskTree {
-    if (!TaskTree.instance) {
-      TaskTree.instance = new TaskTree(theme);
-    }
+    if (!TaskTree.instance) TaskTree.instance = new TaskTree(theme);
 
     return TaskTree.instance;
   }
@@ -127,6 +125,7 @@ export class TaskTree {
       if (this.#silent) {
         if (code === ExitCode.Error) throw error instanceof Error ? error : new Error(error);
       } else {
+        // eslint-disable-next-line no-process-exit
         process.exit(code);
       }
     } else if (code === ExitCode.Error) {
@@ -162,7 +161,7 @@ export class TaskTree {
     if (!this.#started || this.#silent) {
       throw errorObject;
     } else {
-      let task: Task = this.#tasks[this.#tasks.length - 1];
+      let task = this.#tasks[this.#tasks.length - 1];
 
       task = active && task && task.isPending ? task.activeSubtask : this.add(errorObject.name);
 

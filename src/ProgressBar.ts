@@ -62,14 +62,14 @@ export interface IProgressBarToken {
  * ```
  */
 export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'>> {
-  static TICK = 1;
-  static TIME_DIMENSION = 1000;
-  static MAX_POINT_POSITION = 1;
-  static MIN_POINT_POSITION = 0;
-  static MIN_PERCENT = 0;
-  static MAX_PERCENT = 100;
-  static MIN_RATIO = 0;
-  static MAX_RATIO = 1;
+  static readonly TICK = 1;
+  static readonly TIME_DIMENSION = 1000;
+  static readonly MAX_POINT_POSITION = 1;
+  static readonly MIN_POINT_POSITION = 0;
+  static readonly MIN_PERCENT = 0;
+  static readonly MAX_PERCENT = 100;
+  static readonly MIN_RATIO = 0;
+  static readonly MAX_RATIO = 1;
 
   /** Total number of ticks to complete */
   readonly total = Progress.End;
@@ -236,18 +236,10 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
   }
 
   private getBlocks(theme: Theme, type: IndicationType, length: number): string {
-    let blocks = TextSeparator.Empty.padStart(length, this.completeChar);
+    const str = TextSeparator.Empty.padStart(length, this.completeChar);
 
-    if (!this.isCompleted && this.gradient) {
-      blocks = theme.gradient(blocks, {
-        position: this.ratio,
-        begin: Theme.type(this.#status),
-        end: IndicationType.Success,
-      });
-    } else {
-      blocks = theme.paint(blocks, type);
-    }
-
-    return blocks;
+    return !this.isCompleted && this.gradient
+      ? theme.gradient(str, { position: this.ratio, begin: Theme.type(this.#status), end: IndicationType.Success })
+      : theme.paint(str, type);
   }
 }

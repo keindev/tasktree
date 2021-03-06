@@ -60,31 +60,23 @@ export interface IGradient {
 }
 
 export type ThemeOptions = {
-  [key in IndicationType]?:
-    | string
-    | {
-        color?: string;
-        symbol?: string;
-        badge?: string;
-      }
-    | [string?, string?, string?];
+  [key in IndicationType]?: string | { color?: string; symbol?: string; badge?: string } | [string?, string?, string?];
 };
 
 export class Theme {
-  public static INDENT = '  ';
+  static INDENT = '  ';
 
-  private colors: Map<IndicationType, string> = new Map();
-  private symbols: Map<IndicationType, string> = new Map();
-  private badges: Map<IndicationType, string> = new Map();
+  #colors: Map<IndicationType, string> = new Map();
+  #symbols: Map<IndicationType, string> = new Map();
+  #badges: Map<IndicationType, string> = new Map();
 
-  public constructor(options?: ThemeOptions) {
+  constructor(options?: ThemeOptions) {
     if (options) {
-      const { colors, symbols, badges } = this;
       const list = new Map(Object.entries(options));
       const set = (key: IndicationType, color?: string, symbol?: string, badge?: string): void => {
-        if (color) colors.set(key, color);
-        if (symbol) symbols.set(key, symbol);
-        if (badge) badges.set(key, badge);
+        if (color) this.#colors.set(key, color);
+        if (symbol) this.#symbols.set(key, symbol);
+        if (badge) this.#badges.set(key, badge);
       };
 
       Object.values(IndicationType).forEach((key: IndicationType): void => {
@@ -93,7 +85,7 @@ export class Theme {
         if (Array.isArray(option)) {
           set(key, ...option);
         } else if (typeof option === 'string') {
-          colors.set(key, option);
+          this.#colors.set(key, option);
         } else if (typeof option === 'object') {
           const { color, symbol, badge } = option;
 
@@ -103,7 +95,7 @@ export class Theme {
     }
   }
 
-  public static type(status: TaskStatus, isList = false): IndicationType {
+  static type(status: TaskStatus, isList = false): IndicationType {
     let type: IndicationType;
 
     switch (status) {
@@ -125,19 +117,19 @@ export class Theme {
     return type;
   }
 
-  public static join(separator: string, ...text: string[]): string {
+  static join(separator: string, ...text: string[]): string {
     return text.filter((value): boolean => !!value.length).join(separator);
   }
 
-  public static dye(str: string, color: string): string {
+  static dye(str: string, color: string): string {
     return color ? chalk.hex(color)(str) : str;
   }
 
-  public static indent(count: number, ...text: string[]): string {
+  static indent(count: number, ...text: string[]): string {
     return `${Theme.INDENT.padStart(count * Indent.Default)}${Theme.join(TextSeparator.Space, ...text)}`;
   }
 
-  public static format(template: string): string {
+  static format(template: string): string {
     return template ? chalk(Object.assign([], { raw: [template.replace(/`/g, '\\`')] })) : '';
   }
 
@@ -150,6 +142,7 @@ export class Theme {
   }
 
   private static hex([r, g, b]: [number, number, number]): string {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     const int = ((Math.round(r) & 0xff) << 16) + ((Math.round(g) & 0xff) << 8) + (Math.round(b) & 0xff);
     const str = int.toString(16).toUpperCase();
 
@@ -157,32 +150,27 @@ export class Theme {
   }
 
   private static rgb(color: string): [number, number, number] {
-    const match = color.match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
-    let r = 0;
-    let g = 0;
-    let b = 0;
+    const match = color.match(/[\da-f]{6}|[\da-f]{3}/i);
+    let rgb: [number, number, number] = [0, 0, 0];
 
-    if (match) {
+    if (match && match[0]) {
       const int = parseInt(
         match[0]
           .split('')
-          .map((char) => char + char)
+          .map(char => char + char)
           .join(''),
         16
       );
 
-      r = (int >> 16) & 0xff;
-      g = (int >> 8) & 0xff;
-      b = int & 0xff;
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      rgb = [(int >> 16) & 0xff, (int >> 8) & 0xff, int & 0xff];
     }
 
-    return [r, g, b];
+    return rgb;
   }
 
   public getColor(type: IndicationType): string {
-    const { colors } = this;
-
-    return Theme.getValueBy(this.colors, type, (): string => {
+    return Theme.getValueBy(this.#colors, type, (): string => {
       if (type === IndicationType.Active) return IndicationColor.Active;
       if (type === IndicationType.Success) return IndicationColor.Success;
       if (type === IndicationType.Skip) return IndicationColor.Skip;
@@ -194,7 +182,7 @@ export class Theme {
       if (type === IndicationType.List) return IndicationColor.List;
       if (type === IndicationType.Dim) return IndicationColor.Dim;
 
-      return colors.get(IndicationType.Default) || IndicationColor.Default;
+      return this.#colors.get(IndicationType.Default) || IndicationColor.Default;
     });
   }
 
@@ -220,8 +208,7 @@ export class Theme {
   }
 
   public symbol(type: IndicationType): string {
-    const { symbols } = this;
-    const symbol = Theme.getValueBy(symbols, type, (): string => {
+    const symbol = Theme.getValueBy(this.#symbols, type, () => {
       if (type === IndicationType.Active) return frame();
       if (type === IndicationType.Success) return Figures.tick;
       if (type === IndicationType.Skip) return Figures.arrowDown;
@@ -232,19 +219,18 @@ export class Theme {
       if (type === IndicationType.Subtask) return Figures.pointerSmall;
       if (type === IndicationType.List) return Figures.pointer;
 
-      return symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
+      return this.#symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
     });
 
     return symbol ? this.paint(symbol, type) : symbol;
   }
 
   public badge(type: IndicationType): string {
-    const { badges } = this;
-    const badge = Theme.getValueBy(badges, type, (): string => {
+    const badge = Theme.getValueBy(this.#badges, type, () => {
       if (type === IndicationType.Error) return IndicationBadge.Error;
       if (type === IndicationType.Skip) return IndicationBadge.Skip;
 
-      return badges.get(IndicationType.Default) || IndicationBadge.Default;
+      return this.#badges.get(IndicationType.Default) || IndicationBadge.Default;
     });
 
     return badge ? this.paint(badge, IndicationType.Dim) : badge;
@@ -266,7 +252,7 @@ export class Theme {
     const sublevel = level + Indent.Long;
 
     return errors.reduce<string[]>((acc, text): string[] => {
-      const [error, ...lines] = text.split(Terminal.EOL);
+      const [error = '', ...lines] = text.split(Terminal.EOL);
       const title = Theme.join(
         TextSeparator.Space,
         this.symbol(IndicationType.Message),

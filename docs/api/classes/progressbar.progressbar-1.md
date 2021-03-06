@@ -141,49 +141,49 @@ ___
 
 ### MAX\_PERCENT
 
-▪ `Static` **MAX\_PERCENT**: *number*= 100
+▪ `Readonly` `Static` **MAX\_PERCENT**: *100*= 100
 
 ___
 
 ### MAX\_POINT\_POSITION
 
-▪ `Static` **MAX\_POINT\_POSITION**: *number*= 1
+▪ `Readonly` `Static` **MAX\_POINT\_POSITION**: *1*= 1
 
 ___
 
 ### MAX\_RATIO
 
-▪ `Static` **MAX\_RATIO**: *number*= 1
+▪ `Readonly` `Static` **MAX\_RATIO**: *1*= 1
 
 ___
 
 ### MIN\_PERCENT
 
-▪ `Static` **MIN\_PERCENT**: *number*= 0
+▪ `Readonly` `Static` **MIN\_PERCENT**: *0*= 0
 
 ___
 
 ### MIN\_POINT\_POSITION
 
-▪ `Static` **MIN\_POINT\_POSITION**: *number*= 0
+▪ `Readonly` `Static` **MIN\_POINT\_POSITION**: *0*= 0
 
 ___
 
 ### MIN\_RATIO
 
-▪ `Static` **MIN\_RATIO**: *number*= 0
+▪ `Readonly` `Static` **MIN\_RATIO**: *0*= 0
 
 ___
 
 ### TICK
 
-▪ `Static` **TICK**: *number*= 1
+▪ `Readonly` `Static` **TICK**: *1*= 1
 
 ___
 
 ### TIME\_DIMENSION
 
-▪ `Static` **TIME\_DIMENSION**: *number*= 1000
+▪ `Readonly` `Static` **TIME\_DIMENSION**: *1000*= 1000
 
 ## Accessors
 
