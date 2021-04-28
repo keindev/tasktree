@@ -34,9 +34,7 @@ describe('ProgressBar', (): void => {
     expect(bar.ETA).toBeTruthy();
     expect(bar.isCompleted).toBeFalsy();
 
-    bar.tick(step, {
-      custom: 'test',
-    });
+    bar.tick(step, { custom: 'test' });
 
     expect(bar.percent).toBe(ProgressBar.MAX_PERCENT);
     expect(bar.ratio).toBe(ProgressBar.MAX_RATIO);

@@ -1,0 +1,29 @@
+test:
+  - src/__mocks__/**/*.test.ts
+  - src/__tests__/**/*.test.ts
+
+workflow:
+  - .github/**/*
+  - .gitignore
+  - .npmignore
+
+project:
+  - package-lock.json
+  - package.json
+  - LICENSE
+
+source:
+  - any: ['src/**/*', '!src/cli/*', '!src/__mocks__/*', '!src/__tests__/*']
+
+api:
+  - bin/**/*
+  - src/cli/**/*
+
+docs:
+  - any: ['docs/**/*', '*.md', '.ghinfo']
+
+example:
+  - example/**/*
+
+media:
+  - media/**/*
