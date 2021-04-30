@@ -20,7 +20,7 @@ describe('ProgressBar', (): void => {
     expect(bar.start).toBeTruthy();
     expect(bar.end).toBeFalsy();
     expect(bar.rate).toBeFalsy();
-    expect(bar.ETA).toBe(Infinity);
+    expect(isFinite(bar.ETA)).toBeFalsy();
     expect(bar.isCompleted).toBeFalsy();
 
     bar.tick();
