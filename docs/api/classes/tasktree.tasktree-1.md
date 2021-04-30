@@ -26,7 +26,7 @@ Singleton to manage the task tree
 
 ### TIMEOUT
 
-▪ `Static` **TIMEOUT**: *number*= 100
+▪ `Static` `Readonly` **TIMEOUT**: ``100``= 100
 
 ## Methods
 
@@ -38,9 +38,9 @@ Adds a new task to the task tree. If there are active tasks, add a new one as a 
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`text` | *string* | Text for display    |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `text` | *string* | Text for display |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -54,10 +54,10 @@ Force the process to exit (see process.exit). Do nothing in "silent mode"
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`code` | [*ExitCode*](../enums/tasktree.exitcode.md) |
-`error?` | *string* \| Error |
+| Name | Type |
+| :------ | :------ |
+| `code` | [*ExitCode*](../enums/tasktree.exitcode.md) |
+| `error?` | *string* \| Error |
 
 **Returns:** *void*
 
@@ -71,10 +71,10 @@ Fail active task or adds a new subtask and call fail on it
 
 #### Parameters:
 
-Name | Type | Default value | Description |
-:------ | :------ | :------ | :------ |
-`error` | *string* \| Error | - | Text or Error object for display   |
-`active` | *boolean* | true | If `true` - call failed for active task, else create new task and call fail on it    |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `error` | *string* \| Error | - | Text or Error object for display |
+| `active` | *boolean* | true | If `true` - call failed for active task, else create new task and call fail on it |
 
 **Returns:** *never*
 
@@ -98,9 +98,9 @@ Starts output a task tree in a terminal at a defined interval. In “silent mode
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`__namedParameters` | [*ITaskTreeOptions*](../interfaces/tasktree.itasktreeoptions.md) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `__namedParameters` | [*ITaskTreeOptions*](../interfaces/tasktree.itasktreeoptions.md) | {} |
 
 **Returns:** [*TaskTree*](tasktree.tasktree-1.md)
 
@@ -124,9 +124,9 @@ Adds a new task to the task tree. If there are active tasks, add a new one as a 
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `text` | *string* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -140,10 +140,10 @@ Fail active task or adds a new subtask and call fail on it
 
 #### Parameters:
 
-Name | Type | Default value |
-:------ | :------ | :------ |
-`error` | *string* \| Error | - |
-`active` | *boolean* | true |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `error` | *string* \| Error | - |
+| `active` | *boolean* | true |
 
 **Returns:** *never*
 
@@ -187,8 +187,8 @@ const theme = {
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`theme?` | ThemeOptions | Theme properties. The field name is a modifier the value is options   |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `theme?` | ThemeOptions | Theme properties. The field name is a modifier the value is options |
 
 **Returns:** [*TaskTree*](tasktree.tasktree-1.md)

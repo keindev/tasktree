@@ -10,7 +10,7 @@ const progress = new task.bar([template, options]);
 
 ## Implements
 
-* *Required*<Omit<[*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md), *current*\>\>
+* *Required*<Omit<[*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md), ``"current"``\>\>
 
 ## Table of contents
 
@@ -64,10 +64,10 @@ const progress = new task.bar([template, options]);
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`template?` | *string* |
-`options?` | [*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md) |
+| Name | Type |
+| :------ | :------ |
+| `template?` | *string* |
+| `options?` | [*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md) |
 
 **Returns:** [*ProgressBar*](progressbar.progressbar-1.md)
 
@@ -79,6 +79,8 @@ Name | Type |
 
 Option to add badge
 
+Implementation of: Required.badges
+
 ___
 
 ### clear
@@ -86,6 +88,8 @@ ___
 • `Readonly` **clear**: *boolean*= false
 
 Option to clear the bar on completion
+
+Implementation of: Required.clear
 
 ___
 
@@ -95,6 +99,8 @@ ___
 
 Completion character
 
+Implementation of: Required.completeChar
+
 ___
 
 ### gradient
@@ -103,6 +109,8 @@ ___
 
 Option to add gradient to pending bar
 
+Implementation of: Required.gradient
+
 ___
 
 ### incompleteChar
@@ -110,6 +118,8 @@ ___
 • `Readonly` **incompleteChar**: *string*
 
 Incomplete character
+
+Implementation of: Required.incompleteChar
 
 ___
 
@@ -129,6 +139,8 @@ ___
 
 Total number of ticks to complete
 
+Implementation of: Required.total
+
 ___
 
 ### width
@@ -137,53 +149,55 @@ ___
 
 The displayed width of the progress bar defaulting to total
 
+Implementation of: Required.width
+
 ___
 
 ### MAX\_PERCENT
 
-▪ `Static` **MAX\_PERCENT**: *number*= 100
+▪ `Static` `Readonly` **MAX\_PERCENT**: ``100``= 100
 
 ___
 
 ### MAX\_POINT\_POSITION
 
-▪ `Static` **MAX\_POINT\_POSITION**: *number*= 1
+▪ `Static` `Readonly` **MAX\_POINT\_POSITION**: ``1``= 1
 
 ___
 
 ### MAX\_RATIO
 
-▪ `Static` **MAX\_RATIO**: *number*= 1
+▪ `Static` `Readonly` **MAX\_RATIO**: ``1``= 1
 
 ___
 
 ### MIN\_PERCENT
 
-▪ `Static` **MIN\_PERCENT**: *number*= 0
+▪ `Static` `Readonly` **MIN\_PERCENT**: ``0``= 0
 
 ___
 
 ### MIN\_POINT\_POSITION
 
-▪ `Static` **MIN\_POINT\_POSITION**: *number*= 0
+▪ `Static` `Readonly` **MIN\_POINT\_POSITION**: ``0``= 0
 
 ___
 
 ### MIN\_RATIO
 
-▪ `Static` **MIN\_RATIO**: *number*= 0
+▪ `Static` `Readonly` **MIN\_RATIO**: ``0``= 0
 
 ___
 
 ### TICK
 
-▪ `Static` **TICK**: *number*= 1
+▪ `Static` `Readonly` **TICK**: ``1``= 1
 
 ___
 
 ### TIME\_DIMENSION
 
-▪ `Static` **TIME\_DIMENSION**: *number*= 1000
+▪ `Static` `Readonly` **TIME\_DIMENSION**: ``1000``= 1000
 
 ## Accessors
 
@@ -293,9 +307,9 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`theme` | *Theme* |
+| Name | Type |
+| :------ | :------ |
+| `theme` | *Theme* |
 
 **Returns:** *string*
 
@@ -326,9 +340,9 @@ bat.tick(10, { token: 100 });
 
 #### Parameters:
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`step?` | *number* | Value by which the current progress will increase   |
-`tokens?` | [*IProgressBarToken*](../interfaces/progressbar.iprogressbartoken.md) | Add custom tokens by adding a `{'name': value}` object parameter to your method   |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `step?` | *number* | Value by which the current progress will increase |
+| `tokens?` | [*IProgressBarToken*](../interfaces/progressbar.iprogressbartoken.md) | Add custom tokens by adding a `{'name': value}` object parameter to your method |
 
 **Returns:** [*ProgressBar*](progressbar.progressbar-1.md)

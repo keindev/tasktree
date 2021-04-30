@@ -15,7 +15,7 @@ New subtask options
 
 ### autoClear
 
-• `Optional` **autoClear**: *undefined* \| *boolean*
+• `Optional` **autoClear**: *boolean*
 
 Removes all subtasks and progress bars after complete
 
@@ -23,6 +23,6 @@ ___
 
 ### status
 
-• `Optional` **status**: *undefined* \| [*TaskStatus*](../enums/task.taskstatus.md)
+• `Optional` **status**: [*TaskStatus*](../enums/task.taskstatus.md)
 
 New subtask status

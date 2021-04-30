@@ -1,35 +1,29 @@
-# folders
 **/__mocks__/**
 **/__tests__/**
-node_modules/
-coverage/
-media/
-src/
-docs/
-example/
-
-# configs
-.github
-.vscode
-.env
+.changelogrc.yml
+.config
 .editorconfig
-.gitattributes
+.env
 .eslintignore
 .eslintrc
-.huskyrc
+.ghinfo
+.gitattributes
+.github
+.husky
 .prettierignore
 .prettierrc
-.travis.yml
-.yarnclean
-.changelogrc.yml
-.ghinfo
-jest.config.js
-tsconfig.json
-yarn.lock
-typedoc.json
-
-# docs
+.vscode
 CODE_OF_CONDUCT.md
-
-# logs
-yarn-error.log
+babel.config.js
+codecov.yml
+codegen.yml
+coverage/
+docs/
+example/
+jest.config.js
+jest.modules.json
+media/
+node_modules/
+src/
+tsconfig.json
+typedoc.json

@@ -1,51 +1,198 @@
-name: build
-on:
-  push:
-    branches:
-      - '*'
-      - '*/*'
-      - '!master'
+name: Build
+
+on: [push, pull_request]
 
 jobs:
-  lint:
+  triage-labels:
+    name: Add labels
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [15.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run check:lint
+    - uses: actions/labeler@main
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        sync-labels: true
 
   test:
+    name: Test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12.x, 13.x, 14.x, 15.x]
+        node-version: [14.x, 15.x]
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm test
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js v${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install Dependencies
+      run: npm ci
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Lint and Test
+      run: |
+        npm run check
+        npm run test
+
+    - name: Cache coverage
+      if: ${{ success() && matrix.node-version == '15.x' }}
+      uses: actions/cache@v2
+      with:
+        path: coverage
+        key: coverage-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
 
   build:
+    name: Build
+    needs: [test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [15.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build:ts
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install Dependencies
+      run: npm ci
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build
+      run: npm run build
+
+  coverage:
+    name: Coverage
+    if: ${{ github.event_name == 'push' }}
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Cache coverage
+      id: cache-coverage
+      uses: actions/cache@v2
+      with:
+        path: coverage
+        key: coverage-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
+
+    - name: Setup Node.js v${{ matrix.node-version }}
+      if: steps.cache-coverage.outputs.cache-hit != 'true'
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache node modules
+      if: steps.cache-coverage.outputs.cache-hit != 'true'
+      id: cache-npm
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Test
+      if: steps.cache-coverage.outputs.cache-hit != 'true'
+      run: |
+        npm ci
+        npm run test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Send coverage report
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage/lcov.info
+
+  discord:
+    name: Discord notification
+    needs: [test, build, coverage]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    env:
+      DISCORD_USERNAME: github
+      DISCORD_ERROR_COLOR: 16726645
+      DISCORD_ERROR_AVATAR: https://cdn.jsdelivr.net/gh/tagproject/art/bot/bot-error.png
+      DISCORD_EVENT_COLOR: 53759
+      DISCORD_EVENT_AVATAR: https://cdn.jsdelivr.net/gh/tagproject/art/bot/bot-event.png
+    steps:
+    - name: Send error notification after push commit
+      if: ${{ contains(needs.*.result, 'failure') && github.event_name == 'push' }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        nodetail: true
+        username: ${{ env.DISCORD_USERNAME }}
+        avatar_url: ${{ env.DISCORD_ERROR_AVATAR }}
+        title: 'Build failed :confused:'
+        color: ${{ env.DISCORD_ERROR_COLOR }}
+        description: |
+          **Repository:** `${{ github.repository }}`
+          **Branch:** `${{ github.event.ref }}`
+          **Author:** [${{ github.event.head_commit.author.username }}](https://github.com/${{ github.event.head_commit.author.username }})
+          **Commit:** [${{ github.event.head_commit.id }}](${{ github.event.head_commit.url }})
+          **Message:**
+          `${{ github.event.head_commit.message }}`
+
+    - name: Send error notification for pull_request
+      if: ${{ contains(needs.*.result, 'failure') && github.event_name == 'pull_request' }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        nodetail: true
+        username: ${{ env.DISCORD_USERNAME }}
+        avatar_url: ${{ env.DISCORD_ERROR_AVATAR }}
+        title: 'Pull request build failed :confused:'
+        color: ${{ env.DISCORD_ERROR_COLOR }}
+        description: |
+          **Repository:** `${{ github.repository }}`
+          **Merge:** into `${{ github.event.pull_request.base.ref }}` from `${{ github.event.pull_request.head.ref }}`
+          **Title:** ${{ github.event.pull_request.title }} [#${{ github.event.pull_request.number }}](${{github.event.pull_request._links.html.href}})
+          **Assignees:** `${{ join(github.event.pull_request.assignees.*.login, ', ') }}`
+          **Labels:** `${{ join(github.event.pull_request.labels.*.name, ', ') }}`
+
+    - name: Send success notification for pull_request
+      if: ${{ !contains(needs.*.result, 'failure') && github.event_name == 'pull_request' }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        nodetail: true
+        username: ${{ env.DISCORD_USERNAME }}
+        avatar_url: ${{ env.DISCORD_EVENT_AVATAR }}
+        title: 'Pull request successfully build :face_with_monocle:'
+        color: ${{ env.DISCORD_EVENT_COLOR }}
+        description: |
+          **Repository:** `${{ github.repository }}`
+          **Merge:** into `${{ github.event.pull_request.base.ref }}` from `${{ github.event.pull_request.head.ref }}`
+          **Title:** ${{ github.event.pull_request.title }} [#${{ github.event.pull_request.number }}](${{github.event.pull_request._links.html.href}})
+          **Assignees:** `${{ join(github.event.pull_request.assignees.*.login, ', ') }}`
+          **Labels:** `${{ join(github.event.pull_request.labels.*.name, ', ') }}`
+
+
+

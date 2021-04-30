@@ -13,7 +13,7 @@
 
 ### autoClear
 
-• `Optional` **autoClear**: *undefined* \| *boolean*
+• `Optional` **autoClear**: *boolean*
 
 Removes all subtasks and bars from the main task
 
@@ -21,6 +21,6 @@ ___
 
 ### silent
 
-• `Optional` **silent**: *undefined* \| *boolean*
+• `Optional` **silent**: *boolean*
 
 Disable task tree rendering

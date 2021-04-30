@@ -1,26 +1,28 @@
-# folders
-lib/
-node_modules/
-
-# logs
-logs
-yarn-debug.log*
-yarn-error.log*
 *.log
-
-# reports
-coverage
-
-# local data
-pids
-tsconfig.tsbuildinfo
+*.pid
+*.pid.lock
+*.seed
+*.tgz
+.editorconfig
 .env
 .eslintcache
+.eslintignore
+.eslintrc
+.prettierignore
+.prettierrc
 .yarn-integrity
-*.pid
-*.seed
-*.pid.lock
-*.tgz
-
-# docs
-CHANGELOG.md
+/.husky/
+/.vscode/
+/jest.modules.json
+/typedoc.json
+babel.config.js
+coverage
+jest.config.js
+lib
+logs
+node_modules/
+pids
+tsconfig.json
+tsconfig.tsbuildinfo
+yarn-debug.log*
+yarn-error.log*

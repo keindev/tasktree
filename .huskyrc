@@ -1,6 +1,0 @@
-{
-  "hooks": {
-    "pre-commit": "npm run util:pre-commit",
-    "commit-msg": "npm run util:commit-msg"
-  }
-}

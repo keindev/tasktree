@@ -44,10 +44,10 @@ Entity for managing a task - includes all child objects (informational messages,
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
-`__namedParameters` | [*ITaskOptions*](../interfaces/task.itaskoptions.md) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `text` | *string* | - |
+| `__namedParameters` | [*ITaskOptions*](../interfaces/task.itaskoptions.md) | {} |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -137,10 +137,10 @@ Text to display
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
-`__namedParameters` | [*ITaskOptions*](../interfaces/task.itaskoptions.md) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `text` | *string* | - |
+| `__namedParameters` | [*ITaskOptions*](../interfaces/task.itaskoptions.md) | {} |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -154,10 +154,10 @@ Adds a new progress bar. Returns a progress bar object
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`template?` | *string* |
-`options?` | [*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md) |
+| Name | Type |
+| :------ | :------ |
+| `template?` | *string* |
+| `options?` | [*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md) |
 
 **Returns:** [*ProgressBar*](progressbar.progressbar-1.md)
 
@@ -179,10 +179,10 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text?` | *string* |
-`clear` | *boolean* |
+| Name | Type |
+| :------ | :------ |
+| `text?` | *string* |
+| `clear` | *boolean* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -194,10 +194,10 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`error?` | *string* \| Error |
-`fail?` | *boolean* |
+| Name | Type |
+| :------ | :------ |
+| `error?` | *string* \| Error |
+| `fail?` | *boolean* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -209,10 +209,10 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`error?` | *string* \| Error |
-`clear` | *boolean* |
+| Name | Type |
+| :------ | :------ |
+| `error?` | *string* \| Error |
+| `clear` | *boolean* |
 
 **Returns:** *never*
 
@@ -224,9 +224,9 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `text` | *string* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -238,10 +238,10 @@ ___
 
 #### Parameters:
 
-Name | Type | Default value |
-:------ | :------ | :------ |
-`theme` | *Theme* | - |
-`level` | *number* | 0 |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `theme` | *Theme* | - |
+| `level` | *number* | 0 |
 
 **Returns:** *string*[]
 
@@ -253,10 +253,10 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text?` | *string* |
-`clear` | *boolean* |
+| Name | Type |
+| :------ | :------ |
+| `text?` | *string* |
+| `clear` | *boolean* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -270,9 +270,9 @@ Update task text
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `text` | *string* |
 
 **Returns:** [*Task*](task.task-1.md)
 
@@ -284,8 +284,8 @@ ___
 
 #### Parameters:
 
-Name | Type |
-:------ | :------ |
-`text` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `text` | *string* |
 
 **Returns:** [*Task*](task.task-1.md)

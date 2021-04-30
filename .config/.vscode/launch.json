@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "Example app.js",
+      "type": "node",
+      "request": "launch",
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--nolazy", "--inspect-brk=9229", "example/app.js"],
+      "port": 9229
+    }
+  ]
+}
