@@ -21,7 +21,7 @@ ProgressBar display options
 
 ### badges
 
-• `Optional` **badges**: *undefined* \| *boolean*
+• `Optional` **badges**: *boolean*
 
 Option to add badge
 
@@ -29,7 +29,7 @@ ___
 
 ### clear
 
-• `Optional` **clear**: *undefined* \| *boolean*
+• `Optional` **clear**: *boolean*
 
 Option to clear the bar on completion
 
@@ -37,7 +37,7 @@ ___
 
 ### completeChar
 
-• `Optional` **completeChar**: *undefined* \| *string*
+• `Optional` **completeChar**: *string*
 
 Completion character
 
@@ -45,7 +45,7 @@ ___
 
 ### current
 
-• `Optional` **current**: *undefined* \| *number*
+• `Optional` **current**: *number*
 
 Current completed index
 
@@ -53,7 +53,7 @@ ___
 
 ### gradient
 
-• `Optional` **gradient**: *undefined* \| *boolean*
+• `Optional` **gradient**: *boolean*
 
 Option to add gradient to pending bar
 
@@ -61,7 +61,7 @@ ___
 
 ### incompleteChar
 
-• `Optional` **incompleteChar**: *undefined* \| *string*
+• `Optional` **incompleteChar**: *string*
 
 Incomplete character
 
@@ -69,7 +69,7 @@ ___
 
 ### total
 
-• `Optional` **total**: *undefined* \| *number*
+• `Optional` **total**: *number*
 
 Total number of ticks to complete
 
@@ -77,6 +77,6 @@ ___
 
 ### width
 
-• `Optional` **width**: *undefined* \| *number*
+• `Optional` **width**: *number*
 
 The displayed width of the progress bar defaulting to total
