@@ -44,12 +44,17 @@
 
 </details>
 
+# :bug: Bug Fixes
+
+- Fix `stdout-update` to `1.6.5` [`ed63ee1`](https://github.com/keindev/tasktree/commit/ed63ee1d3b93a3f151b09c11261227573bb0f48a)
+
 # :memo: Internal changes
 
 - Fix eslint rules [`32980ba`](https://github.com/keindev/tasktree/commit/32980ba99c89a36f79e67afee072d748a715c718)
 - Remove configs [`bb30f3e`](https://github.com/keindev/tasktree/commit/bb30f3e272c2e73616aa0f0494bb47e5519b8b70)
 - Use `standard-shared-config` [`76816ac`](https://github.com/keindev/tasktree/commit/76816ac3e003ff8ca7fb6b1b9c11388efcf25500)
 - Override configs for vscode & typedoc [`5831cc3`](https://github.com/keindev/tasktree/commit/5831cc314b8dbd15770d1bde6c89323443a81af7)
+- Fix progress bar test for NodeJS `15.x` [`188223e`](https://github.com/keindev/tasktree/commit/188223e5dc3dcaf181dcb69b8cb37920a342f092)
 
 # :wrench: Code Refactoring
 
