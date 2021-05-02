@@ -3,9 +3,9 @@ import stripAnsi from 'strip-ansi';
 
 import { IndicationBadge, IndicationType, Theme } from '../Theme';
 
-const text = 'text';
-
 describe('Theme', (): void => {
+  const text = 'text';
+
   it('Default', (): void => {
     const theme = new Theme();
 

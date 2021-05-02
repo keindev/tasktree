@@ -5,20 +5,20 @@ import { Task } from '../Task';
 import { ITaskTreeOptions, TaskTree } from '../TaskTree';
 import { Theme, ThemeOptions } from '../Theme';
 
-const options: ITaskTreeOptions = { silent: true, autoClear: false };
-const themeOptions: ThemeOptions = {
-  success: { symbol: '+' },
-  skip: { symbol: '>>' },
-  info: { symbol: 'i' },
-  warning: { symbol: '!' },
-};
-const theme = new Theme(themeOptions);
-const tree = TaskTree.tree(themeOptions);
-const renderTree = (): string => stripAnsi(tree.render().join(Terminal.EOL));
-const renderTask = (task: Task): string => stripAnsi(task.render(theme).join(Terminal.EOL));
-let task: Task;
-
 describe('TaskTree', (): void => {
+  const options: ITaskTreeOptions = { silent: true, autoClear: false };
+  const themeOptions: ThemeOptions = {
+    success: { symbol: '+' },
+    skip: { symbol: '>>' },
+    info: { symbol: 'i' },
+    warning: { symbol: '!' },
+  };
+  const theme = new Theme(themeOptions);
+  const tree = TaskTree.tree(themeOptions);
+  const renderTree = (): string => stripAnsi(tree.render().join(Terminal.EOL));
+  const renderTask = (task: Task): string => stripAnsi(task.render(theme).join(Terminal.EOL));
+  let task: Task;
+
   beforeEach((): void => {
     tree.start(options);
   });
