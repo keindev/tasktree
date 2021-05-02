@@ -1,4 +1,4 @@
-import * as Figures from 'figures';
+import figures from 'figures';
 
 import { TaskStatus } from './Task';
 import { IndicationType, TextSeparator, Theme } from './Theme';
@@ -74,9 +74,9 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
   /** Total number of ticks to complete */
   readonly total = Progress.End;
   /** Completion character */
-  readonly completeChar = Figures.square;
+  readonly completeChar = figures.square;
   /** Incomplete character */
-  readonly incompleteChar = Figures.square;
+  readonly incompleteChar = figures.square;
   /** The displayed width of the progress bar defaulting to total */
   readonly width: number = 20;
   /** Option to clear the bar on completion */

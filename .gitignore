@@ -15,13 +15,14 @@
 /.vscode/
 /jest.modules.json
 /typedoc.json
-babel.config.js
+babel.config.cjs
 coverage
-jest.config.js
+jest.config.cjs
 lib
 logs
 node_modules/
 pids
+tsconfig.eslint.json
 tsconfig.json
 tsconfig.tsbuildinfo
 yarn-debug.log*

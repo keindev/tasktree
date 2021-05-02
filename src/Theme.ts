@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import elegantSpinner from 'elegant-spinner';
-import * as Figures from 'figures';
+import figures from 'figures';
 import { Terminal } from 'stdout-update/lib/Terminal';
 
 import { ProgressBar } from './ProgressBar';
@@ -118,7 +118,7 @@ export class Theme {
   }
 
   static join(separator: string, ...text: string[]): string {
-    return text.filter((value): boolean => !!value.length).join(separator);
+    return text.filter((value): boolean => !!value?.length).join(separator);
   }
 
   static dye(str: string, color: string): string {
@@ -210,14 +210,14 @@ export class Theme {
   public symbol(type: IndicationType): string {
     const symbol = Theme.getValueBy(this.#symbols, type, () => {
       if (type === IndicationType.Active) return frame();
-      if (type === IndicationType.Success) return Figures.tick;
-      if (type === IndicationType.Skip) return Figures.arrowDown;
-      if (type === IndicationType.Error) return Figures.cross;
-      if (type === IndicationType.Message) return Figures.line;
-      if (type === IndicationType.Info) return Figures.info;
-      if (type === IndicationType.Warning) return Figures.warning;
-      if (type === IndicationType.Subtask) return Figures.pointerSmall;
-      if (type === IndicationType.List) return Figures.pointer;
+      if (type === IndicationType.Success) return figures.tick;
+      if (type === IndicationType.Skip) return figures.arrowDown;
+      if (type === IndicationType.Error) return figures.cross;
+      if (type === IndicationType.Message) return figures.line;
+      if (type === IndicationType.Info) return figures.info;
+      if (type === IndicationType.Warning) return figures.warning;
+      if (type === IndicationType.Subtask) return figures.pointerSmall;
+      if (type === IndicationType.List) return figures.pointer;
 
       return this.#symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
     });
