@@ -1,4 +1,4 @@
-const { TaskTree } = require('../lib/TaskTree');
+import TaskTree from '../lib';
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
@@ -15,7 +15,7 @@ const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
 // ... whatever
 let once = false;
 const promises = [50, 75, 200].map((ms, i) => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const handle = setInterval(() => {
       if (once) {
         if (bars[i].percent >= 50) {

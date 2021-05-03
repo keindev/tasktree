@@ -1,10 +1,10 @@
-<p align="center"><img width="200" src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/logo.svg" alt="TaskTree logo"></p>
+<p align="center"><img width="230" src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/logo.svg" alt="TaskTree logo"></p>
 
 <p align="center">
     <a href="https://travis-ci.com/keindev/tasktree"><img src="https://travis-ci.com/keindev/tasktree.svg?branch=master" alt="Build Status"></a>
     <a href="https://codecov.io/gh/keindev/tasktree"><img src="https://codecov.io/gh/keindev/tasktree/branch/master/graph/badge.svg" /></a>
     <a href="https://www.npmjs.com/package/tasktree-cli"><img alt="npm" src="https://img.shields.io/npm/v/tasktree-cli.svg"></a>
-    <a href="https://www.npmjs.com/package/tasktree-cli"><img alt="NPM" src="https://img.shields.io/npm/l/tasktree-cli.svg"></a>
+    <a href="https://github.com/tagproject/ts-package-shared-config"><img src="https://img.shields.io/badge/standard--shared--config-nodejs%2Bts-green?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAfCAYAAACh+E5kAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJQSURBVHgB1VftUcMwDFU4/tMNyAZ0A7IBbBA2CExAmIBjApcJChO0TFA2SJkgMIGRyDNV3TSt26RN353OX/LHUyTZIdoB1tqMZcaS0imBDzxkeWaJWR51SX0HrJ6pdsJyifpdb4loq3v9A+1CaBuWMR0Q502DzuJRFD34Y9z3DXIRNy/QPWKZY27COlM6BtZZHWMJ3CkVa28KZMTJkDpCVLOhs/oL2gMuEhYpxeenPPah9EdczLkvpwZgnQHWnlNLiNQGYiWx5gu6Ehz4m+WNN/2i9Yd75CJmeRDXogbIFxECrqQ2wIvlLBOXaViuYbGQNSQLFSGZyOnulb2wadaGnyoSSeC8GBJkNDf5kloESAhy2gFIIPG2+ufUMtivn/gAEi+Gy4u6FLxh/qer8/xbLq7QlNh6X4mbtr+A3pylDI0Lb43YrmLmXP5v3a4I4ABDRSI4xjB/ghveoj4BCVm37JQADhGDgOA+YJ48TSaoOwKpt27aOQG1WRES3La65WPU3dysTjE8de0Aj8SsKS5sdS9lqCeYI08bU6d8EALYS5OoDW4c3qi2gf7f+4yODfj2DIcqdVzYKnMtEUO7RP2gT/W1AImxXSC3i7R7rfRuMT5G2xzSYzaCDzOyyzDeuNHZx1a3fOdJJwh28fRwwT1QY6Xzf7TvWG6ob/BIGPQ59ymUngRyRn2El6Fy5T7G0zl+JmoC3KRQXyT1xpfiJKIeAemzqBl6U3V5ocZNf4hHg61u223wn4nOqF8IzvF9IxCMkyfQ+i/lnnhlmW6h9+Mqv1SmQhehji4JAAAAAElFTkSuQmCC" alt="Standard Shared Config"></a>
 </p>
 
 Simple terminal task tree - helps you keep track of your tasks in a tree structure.
@@ -13,22 +13,15 @@ Simple terminal task tree - helps you keep track of your tasks in a tree structu
 
 ## Install
 
-### Yarn
-
-```
-yarn add tasktree-cli
-```
-
-### NPM
-
-```
+```console
 npm install tasktree-cli
 ```
 
 ## Usage
 
 ```javascript
-const { TaskTree } = require('tasktree-cli');
+import TaskTree from 'tasktree-cli';
+
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
@@ -45,7 +38,7 @@ const bars = [task3.bar(tpl), task3.bar(tpl), task3.bar(tpl)];
 // ... whatever
 let once = false;
 const promises = [50, 75, 200].map((ms, i) => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const handle = setInterval(() => {
       if (once) {
         if (bars[i].percent >= 50) {
@@ -86,7 +79,3 @@ const task = new Task('{underline.cyan.bold Awesome task}');
 ## API
 
 Read the [API documentation](docs/api/index.md) for more information.
-
-## License
-
-[MIT](LICENSE)

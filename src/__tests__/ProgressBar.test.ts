@@ -3,15 +3,15 @@ import stripAnsi from 'strip-ansi';
 import { IProgressBarOptions, ProgressBar } from '../ProgressBar';
 import { Theme } from '../Theme';
 
-const template = ':bar :percent :etas :custom';
-const theme = new Theme();
-const options: IProgressBarOptions = { completeChar: '*', incompleteChar: '_' };
-const step = 1;
-const half = 2;
-let bar: ProgressBar;
-let before: number;
-
 describe('ProgressBar', (): void => {
+  const template = ':bar :percent :etas :custom';
+  const theme = new Theme();
+  const options: IProgressBarOptions = { completeChar: '*', incompleteChar: '_' };
+  const step = 1;
+  const half = 2;
+  let bar: ProgressBar;
+  let before: number;
+
   it('Default', (): void => {
     bar = new ProgressBar(template, { total: step * half, ...options });
 

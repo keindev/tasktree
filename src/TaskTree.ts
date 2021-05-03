@@ -1,4 +1,4 @@
-import { UpdateManager } from 'stdout-update';
+import UpdateManager from 'stdout-update';
 
 import { Task } from './Task';
 import { Theme, ThemeOptions } from './Theme';
@@ -199,3 +199,5 @@ export class TaskTree {
     this.#manager.update(this.render(), offset);
   }
 }
+
+export default TaskTree;

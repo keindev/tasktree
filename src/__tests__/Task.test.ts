@@ -6,11 +6,11 @@ import { Task, TaskStatus } from '../Task';
 import { TaskTree } from '../TaskTree';
 import { Theme, ThemeOptions } from '../Theme';
 
-const title = 'task';
-const themeOptions: ThemeOptions = { success: { symbol: '+' }, subtask: { symbol: '--' } };
-const progressBarOptions: IProgressBarOptions = { completeChar: '*', incompleteChar: '_' };
-
 describe('Task', (): void => {
+  const title = 'task';
+  const themeOptions: ThemeOptions = { success: { symbol: '+' }, subtask: { symbol: '--' } };
+  const progressBarOptions: IProgressBarOptions = { completeChar: '*', incompleteChar: '_' };
+
   beforeAll((): void => {
     TaskTree.tree().start({ silent: true });
   });

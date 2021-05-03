@@ -3,16 +3,6 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  triage-labels:
-    name: Add labels
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/labeler@main
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        sync-labels: true
-
   test:
     name: Test
     runs-on: ${{ matrix.os }}
