@@ -16,10 +16,14 @@
 <details>
 <summary>Dev Dependencies</summary>
 
-- Bumped **[@tagproject/ts-package-shared-config](https://www.npmjs.com/package/@tagproject/ts-package-shared-config/v/2.0.2)** from `1.5.8` to `2.0.2`
-- Bumped **[ghinfo](https://www.npmjs.com/package/ghinfo/v/2.0.1)** from `1.0.8` to `2.0.1`
+- Bumped **[@tagproject/ts-package-shared-config](https://www.npmjs.com/package/@tagproject/ts-package-shared-config/v/2.0.3)** from `1.5.8` to `2.0.3`
+- Bumped **[ghinfo](https://www.npmjs.com/package/ghinfo/v/2.0.2)** from `1.0.8` to `2.0.2`
 
 </details>
+
+# :memo: Internal changes
+
+- Remove yarn install info, fix logo size [`8af6cdc`](https://github.com/keindev/tasktree/commit/8af6cdc3f227738bdb143e7ae1f768b8541dbf25)
 
 # :wrench: Code Refactoring
 

@@ -1,0 +1,3 @@
+overrideScripts:
+  "prepare:config": "ts-package-shared-config"
+  "generate:changelog": "changelog generate --bump"
