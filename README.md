@@ -1,4 +1,4 @@
-<p align="center"><img width="200" src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/logo.svg" alt="TaskTree logo"></p>
+<p align="center"><img width="230" src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/logo.svg" alt="TaskTree logo"></p>
 
 <p align="center">
     <a href="https://travis-ci.com/keindev/tasktree"><img src="https://travis-ci.com/keindev/tasktree.svg?branch=master" alt="Build Status"></a>
@@ -13,15 +13,7 @@ Simple terminal task tree - helps you keep track of your tasks in a tree structu
 
 ## Install
 
-### Yarn
-
-```
-yarn add tasktree-cli
-```
-
-### NPM
-
-```
+```console
 npm install tasktree-cli
 ```
 
