@@ -42,7 +42,7 @@ Entity for managing a task - includes all child objects (informational messages,
 
 \+ **new Task**(`text`: *string*, `__namedParameters?`: [*ITaskOptions*](../interfaces/task.itaskoptions.md)): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -135,7 +135,7 @@ Text to display
 
 ▸ **add**(`text`: *string*, `__namedParameters?`: [*ITaskOptions*](../interfaces/task.itaskoptions.md)): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -152,7 +152,7 @@ ___
 
 Adds a new progress bar. Returns a progress bar object
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -177,7 +177,7 @@ ___
 
 ▸ **complete**(`text?`: *string*, `clear?`: *boolean*): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -192,7 +192,7 @@ ___
 
 ▸ **error**(`error?`: *string* \| Error, `fail?`: *boolean*): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -207,7 +207,7 @@ ___
 
 ▸ **fail**(`error?`: *string* \| Error, `clear?`: *boolean*): *never*
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -222,7 +222,7 @@ ___
 
 ▸ **log**(`text`: *string*): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -236,7 +236,7 @@ ___
 
 ▸ **render**(`theme`: *Theme*, `level?`: *number*): *string*[]
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -251,7 +251,7 @@ ___
 
 ▸ **skip**(`text?`: *string*, `clear?`: *boolean*): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -268,7 +268,7 @@ ___
 
 Update task text
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -282,7 +282,7 @@ ___
 
 ▸ **warn**(`text`: *string*): [*Task*](task.task-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |

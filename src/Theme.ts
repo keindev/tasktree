@@ -130,7 +130,7 @@ export class Theme {
   }
 
   static format(template: string): string {
-    return template ? chalk(Object.assign([], { raw: [template.replace(/`/g, '\\`')] })) : '';
+    return template ? chalk(template) : '';
   }
 
   private static getValueBy<T>(map: Map<IndicationType, T>, type: IndicationType, getDefault: () => T): T {
