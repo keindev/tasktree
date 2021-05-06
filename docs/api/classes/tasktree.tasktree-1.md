@@ -36,7 +36,7 @@ Singleton to manage the task tree
 
 Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
@@ -52,7 +52,7 @@ ___
 
 Force the process to exit (see process.exit). Do nothing in "silent mode"
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -69,7 +69,7 @@ ___
 
 Fail active task or adds a new subtask and call fail on it
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
@@ -96,7 +96,7 @@ ___
 
 Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -118,11 +118,11 @@ ___
 
 ### add
 
-▸ `Static`**add**(`text`: *string*): [*Task*](task.task-1.md)
+▸ `Static` **add**(`text`: *string*): [*Task*](task.task-1.md)
 
 Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -134,11 +134,11 @@ ___
 
 ### fail
 
-▸ `Static`**fail**(`error`: *string* \| Error, `active?`: *boolean*): *never*
+▸ `Static` **fail**(`error`: *string* \| Error, `active?`: *boolean*): *never*
 
 Fail active task or adds a new subtask and call fail on it
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
@@ -151,11 +151,11 @@ ___
 
 ### tree
 
-▸ `Static`**tree**(`theme?`: ThemeOptions): [*TaskTree*](tasktree.tasktree-1.md)
+▸ `Static` **tree**(`theme?`: ThemeOptions): [*TaskTree*](tasktree.tasktree-1.md)
 
 Method to get the object to control the tree
 
-**`example`** 
+**`example`**
 ```javascript
 const theme = {
   default: '#ffffff',
@@ -168,7 +168,7 @@ const theme = {
 };
 ```
 
-**`description`** 
+**`description`**
 | option      | color             | symbol | badge | description                                  |
 | ----------- | ----------------- | ------ | ----- | -------------------------------------------- |
 | **default** | text              | ✖      | ✖     | default color                                |
@@ -185,7 +185,7 @@ const theme = {
 
 > If you use a gradient fill for the progress bar - the color will change from `active` to `success`
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |

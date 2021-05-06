@@ -10,7 +10,7 @@ const progress = new task.bar([template, options]);
 
 ## Implements
 
-* *Required*<Omit<[*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md), ``"current"``\>\>
+- *Required*<Omit<[*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md), ``"current"``\>\>
 
 ## Table of contents
 
@@ -62,7 +62,7 @@ const progress = new task.bar([template, options]);
 
 \+ **new ProgressBar**(`template?`: *string*, `options?`: [*IProgressBarOptions*](../interfaces/progressbar.iprogressbaroptions.md)): [*ProgressBar*](progressbar.progressbar-1.md)
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -305,7 +305,7 @@ ___
 
 ▸ **render**(`theme`: *Theme*): *string*
 
-#### Parameters:
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -331,14 +331,14 @@ ___
 
 Increases current progress on step value
 
-**`example`** 
+**`example`**
 ```javascript
 const bar = new Progress(':bar template with custom :token');
 
 bat.tick(10, { token: 100 });
 ```
 
-#### Parameters:
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
