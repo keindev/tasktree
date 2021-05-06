@@ -33,7 +33,7 @@ jobs:
 
     - name: Lint and Test
       run: |
-        npm run check
+        npm run lint
         npm run test
 
     - name: Cache coverage

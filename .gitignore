@@ -22,7 +22,7 @@ lib
 logs
 node_modules/
 pids
-tsconfig.eslint.json
+tsconfig.build.json
 tsconfig.json
 tsconfig.tsbuildinfo
 yarn-debug.log*
