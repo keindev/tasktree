@@ -20,19 +20,29 @@ export class TaskTree {
   static readonly TIMEOUT = 100;
   private static instance: TaskTree;
 
+  #autoClear = false;
   #handle: NodeJS.Timeout | undefined;
+  #manager: UpdateManager;
+  #offset = 0;
+  #silent = false;
+  #started = false;
   #tasks: Task[];
   #theme: Theme;
-  #manager: UpdateManager;
-  #silent = false;
-  #autoClear = false;
-  #started = false;
-  #offset = 0;
 
   private constructor(theme?: ThemeOptions) {
     this.#tasks = [];
     this.#theme = new Theme(theme);
     this.#manager = UpdateManager.getInstance();
+  }
+
+  /** Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task */
+  static add(text: string): Task {
+    return TaskTree.tree().add(text);
+  }
+
+  /** Fail active task or adds a new subtask and call fail on it */
+  static fail(error: string | Error, active = true): never {
+    return TaskTree.tree().fail(error, active);
   }
 
   /**
@@ -74,47 +84,21 @@ export class TaskTree {
     return TaskTree.instance;
   }
 
-  /** Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task */
-  static add(text: string): Task {
-    return TaskTree.tree().add(text);
-  }
+  /**
+   * Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task
+   * @param text - Text for display
+   */
+  add(text: string): Task {
+    let task = this.#tasks[this.#tasks.length - 1];
 
-  /** Fail active task or adds a new subtask and call fail on it */
-  static fail(error: string | Error, active = true): never {
-    return TaskTree.tree().fail(error, active);
-  }
-
-  /** Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal */
-  start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
-    this.#silent = !!silent;
-    this.#autoClear = !!autoClear;
-    this.#tasks = [];
-    this.#offset = 0;
-    this.#started = true;
-
-    if (!this.#handle && !this.#silent) {
-      this.#manager.hook();
-      this.#handle = setInterval((): void => {
-        this.log();
-      }, TaskTree.TIMEOUT);
+    if (task && task.isPending) {
+      task = task.activeSubtask;
+      task = task.add(text);
+    } else {
+      this.#tasks.push((task = new Task(text, { autoClear: this.#autoClear })));
     }
 
-    return this;
-  }
-
-  /** Stop output a task tree in a terminal */
-  stop(): TaskTree {
-    this.#started = false;
-
-    if (this.#handle) {
-      clearInterval(this.#handle);
-
-      this.log();
-      this.#manager.unhook();
-      this.#handle = undefined;
-    }
-
-    return this;
+    return task;
   }
 
   /** Force the process to exit (see process.exit). Do nothing in "silent mode" */
@@ -131,23 +115,6 @@ export class TaskTree {
     } else if (code === ExitCode.Error) {
       throw error instanceof Error ? error : new Error(error);
     }
-  }
-
-  /**
-   * Adds a new task to the task tree. If there are active tasks, add a new one as a subtask - to the last subtask of the first active task
-   * @param text - Text for display
-   */
-  add(text: string): Task {
-    let task = this.#tasks[this.#tasks.length - 1];
-
-    if (task && task.isPending) {
-      task = task.activeSubtask;
-      task = task.add(text);
-    } else {
-      this.#tasks.push((task = new Task(text, { autoClear: this.#autoClear })));
-    }
-
-    return task;
   }
 
   /**
@@ -190,6 +157,39 @@ export class TaskTree {
     if (exclude) this.#tasks = this.#tasks.slice(exclude);
 
     return output;
+  }
+
+  /** Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal */
+  start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
+    this.#silent = !!silent;
+    this.#autoClear = !!autoClear;
+    this.#tasks = [];
+    this.#offset = 0;
+    this.#started = true;
+
+    if (!this.#handle && !this.#silent) {
+      this.#manager.hook();
+      this.#handle = setInterval((): void => {
+        this.log();
+      }, TaskTree.TIMEOUT);
+    }
+
+    return this;
+  }
+
+  /** Stop output a task tree in a terminal */
+  stop(): TaskTree {
+    this.#started = false;
+
+    if (this.#handle) {
+      clearInterval(this.#handle);
+
+      this.log();
+      this.#manager.unhook();
+      this.#handle = undefined;
+    }
+
+    return this;
   }
 
   private log(): void {

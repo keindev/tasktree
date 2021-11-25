@@ -66,9 +66,9 @@ export type ThemeOptions = {
 export class Theme {
   static INDENT = '  ';
 
+  #badges: Map<IndicationType, string> = new Map();
   #colors: Map<IndicationType, string> = new Map();
   #symbols: Map<IndicationType, string> = new Map();
-  #badges: Map<IndicationType, string> = new Map();
 
   constructor(options?: ThemeOptions) {
     if (options) {
@@ -95,6 +95,22 @@ export class Theme {
     }
   }
 
+  static dye(str: string, color: string): string {
+    return color ? chalk.hex(color)(str) : str;
+  }
+
+  static format(template: string): string {
+    return template ? chalk(Object.assign([], { raw: [template] })) : '';
+  }
+
+  static indent(count: number, ...text: string[]): string {
+    return `${Theme.INDENT.padStart(count * Indent.Default)}${Theme.join(TextSeparator.Space, ...text)}`;
+  }
+
+  static join(separator: string, ...text: string[]): string {
+    return text.filter((value): boolean => !!value?.length).join(separator);
+  }
+
   static type(status: TaskStatus, isList = false): IndicationType {
     let type: IndicationType;
 
@@ -115,22 +131,6 @@ export class Theme {
     }
 
     return type;
-  }
-
-  static join(separator: string, ...text: string[]): string {
-    return text.filter((value): boolean => !!value?.length).join(separator);
-  }
-
-  static dye(str: string, color: string): string {
-    return color ? chalk.hex(color)(str) : str;
-  }
-
-  static indent(count: number, ...text: string[]): string {
-    return `${Theme.INDENT.padStart(count * Indent.Default)}${Theme.join(TextSeparator.Space, ...text)}`;
-  }
-
-  static format(template: string): string {
-    return template ? chalk(Object.assign([], { raw: [template] })) : '';
   }
 
   private static getValueBy<T>(map: Map<IndicationType, T>, type: IndicationType, getDefault: () => T): T {
@@ -169,63 +169,7 @@ export class Theme {
     return rgb;
   }
 
-  public getColor(type: IndicationType): string {
-    return Theme.getValueBy(this.#colors, type, (): string => {
-      if (type === IndicationType.Active) return IndicationColor.Active;
-      if (type === IndicationType.Success) return IndicationColor.Success;
-      if (type === IndicationType.Skip) return IndicationColor.Skip;
-      if (type === IndicationType.Error) return IndicationColor.Error;
-      if (type === IndicationType.Message) return IndicationColor.Message;
-      if (type === IndicationType.Info) return IndicationColor.Info;
-      if (type === IndicationType.Warning) return IndicationColor.Warning;
-      if (type === IndicationType.Subtask) return IndicationColor.Subtask;
-      if (type === IndicationType.List) return IndicationColor.List;
-      if (type === IndicationType.Dim) return IndicationColor.Dim;
-
-      return this.#colors.get(IndicationType.Default) || IndicationColor.Default;
-    });
-  }
-
-  public paint(str: string, type: IndicationType): string {
-    return Theme.dye(Theme.format(str), this.getColor(type));
-  }
-
-  public gradient(str: string, gradient: IGradient): string {
-    const begin = Theme.rgb(this.getColor(gradient.begin));
-    const end = Theme.rgb(this.getColor(gradient.end));
-    const w = gradient.position * 2 - 1;
-    const w1 = (w + 1) / 2.0;
-    const w2 = 1 - w1;
-
-    return Theme.dye(
-      str,
-      Theme.hex([
-        Math.round(end[0] * w1 + begin[0] * w2),
-        Math.round(end[1] * w1 + begin[1] * w2),
-        Math.round(end[2] * w1 + begin[2] * w2),
-      ])
-    );
-  }
-
-  public symbol(type: IndicationType): string {
-    const symbol = Theme.getValueBy(this.#symbols, type, () => {
-      if (type === IndicationType.Active) return frame();
-      if (type === IndicationType.Success) return figures.tick;
-      if (type === IndicationType.Skip) return figures.arrowDown;
-      if (type === IndicationType.Error) return figures.cross;
-      if (type === IndicationType.Message) return figures.line;
-      if (type === IndicationType.Info) return figures.info;
-      if (type === IndicationType.Warning) return figures.warning;
-      if (type === IndicationType.Subtask) return figures.pointerSmall;
-      if (type === IndicationType.List) return figures.pointer;
-
-      return this.#symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
-    });
-
-    return symbol ? this.paint(symbol, type) : symbol;
-  }
-
-  public badge(type: IndicationType): string {
+  badge(type: IndicationType): string {
     const badge = Theme.getValueBy(this.#badges, type, () => {
       if (type === IndicationType.Error) return IndicationBadge.Error;
       if (type === IndicationType.Skip) return IndicationBadge.Skip;
@@ -236,18 +180,15 @@ export class Theme {
     return badge ? this.paint(badge, IndicationType.Dim) : badge;
   }
 
-  public title(task: Task, level: number): string {
-    const type = Theme.type(task.status, task.haveSubtasks);
-    const badge = this.badge(type);
-    const symbol = this.symbol(type);
-    let prefix: string = TextSeparator.Empty;
+  bars(list: ProgressBar[], level: number): string[] {
+    const symbol = this.symbol(IndicationType.Subtask);
 
-    if (level) prefix = task.haveSubtasks ? this.symbol(IndicationType.Subtask) : this.symbol(IndicationType.Default);
-
-    return Theme.indent(level, prefix, symbol, task.text, badge);
+    return list
+      .filter((bar): boolean => !bar.isCompleted || !bar.clear)
+      .map((bar): string => Theme.indent(level, symbol, bar.render(this)));
   }
 
-  public errors(errors: string[], level: number): string[] {
+  errors(errors: string[], level: number): string[] {
     const type = IndicationType.Error;
     const sublevel = level + Indent.Long;
 
@@ -267,7 +208,41 @@ export class Theme {
     }, []);
   }
 
-  public messages(list: string[], type: IndicationType, level: number): string[] {
+  getColor(type: IndicationType): string {
+    return Theme.getValueBy(this.#colors, type, (): string => {
+      if (type === IndicationType.Active) return IndicationColor.Active;
+      if (type === IndicationType.Success) return IndicationColor.Success;
+      if (type === IndicationType.Skip) return IndicationColor.Skip;
+      if (type === IndicationType.Error) return IndicationColor.Error;
+      if (type === IndicationType.Message) return IndicationColor.Message;
+      if (type === IndicationType.Info) return IndicationColor.Info;
+      if (type === IndicationType.Warning) return IndicationColor.Warning;
+      if (type === IndicationType.Subtask) return IndicationColor.Subtask;
+      if (type === IndicationType.List) return IndicationColor.List;
+      if (type === IndicationType.Dim) return IndicationColor.Dim;
+
+      return this.#colors.get(IndicationType.Default) || IndicationColor.Default;
+    });
+  }
+
+  gradient(str: string, gradient: IGradient): string {
+    const begin = Theme.rgb(this.getColor(gradient.begin));
+    const end = Theme.rgb(this.getColor(gradient.end));
+    const w = gradient.position * 2 - 1;
+    const w1 = (w + 1) / 2.0;
+    const w2 = 1 - w1;
+
+    return Theme.dye(
+      str,
+      Theme.hex([
+        Math.round(end[0] * w1 + begin[0] * w2),
+        Math.round(end[1] * w1 + begin[1] * w2),
+        Math.round(end[2] * w1 + begin[2] * w2),
+      ])
+    );
+  }
+
+  messages(list: string[], type: IndicationType, level: number): string[] {
     const symbol = this.symbol(type);
     const sign = this.symbol(IndicationType.Message);
     const indent = level + 1;
@@ -275,11 +250,36 @@ export class Theme {
     return list.map((text): string => Theme.indent(indent, sign, symbol, text));
   }
 
-  public bars(list: ProgressBar[], level: number): string[] {
-    const symbol = this.symbol(IndicationType.Subtask);
+  paint(str: string, type: IndicationType): string {
+    return Theme.dye(Theme.format(str), this.getColor(type));
+  }
 
-    return list
-      .filter((bar): boolean => !bar.isCompleted || !bar.clear)
-      .map((bar): string => Theme.indent(level, symbol, bar.render(this)));
+  symbol(type: IndicationType): string {
+    const symbol = Theme.getValueBy(this.#symbols, type, () => {
+      if (type === IndicationType.Active) return frame();
+      if (type === IndicationType.Success) return figures.tick;
+      if (type === IndicationType.Skip) return figures.arrowDown;
+      if (type === IndicationType.Error) return figures.cross;
+      if (type === IndicationType.Message) return figures.line;
+      if (type === IndicationType.Info) return figures.info;
+      if (type === IndicationType.Warning) return figures.warning;
+      if (type === IndicationType.Subtask) return figures.pointerSmall;
+      if (type === IndicationType.List) return figures.pointer;
+
+      return this.#symbols.get(IndicationType.Default) || this.symbol(IndicationType.Subtask);
+    });
+
+    return symbol ? this.paint(symbol, type) : symbol;
+  }
+
+  title(task: Task, level: number): string {
+    const type = Theme.type(task.status, task.haveSubtasks);
+    const badge = this.badge(type);
+    const symbol = this.symbol(type);
+    let prefix: string = TextSeparator.Empty;
+
+    if (level) prefix = task.haveSubtasks ? this.symbol(IndicationType.Subtask) : this.symbol(IndicationType.Default);
+
+    return Theme.indent(level, prefix, symbol, task.text, badge);
   }
 }

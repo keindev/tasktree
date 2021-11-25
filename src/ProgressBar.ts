@@ -31,22 +31,22 @@ export enum TemplateToken {
 
 /** ProgressBar display options */
 export interface IProgressBarOptions {
+  /** Option to add badge */
+  badges?: boolean;
+  /** Option to clear the bar on completion */
+  clear?: boolean;
+  /** Completion character */
+  completeChar?: string;
   /** Current completed index */
   current?: number;
+  /** Option to add gradient to pending bar */
+  gradient?: boolean;
+  /** Incomplete character */
+  incompleteChar?: string;
   /** Total number of ticks to complete */
   total?: number;
   /** The displayed width of the progress bar defaulting to total */
   width?: number;
-  /** Completion character */
-  completeChar?: string;
-  /** Incomplete character */
-  incompleteChar?: string;
-  /** Option to clear the bar on completion */
-  clear?: boolean;
-  /** Option to add badge */
-  badges?: boolean;
-  /** Option to add gradient to pending bar */
-  gradient?: boolean;
 }
 
 /** User template tokens values */
@@ -62,41 +62,42 @@ export interface IProgressBarToken {
  * ```
  */
 export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'>> {
+  static readonly MAX_PERCENT = 100;
+  static readonly MAX_POINT_POSITION = 1;
+  static readonly MAX_RATIO = 1;
+  static readonly MIN_PERCENT = 0;
+  static readonly MIN_POINT_POSITION = 0;
+  static readonly MIN_RATIO = 0;
   static readonly TICK = 1;
   static readonly TIME_DIMENSION = 1000;
-  static readonly MAX_POINT_POSITION = 1;
-  static readonly MIN_POINT_POSITION = 0;
-  static readonly MIN_PERCENT = 0;
-  static readonly MAX_PERCENT = 100;
-  static readonly MIN_RATIO = 0;
-  static readonly MAX_RATIO = 1;
 
-  /** Total number of ticks to complete */
-  readonly total = Progress.End;
-  /** Completion character */
-  readonly completeChar = figures.square;
-  /** Incomplete character */
-  readonly incompleteChar = figures.square;
-  /** The displayed width of the progress bar defaulting to total */
-  readonly width: number = 20;
-  /** Option to clear the bar on completion */
-  readonly clear: boolean = false;
+  #current = Progress.Start;
+  #end: number | undefined;
+  #start = new Date().getTime();
+  #status = TaskStatus.Pending;
+  #tokens: Map<TemplateToken | string, string> = new Map();
+
   /** Option to add badge */
   readonly badges: boolean = true;
+  /** Option to clear the bar on completion */
+  readonly clear: boolean = false;
+  /** Completion character */
+  readonly completeChar = figures.square;
   /** Option to add gradient to pending bar */
   readonly gradient: boolean = true;
+  /** Incomplete character */
+  readonly incompleteChar = figures.square;
   /**
    * Output template
    *
    * @default `:bar :rate/bps :percent :eta/s`
    */
   readonly template: string;
+  /** Total number of ticks to complete */
+  readonly total = Progress.End;
 
-  #current = Progress.Start;
-  #start = new Date().getTime();
-  #end: number | undefined;
-  #status = TaskStatus.Pending;
-  #tokens: Map<TemplateToken | string, string> = new Map();
+  /** The displayed width of the progress bar defaulting to total */
+  readonly width: number = 20;
 
   constructor(template?: string, options?: IProgressBarOptions) {
     this.template =
@@ -162,50 +163,22 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
     return this.#current >= this.total || !!this.#end;
   }
 
-  /**
-   * Increases current progress on step value
-   * @param step - Value by which the current progress will increase
-   * @param tokens - Add custom tokens by adding a `{'name': value}` object parameter to your method
-   * @example
-   * ```javascript
-   * const bar = new Progress(':bar template with custom :token');
-   *
-   * bat.tick(10, { token: 100 });
-   * ```
-   */
-  public tick(step?: number, tokens?: IProgressBarToken): ProgressBar {
-    this.#current = Math.min(this.total, this.#current + (step || ProgressBar.TICK));
-    this.#tokens = typeof tokens === 'object' ? new Map(Object.entries(tokens)) : new Map();
-
-    if (this.isCompleted) this.complete();
-
-    return this;
-  }
-
   /** Completes progress and marks it as successful */
-  public complete(): void {
+  complete(): void {
     this.#current = this.total;
     this.#status = TaskStatus.Completed;
     this.#end = new Date().getTime();
   }
 
-  /** Stops the progress and marks it as skipped */
-  public skip(): void {
-    if (!this.isCompleted) {
-      this.#status = TaskStatus.Skipped;
-      this.#end = new Date().getTime();
-    }
-  }
-
   /** Stops the progress and marks it as failed */
-  public fail(): void {
+  fail(): void {
     if (!this.isCompleted) {
       this.#status = TaskStatus.Failed;
       this.#end = new Date().getTime();
     }
   }
 
-  public render(theme: Theme): string {
+  render(theme: Theme): string {
     const length = Math.round(this.width * this.ratio);
     const type = Theme.type(this.#status);
 
@@ -233,6 +206,34 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
     });
 
     return this.badges ? Theme.join(TextSeparator.Space, result, theme.badge(type)) : result;
+  }
+
+  /** Stops the progress and marks it as skipped */
+  skip(): void {
+    if (!this.isCompleted) {
+      this.#status = TaskStatus.Skipped;
+      this.#end = new Date().getTime();
+    }
+  }
+
+  /**
+   * Increases current progress on step value
+   * @param step - Value by which the current progress will increase
+   * @param tokens - Add custom tokens by adding a `{'name': value}` object parameter to your method
+   * @example
+   * ```javascript
+   * const bar = new Progress(':bar template with custom :token');
+   *
+   * bat.tick(10, { token: 100 });
+   * ```
+   */
+  tick(step?: number, tokens?: IProgressBarToken): ProgressBar {
+    this.#current = Math.min(this.total, this.#current + (step || ProgressBar.TICK));
+    this.#tokens = typeof tokens === 'object' ? new Map(Object.entries(tokens)) : new Map();
+
+    if (this.isCompleted) this.complete();
+
+    return this;
   }
 
   private getBlocks(theme: Theme, type: IndicationType, length: number): string {

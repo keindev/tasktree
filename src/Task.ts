@@ -23,17 +23,17 @@ export interface ITaskOptions {
 
 /** Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks) */
 export class Task {
-  #id: number;
-  #text: string;
-  #status: TaskStatus;
   #autoClear: boolean;
   #bars: ProgressBar[] = [];
-  #subtasks: Task[] = [];
-  #logs = new Set<string>();
   #errors: string[] = [];
+  #id: number;
+  #logs = new Set<string>();
+  #status: TaskStatus;
+  #subtasks: Task[] = [];
+  #text: string;
   #warnings = new Set<string>();
 
-  public constructor(text: string, { status, autoClear }: ITaskOptions = {}) {
+  constructor(text: string, { status, autoClear }: ITaskOptions = {}) {
     this.#id = ++uid;
     this.#text = text;
     this.#autoClear = !!autoClear;
@@ -84,7 +84,7 @@ export class Task {
     return !!this.#subtasks.length;
   }
 
-  public add(text: string, { status, autoClear }: ITaskOptions = {}): Task {
+  add(text: string, { status, autoClear }: ITaskOptions = {}): Task {
     const isCompleted = !this.isPending;
     const task = new Task(text, {
       status: isCompleted ? TaskStatus.Failed : status,
@@ -98,15 +98,8 @@ export class Task {
     return task;
   }
 
-  /** Update task text */
-  public update(text: string): Task {
-    if (this.isPending) this.#text = text;
-
-    return this;
-  }
-
   /** Adds a new progress bar. Returns a progress bar object */
-  public bar(template?: string, options?: IProgressBarOptions): ProgressBar {
+  bar(template?: string, options?: IProgressBarOptions): ProgressBar {
     const bar = new ProgressBar(template, this.isPending ? options : { total: Progress.End });
 
     this.#bars.push(bar);
@@ -117,12 +110,12 @@ export class Task {
   }
 
   /** Removes all subtasks and progress bars */
-  public clear(): void {
+  clear(): void {
     this.#subtasks = [];
     this.#bars = [];
   }
 
-  public complete(text?: string, clear = this.#autoClear): Task {
+  complete(text?: string, clear = this.#autoClear): Task {
     if (this.havePendingSubtasks) this.fail('Subtasks is not complete.');
 
     this.setStatus(TaskStatus.Completed, text, clear);
@@ -135,21 +128,7 @@ export class Task {
     return this;
   }
 
-  public skip(text?: string, clear = this.#autoClear): Task {
-    this.setStatus(TaskStatus.Skipped, text, clear);
-
-    return this;
-  }
-
-  public fail(error?: string | Error, clear = this.#autoClear): never {
-    const text = error instanceof Error ? error.name : error;
-
-    this.setStatus(TaskStatus.Failed, text, clear);
-
-    return TaskTree.tree().exit(ExitCode.Error, error) as never;
-  }
-
-  public error(error?: string | Error, fail?: boolean): Task {
+  error(error?: string | Error, fail?: boolean): Task {
     if (typeof error === 'string') this.#errors.push(error);
     if (error instanceof Error && error.stack) this.#errors.push(error.stack);
     if (fail) this.fail(error);
@@ -157,19 +136,21 @@ export class Task {
     return this;
   }
 
-  public log(text: string): Task {
+  fail(error?: string | Error, clear = this.#autoClear): never {
+    const text = error instanceof Error ? error.name : error;
+
+    this.setStatus(TaskStatus.Failed, text, clear);
+
+    return TaskTree.tree().exit(ExitCode.Error, error) as never;
+  }
+
+  log(text: string): Task {
     if (this.isPending) this.#logs.add(text);
 
     return this;
   }
 
-  public warn(text: string): Task {
-    if (this.isPending) this.#warnings.add(text);
-
-    return this;
-  }
-
-  public render(theme: Theme, level = 0): string[] {
+  render(theme: Theme, level = 0): string[] {
     const type = level ? IndicationType.Dim : IndicationType.Default;
     const rows = [
       theme.title(this, level),
@@ -184,6 +165,25 @@ export class Task {
     });
 
     return rows.map((row): string => theme.paint(row, type));
+  }
+
+  skip(text?: string, clear = this.#autoClear): Task {
+    this.setStatus(TaskStatus.Skipped, text, clear);
+
+    return this;
+  }
+
+  /** Update task text */
+  update(text: string): Task {
+    if (this.isPending) this.#text = text;
+
+    return this;
+  }
+
+  warn(text: string): Task {
+    if (this.isPending) this.#warnings.add(text);
+
+    return this;
   }
 
   private setStatus(status: TaskStatus, text?: string, clear?: boolean): void {
