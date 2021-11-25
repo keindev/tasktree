@@ -1,9 +1,7 @@
 # tasktree-cli
 
-## Table of contents
+## Modules
 
-### Modules
-
-- [ProgressBar](modules/progressbar.md)
-- [Task](modules/task.md)
-- [TaskTree](modules/tasktree.md)
+- [ProgressBar](ProgressBar.md)
+- [Task](modules/Task.md)
+- [TaskTree](modules/TaskTree.md)

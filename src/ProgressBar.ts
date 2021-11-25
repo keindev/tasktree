@@ -178,6 +178,7 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
     }
   }
 
+  /** Render output string with Theme */
   render(theme: Theme): string {
     const length = Math.round(this.width * this.ratio);
     const type = Theme.type(this.#status);

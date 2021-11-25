@@ -1,6 +1,6 @@
 {
   "name": "tasktree-cli",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Simple terminal task tree - helps you keep track of your tasks in a tree structure.",
   "homepage": "https://github.com/keindev/tasktree#readme",
   "license": "MIT",
@@ -35,7 +35,6 @@
     "build:ts": "rimraf lib && tsc --extendedDiagnostics",
     "generate": "npm-run-all generate:*",
     "generate:changelog": "node --experimental-specifier-resolution=node node_modules/.bin/changelog generate --bump",
-    "generate:docs": "rimraf docs/api && typedoc",
     "generate:ghinfo": "node --experimental-specifier-resolution=node node_modules/.bin/ghinfo generate -d media -t utils",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "rimraf coverage && eslint \"src/**\" --ext .ts",
@@ -82,8 +81,6 @@
     "rimraf": "^3.0.2",
     "strip-ansi": "^7.0.1",
     "ts-jest": "^27.0.7",
-    "typedoc": "^0.22.10",
-    "typedoc-plugin-markdown": "^3.11.7",
     "typescript": "^4.5.2"
   }
 }
