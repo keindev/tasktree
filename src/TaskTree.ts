@@ -9,10 +9,10 @@ export enum ExitCode {
 }
 
 export interface ITaskTreeOptions {
-  /** Disable task tree rendering */
-  silent?: boolean;
   /** Removes all subtasks and bars from the main task */
   autoClear?: boolean;
+  /** Disable task tree rendering */
+  silent?: boolean;
 }
 
 /** Singleton to manage the task tree */

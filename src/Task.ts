@@ -15,10 +15,10 @@ export enum TaskStatus {
 
 /** New subtask options */
 export interface ITaskOptions {
-  /** New subtask status */
-  status?: TaskStatus;
   /** Removes all subtasks and progress bars after complete */
   autoClear?: boolean;
+  /** New subtask status */
+  status?: TaskStatus;
 }
 
 /** Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks) */

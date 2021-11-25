@@ -54,13 +54,13 @@ export enum TextSeparator {
 }
 
 export interface IGradient {
-  position: number;
   begin: IndicationType;
   end: IndicationType;
+  position: number;
 }
 
 export type ThemeOptions = {
-  [key in IndicationType]?: string | { color?: string; symbol?: string; badge?: string } | [string?, string?, string?];
+  [key in IndicationType]?: string | { badge?: string; color?: string; symbol?: string } | [string?, string?, string?];
 };
 
 export class Theme {
