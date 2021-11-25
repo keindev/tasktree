@@ -54,7 +54,7 @@
     "chalk": "^4.1.2",
     "elegant-spinner": "^3.0.0",
     "figures": "^4.0.0",
-    "stdout-update": "2.0.3"
+    "stdout-update": "2.0.4"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.16.4",
