@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalkTemplate from 'chalk-template';
 
 import { IProgressBarOptions, Progress, ProgressBar } from './ProgressBar';
 import { ExitCode, TaskTree } from './TaskTree';
@@ -196,7 +196,7 @@ export class Task {
 
       this.#status = status;
     } else {
-      this.error(`Task is already complete (${chalk.bold(this.status.toString())})`);
+      this.error(chalkTemplate`Task is already complete ({bold ${this.status.toString()}})`);
       this.#status = TaskStatus.Failed;
     }
   }

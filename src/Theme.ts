@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalkTemplate from 'chalk-template';
 import elegantSpinner from 'elegant-spinner';
 import figures from 'figures';
 import { Terminal } from 'stdout-update/lib/Terminal';
@@ -95,12 +95,12 @@ export class Theme {
     }
   }
 
-  static dye(str: string, color: string): string {
-    return color ? chalk.hex(color)(str) : str;
+  static dye(str: string, color?: string): string {
+    return color ? chalkTemplate`{hex('${color}') ${str}}` : str;
   }
 
   static format(template: string): string {
-    return template ? chalk(Object.assign([], { raw: [template] })) : '';
+    return template ? chalkTemplate(Object.assign([], { raw: [template] })) : '';
   }
 
   static indent(count: number, ...text: string[]): string {

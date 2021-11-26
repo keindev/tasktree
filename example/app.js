@@ -1,4 +1,4 @@
-import TaskTree from '../lib';
+import TaskTree from '../lib/index.js';
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
