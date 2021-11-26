@@ -13,16 +13,12 @@
 .yarn-integrity
 /.husky/
 /.vscode/
-/jest.modules.json
-/typedoc.json
-babel.config.cjs
 coverage
-jest.config.cjs
+jest.config.js
 lib
 logs
 node_modules/
 pids
-tsconfig.build.json
 tsconfig.json
 tsconfig.tsbuildinfo
 yarn-debug.log*

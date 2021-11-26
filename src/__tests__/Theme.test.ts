@@ -1,4 +1,4 @@
-import * as Figures from 'figures';
+import figures from 'figures';
 import stripAnsi from 'strip-ansi';
 
 import { IndicationBadge, IndicationType, Theme } from '../Theme';
@@ -14,10 +14,10 @@ describe('Theme', (): void => {
     expect(stripAnsi(theme.paint(text, IndicationType.Skip))).toBe(text);
     expect(stripAnsi(theme.paint(text, IndicationType.Error))).toBe(text);
 
-    expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(stripAnsi(Figures.pointerSmall));
-    expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(stripAnsi(Figures.tick));
-    expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(stripAnsi(Figures.arrowDown));
-    expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(stripAnsi(Figures.cross));
+    expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(stripAnsi(figures.pointerSmall));
+    expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(stripAnsi(figures.tick));
+    expect(stripAnsi(theme.symbol(IndicationType.Skip))).toBe(stripAnsi(figures.arrowDown));
+    expect(stripAnsi(theme.symbol(IndicationType.Error))).toBe(stripAnsi(figures.cross));
 
     expect(theme.badge(IndicationType.Default)).toBe(IndicationBadge.Default);
     expect(stripAnsi(theme.badge(IndicationType.Skip))).toBe(IndicationBadge.Skip);
@@ -25,7 +25,7 @@ describe('Theme', (): void => {
   });
 
   it('Custom', (): void => {
-    const symbol = stripAnsi(Figures.star);
+    const symbol = stripAnsi(figures.star);
     const badge = '[test]';
     const theme = new Theme({
       default: ['#000000', symbol],
