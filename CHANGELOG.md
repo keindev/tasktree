@@ -1,14 +1,19 @@
 # Important Changes
 
+## Engines
+
+- Bumped **node** from `14.0.0` to `14.13.1`
+
 ## Dependencies
 
 <details>
 <summary>Dependencies</summary>
 
-- Bumped **[chalk](https://www.npmjs.com/package/chalk/v/4.1.2)** from `4.1.1` to `4.1.2`
+- Added **[chalk-template](https://www.npmjs.com/package/chalk-template/v/0.2.0)** with `^0.2.0`
 - Bumped **[elegant-spinner](https://www.npmjs.com/package/elegant-spinner/v/3.0.0)** from `2.0.0` to `3.0.0`
 - Bumped **[figures](https://www.npmjs.com/package/figures/v/4.0.0)** from `3.2.0` to `4.0.0`
 - Bumped **[stdout-update](https://www.npmjs.com/package/stdout-update/v/2.0.4)** from `2.0.1` to `2.0.4`
+- Removed **[chalk](https://www.npmjs.com/package/chalk/v/4.1.1)**, with `^4.1.1`
 
 </details>
 
@@ -35,19 +40,26 @@
 - Bumped **[prettier](https://www.npmjs.com/package/prettier/v/2.5.0)** from `2.2.1` to `2.5.0`
 - Bumped **[strip-ansi](https://www.npmjs.com/package/strip-ansi/v/7.0.1)** from `7.0.0` to `7.0.1`
 - Bumped **[ts-jest](https://www.npmjs.com/package/ts-jest/v/27.0.7)** from `26.5.6` to `27.0.7`
-- Bumped **[typedoc](https://www.npmjs.com/package/typedoc/v/0.22.10)** from `0.20.36` to `0.22.10`
-- Bumped **[typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown/v/3.11.7)** from `3.8.0` to `3.11.7`
 - Bumped **[typescript](https://www.npmjs.com/package/typescript/v/4.5.2)** from `4.2.4` to `4.5.2`
+- Removed **[typedoc](https://www.npmjs.com/package/typedoc/v/0.20.36)**, with `^0.20.36`
+- Removed **[typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown/v/3.8.0)**, with `^3.8.0`
 
 </details>
+
+# :tada: Features
+
+- Add `unknown` type to error param for error & fail methods [`20af457`](https://github.com/keindev/tasktree/commit/20af457356dd77d9d629ad9358cd0e7f399ffb35)
 
 # :bug: Bug Fixes
 
 - Fix display of styled strings [`6339919`](https://github.com/keindev/tasktree/commit/6339919576564185515af421f9f047521875d150)
+- Replace chalk to `chalk-template` [`497cef0`](https://github.com/keindev/tasktree/commit/497cef0766cfbe77965a57328f24ada2ba42d40d)
 
 # :memo: Internal changes
 
+- **[API]** Restore docs [`e0692a3`](https://github.com/keindev/tasktree/commit/e0692a3936690920d211dd87691cb7f32d419a5f)
 - **[Ci]** Rename default branch to main [`3a39dec`](https://github.com/keindev/tasktree/commit/3a39dec16a020f79ee0c8c2d2faac427c0a9c91f)
+- Remove typedoc [`2ed0d90`](https://github.com/keindev/tasktree/commit/2ed0d903de4d5d3b72f07815ef79fe49c42d573a)
 
 # :wrench: Code Refactoring
 

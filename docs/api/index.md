@@ -3,5 +3,5 @@
 ## Modules
 
 - [ProgressBar](ProgressBar.md)
-- [Task](modules/Task.md)
-- [TaskTree](modules/TaskTree.md)
+- [Task](Task.md)
+- [TaskTree](TaskTree.md)
