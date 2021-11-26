@@ -63,15 +63,15 @@ Increases current progress on step value
 
 #### Parameters
 
-| Name      | Type                                                                  | Description                                                                     |
-| :-------- | :-------------------------------------------------------------------- | :------------------------------------------------------------------------------ |
-| `step?`   | _number_                                                              | Value by which the current progress will increase                               |
-| `tokens?` | [_IProgressBarToken_](../interfaces/progressbar.iprogressbartoken.md) | Add custom tokens by adding a `{'name': value}` object parameter to your method |
+| Name      | Type                | Description                                                                             |
+| :-------- | :------------------ | :-------------------------------------------------------------------------------------- |
+| `step?`   | _number_            | Value by which the current progress will increase                                       |
+| `tokens?` | _IProgressBarToken_ | Add custom tokens by adding a `{[key: string]: string}` object parameter to your method |
 
 #### Example
 
 ```javascript
 const bar = new Progress(':bar template with custom :token');
 
-bar.tick(10, { token: 100 });
+bar.tick(10, { token: `100` });
 ```

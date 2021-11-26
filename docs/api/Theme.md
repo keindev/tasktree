@@ -33,6 +33,8 @@ All theme options is object with several fields:
 | list    |    ✖     | `#4285f4` - symbol            |      ❯      | list symbol                                  |
 | dim     |    ✖     | `#838584` - symbol, bar       |     `-`     | dim color                                    |
 
+> If you use a gradient fill for the progress bar - the color will change from `active` to `success`
+
 ```javascript
 const theme = {
   default: '#ffffff',
