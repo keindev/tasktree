@@ -128,7 +128,7 @@ export class Task {
     return this;
   }
 
-  error(error?: string | Error, fail?: boolean): Task {
+  error(error?: string | Error | unknown, fail?: boolean): Task {
     if (typeof error === 'string') this.#errors.push(error);
     if (error instanceof Error && error.stack) this.#errors.push(error.stack);
     if (fail) this.fail(error);
@@ -136,8 +136,11 @@ export class Task {
     return this;
   }
 
-  fail(error?: string | Error, clear = this.#autoClear): never {
-    const text = error instanceof Error ? error.name : error;
+  fail(error?: string | Error | unknown, clear = this.#autoClear): never {
+    let text: string | undefined;
+
+    if (error instanceof Error) text = error.name;
+    if (typeof error === 'string') text = error;
 
     this.setStatus(TaskStatus.Failed, text, clear);
 

@@ -41,7 +41,7 @@ export class TaskTree {
   }
 
   /** Fail active task or adds a new subtask and call fail on it */
-  static fail(error: string | Error, active = true): never {
+  static fail(error: string | Error | unknown, active = true): never {
     return TaskTree.tree().fail(error, active);
   }
 
@@ -50,7 +50,7 @@ export class TaskTree {
    *
    * @param theme - Theme properties. The field name is a modifier the value is options
    * @example
-   * ```javascript
+   * ```typescript
    * const theme = {
    *   default: '#ffffff',
    *   success: ['#008000', '✔'],
@@ -60,21 +60,26 @@ export class TaskTree {
    *   error: ['#ff0000', '✖', '[error]'],
    *   ...
    * };
+   *
+   * const tree = TaskTree.tree();
+   *
+   * // start task tree log update in terminal
+   * tree.start();
    * ```
    * @description
-   * | option      | color             | symbol | badge | description                                  |
-   * | ----------- | ----------------- | ------ | ----- | -------------------------------------------- |
-   * | **default** | text              | ✖      | ✖     | default color                                |
-   * | **active**  | symbol            | ✔      | ✖     | spinner, progress bar color                  |
-   * | **success** | symbol, text, bar | ✔      | ✖     | task symbol, progress bar color              |
-   * | **skip**    | symbol, text, bar | ✔      | ✔     | task symbol, progress bar color              |
-   * | **error**   | symbol, text, bar | ✔      | ✔     | task symbol, error title, progress bar color |
-   * | **message** | symbol            | ✔      | ✖     | dim pointer to task information              |
-   * | **info**    | symbol            | ✔      | ✖     | information message symbol                   |
-   * | **warning** | symbol            | ✔      | ✖     | warning message symbol                       |
-   * | **subtask** | symbol, text      | ✔      | ✖     | dim pointer to subtask                       |
-   * | **list**    | symbol            | ✔      | ✖     | list symbol                                  |
-   * | **dim**     | symbol, bar       | ✖      | ✖     | dim color                                    |
+   * | Type    | `badge`  | `color`                       |  `symbol`   | Description                                  |
+   * | :------ | :------: | :---------------------------- | :---------: | :------------------------------------------- |
+   * | default |    ✖     | `[default]` - text            |     `-`     | default color                                |
+   * | active  |    ✖     | `#4285f4` - symbol            | `frame (⠧)` | spinner, progress bar color                  |
+   * | success |    ✖     | `#00c851` - symbol, text, bar |      ✔      | task symbol, progress bar color              |
+   * | skip    | `[skip]` | `#ff8800` - symbol, text, bar |      ↓      | task symbol, progress bar color              |
+   * | error   | `[fail]` | `#ff4444` - symbol, text, bar |      ✖      | task symbol, error title, progress bar color |
+   * | message |    ✖     | `#2e2e2e` - symbol            |      ─      | dim pointer to task information              |
+   * | info    |    ✖     | `#33b5e5` - symbol            |      ℹ      | information message symbol                   |
+   * | warning |    ✖     | `#ffbb33` - symbol            |      ⚠      | warning message symbol                       |
+   * | subtask |    ✖     | `#2e2e2e` - symbol, text      |      ›      | dim pointer to subtask                       |
+   * | list    |    ✖     | `#4285f4` - symbol            |      ❯      | list symbol                                  |
+   * | dim     |    ✖     | `#838584` - symbol, bar       |     `-`     | dim color                                    |
    *
    * > If you use a gradient fill for the progress bar - the color will change from `active` to `success`
    */
@@ -102,18 +107,18 @@ export class TaskTree {
   }
 
   /** Force the process to exit (see process.exit). Do nothing in "silent mode" */
-  exit(code: ExitCode = ExitCode.Success, error?: string | Error): void | never {
+  exit(code: ExitCode = ExitCode.Success, error?: string | Error | unknown): void | never {
     if (this.#started) {
       this.stop();
 
       if (this.#silent) {
-        if (code === ExitCode.Error) throw error instanceof Error ? error : new Error(error);
+        if (code === ExitCode.Error) throw this.getError(error);
       } else {
         // eslint-disable-next-line no-process-exit
         process.exit(code);
       }
     } else if (code === ExitCode.Error) {
-      throw error instanceof Error ? error : new Error(error);
+      throw this.getError(error);
     }
   }
 
@@ -122,8 +127,8 @@ export class TaskTree {
    * @param error - Text or Error object for display
    * @param active - If `true` - call failed for active task, else create new task and call fail on it
    */
-  fail(error: string | Error, active = true): never {
-    const errorObject = error instanceof Error ? error : new Error(error);
+  fail(error: string | Error | unknown, active = true): never {
+    const errorObject = this.getError(error);
 
     if (!this.#started || this.#silent) {
       throw errorObject;
@@ -190,6 +195,12 @@ export class TaskTree {
     }
 
     return this;
+  }
+
+  private getError(error: string | Error | unknown): Error {
+    const obj = error instanceof Error ? error : new Error(typeof error === 'string' ? error : '');
+
+    return obj;
   }
 
   private log(): void {
