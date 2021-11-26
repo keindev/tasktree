@@ -47,7 +47,7 @@
     "test:jest": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "engines": {
-    "node": "^14.13.1 || >=16.0.0"
+    "node": ">=14.0.0"
   },
   "dependencies": {
     "chalk-template": "^0.2.0",
