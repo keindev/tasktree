@@ -50,7 +50,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "elegant-spinner": "^3.0.0",
     "figures": "^4.0.0",
     "stdout-update": "2.0.4"
