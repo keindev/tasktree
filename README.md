@@ -70,7 +70,7 @@ Promise.all(promises).then(() => {
 });
 ```
 
-TaskTree uses [chalk](https://www.npmjs.com/package/chalk) to style text and supports formatting as a [tagged template literal](https://www.npmjs.com/package/chalk#tagged-template-literal).
+TaskTree uses [chalk-template](https://www.npmjs.com/package/chalk-template) to style text and supports formatting as a [tagged template literal](https://www.npmjs.com/package/chalk#tagged-template-literal).
 
 ```javascript
 const task = new Task('{underline.cyan.bold Awesome task}');
