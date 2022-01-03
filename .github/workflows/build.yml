@@ -1,30 +1,58 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
+  config:
+    name: Configure
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.set-config.outputs.config }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Create config
+        id: set-config
+        run: |
+          echo Node: $(node -v)
+          echo NPM: $(npm -v)
+          npm i semver
+          CONFIG=$(node ./.github/scripts/config.js | sed 's/ //g')
+          echo "::set-output name=config::$CONFIG"
+          echo $CONFIG
+
   test:
     name: Test
-    runs-on: ${{ matrix.os }}
+    needs: [ config ]
     strategy:
-      matrix:
-        node-version: [14.x, 15.x]
-        os: [ubuntu-latest]
+      matrix: ${{ fromJson(needs.config.outputs.config).node.matrix }}
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup Node.js v${{ matrix.node-version }}
+    - name: Setup Node.js v${{ matrix.node }}
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ matrix.node }}
 
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        key: npm-${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install Dependencies
       run: npm ci
@@ -37,34 +65,33 @@ jobs:
         npm run test
 
     - name: Cache coverage
-      if: ${{ success() && matrix.node-version == '15.x' }}
+      if: ${{ success() && matrix.node == '16.x' }}
       uses: actions/cache@v2
       with:
         path: coverage
-        key: coverage-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
+        key: coverage-${{ runner.os }}-${{ matrix.node }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
 
   build:
     name: Build
-    needs: [test]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [15.x]
+    needs: [ test, config ]
+    env:
+      NODE_VERSION: ${{ fromJson(needs.config.outputs.config).node.main.version }}
+    runs-on: ${{ fromJson(needs.config.outputs.config).node.main.os }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.NODE_VERSION }}
 
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        key: npm-${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install Dependencies
       run: npm ci
@@ -77,11 +104,10 @@ jobs:
   coverage:
     name: Coverage
     if: ${{ github.event_name == 'push' }}
-    needs: [build]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [15.x]
+    needs: [ build, config ]
+    env:
+      NODE_VERSION: ${{ fromJson(needs.config.outputs.config).node.main.version }}
+    runs-on: ${{ fromJson(needs.config.outputs.config).node.main.os }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -91,13 +117,13 @@ jobs:
       uses: actions/cache@v2
       with:
         path: coverage
-        key: coverage-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
+        key: coverage-${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
 
-    - name: Setup Node.js v${{ matrix.node-version }}
+    - name: Setup Node.js v${{ env.NODE_VERSION }}
       if: steps.cache-coverage.outputs.cache-hit != 'true'
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.NODE_VERSION }}
 
     - name: Cache node modules
       if: steps.cache-coverage.outputs.cache-hit != 'true'
@@ -105,7 +131,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: npm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        key: npm-${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Test
       if: steps.cache-coverage.outputs.cache-hit != 'true'
@@ -120,9 +146,30 @@ jobs:
       with:
         file: ./coverage/lcov.info
 
+  status:
+    name: Success build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs: [ test, build, coverage ]
+    steps:
+      - id: status
+        name: Load failure jobs count
+        env:
+          URL: https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs
+          USER: admin:${{ secrets.GITHUB_TOKEN }}
+          FILTER: "[.jobs[] | select(.status==\"completed\" and .conclusion==\"failure\") | { status: .conclusion, matrix: .name}] | length"
+        run: |
+          failure_count=$(curl -X GET -s -u $USER $URL | jq "$FILTER")
+          echo "::set-output name=failure_count::$failure_count"
+          echo Failure jobs count: $failure_count
+
+      - if: ${{ steps.status.outputs.failure_count > 0 }}
+        name: Fail
+        run: exit 1
+
   discord:
     name: Discord notification
-    needs: [test, build, coverage]
+    needs: [ status ]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     env:

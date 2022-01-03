@@ -1,3 +1,0 @@
-{
-  "entryPoints": ["src/TaskTree.ts", "src/Task.ts", "src/ProgressBar.ts"]
-}

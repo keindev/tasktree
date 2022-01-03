@@ -1,14 +1,21 @@
 {
   "configurations": [
     {
-      "name": "Example app.js",
+      "name": "Example",
       "type": "node",
       "request": "launch",
       "outputCapture": "std",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["--experimental-specifier-resolution=node", "--nolazy", "--inspect-brk=9229", "example/app.js"],
+      "runtimeArgs": [
+        "--experimental-specifier-resolution=node",
+        "--nolazy",
+        "--inspect-brk=9229",
+        "--loader",
+        "ts-node/esm",
+        "example/app.ts"
+      ],
       "port": 9229
     }
   ]

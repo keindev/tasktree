@@ -71,31 +71,29 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
   static readonly TICK = 1;
   static readonly TIME_DIMENSION = 1000;
 
-  #current = Progress.Start;
-  #end: number | undefined;
-  #start = new Date().getTime();
-  #status = TaskStatus.Pending;
-  #tokens: Map<TemplateToken | string, string> = new Map();
-
   /** Option to add badge */
   readonly badges: boolean = true;
   /** Option to clear the bar on completion */
   readonly clear: boolean = false;
   /** Completion character */
   readonly completeChar = figures.square;
+  #current = Progress.Start;
+  #end: number | undefined;
   /** Option to add gradient to pending bar */
   readonly gradient: boolean = true;
   /** Incomplete character */
   readonly incompleteChar = figures.square;
+  #start = new Date().getTime();
+  #status = TaskStatus.Pending;
   /**
    * Output template
    *
    * @default `:bar :rate/bps :percent :eta/s`
    */
   readonly template: string;
+  #tokens: Map<TemplateToken | string, string> = new Map();
   /** Total number of ticks to complete */
   readonly total = Progress.End;
-
   /** The displayed width of the progress bar defaulting to total */
   readonly width: number = 20;
 

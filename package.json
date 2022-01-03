@@ -1,34 +1,43 @@
 {
   "name": "tasktree-cli",
-  "version": "5.1.0",
+  "version": "6.0.0",
   "description": "Simple terminal task tree - helps you keep track of your tasks in a tree structure.",
-  "homepage": "https://github.com/keindev/tasktree#readme",
   "license": "MIT",
-  "author": "Daniil Ryazanov <opensource@tagproject.ru>",
+  "homepage": "https://github.com/keindev/tasktree#readme",
+  "author": {
+    "name": "Daniil Ryazanov",
+    "email": "opensource@tagproject.ru"
+  },
   "keywords": [
-    "cli",
-    "task",
-    "tree",
-    "terminal",
-    "term",
-    "console",
     "ascii",
-    "loading",
-    "indicator",
-    "progress",
     "busy",
-    "wait",
-    "idle"
+    "cli",
+    "console",
+    "idle",
+    "indicator",
+    "loading",
+    "progress",
+    "task",
+    "term",
+    "terminal",
+    "tree",
+    "wait"
   ],
-  "type": "module",
-  "exports": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./lib/ProgressBar": "./lib/ProgressBar.js",
+    "./lib/Task": "./lib/Task.js",
+    "./lib/TaskTree": "./lib/TaskTree.js",
+    "./lib/Theme": "./lib/Theme.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/keindev/tasktree.git"
   },
-  "bugs": {
-    "url": "https://github.com/keindev/tasktree/issues"
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0"
   },
   "scripts": {
     "build": "npm-run-all build:*",
@@ -36,6 +45,7 @@
     "generate": "npm-run-all generate:*",
     "generate:changelog": "node --experimental-specifier-resolution=node node_modules/.bin/changelog generate --bump",
     "generate:ghinfo": "node --experimental-specifier-resolution=node node_modules/.bin/ghinfo generate -d media -t utils",
+    "generate:media": "node --experimental-specifier-resolution=node node_modules/.bin/figma-portal extract -d media -p GitHub",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "rimraf coverage && eslint \"src/**\" --ext .ts",
     "lint:spell": "cspell -c .vscode/cspell.json --no-summary \"README.md\" \"src/**/*.ts\"",
@@ -46,41 +56,37 @@
     "test": "npm-run-all test:*",
     "test:jest": "node --experimental-vm-modules node_modules/.bin/jest"
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "dependencies": {
     "chalk-template": "^0.2.0",
     "elegant-spinner": "^3.0.0",
     "figures": "^4.0.0",
-    "stdout-update": "2.0.4"
+    "stdout-update": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.16.4",
-    "@babel/preset-env": "^7.16.4",
-    "@tagproject/ts-package-shared-config": "^5.0.0",
-    "@types/jest": "^27.0.3",
-    "@types/node": "^16.11.10",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "babel-jest": "^27.3.1",
+    "@tagproject/ts-package-shared-config": "^6.4.0",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
     "changelog-guru": "^3.0.2",
-    "cspell": "^5.13.1",
-    "eslint": "^8.3.0",
+    "cspell": "^5.14.0",
+    "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-optimize-regex": "^1.2.1",
-    "eslint-plugin-promise": "^5.1.1",
-    "ghinfo": "^2.0.3",
+    "eslint-plugin-promise": "^6.0.0",
+    "figma-portal": "^0.10.0",
+    "ghinfo": "^3.0.0",
     "husky": "^7.0.4",
-    "jest": "^27.3.1",
+    "jest": "^27.4.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.5.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "strip-ansi": "^7.0.1",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.5.2"
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
   }
 }

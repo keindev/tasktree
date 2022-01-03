@@ -1,4 +1,6 @@
-import TaskTree from '../lib/index.js';
+/* eslint-disable */
+import TaskTree from '../src/TaskTree';
+
 const tree = TaskTree.tree();
 
 // start task tree log update in terminal
@@ -17,19 +19,23 @@ let once = false;
 const promises = [50, 75, 200].map((ms, i) => {
   return new Promise(resolve => {
     const handle = setInterval(() => {
-      if (once) {
-        if (bars[i].percent >= 50) {
-          bars[i].skip();
+      const bar = bars[i];
+
+      if (bar) {
+        if (once) {
+          if (bar.percent >= 50) {
+            bar.skip();
+          } else {
+            bar.fail();
+          }
         } else {
-          bars[i].fail();
+          once = bar.tick(Math.random() * 10).isCompleted;
         }
-      } else {
-        once = bars[i].tick(Math.random() * 10).isCompleted;
       }
 
       if (once) {
         clearInterval(handle);
-        resolve();
+        resolve('');
       }
     }, ms);
   });

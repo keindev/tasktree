@@ -1,3 +1,7 @@
+# BREAKING CHANGES
+
+- Change exports [`ed2e830`](https://github.com/keindev/tasktree/commit/ed2e8308b54420f3e74630609687648244ffa8c4)
+
 # Important Changes
 
 ## Engines
@@ -9,61 +13,49 @@
 <details>
 <summary>Dependencies</summary>
 
-- Added **[chalk-template](https://www.npmjs.com/package/chalk-template/v/0.2.0)** with `^0.2.0`
-- Bumped **[elegant-spinner](https://www.npmjs.com/package/elegant-spinner/v/3.0.0)** from `2.0.0` to `3.0.0`
-- Bumped **[figures](https://www.npmjs.com/package/figures/v/4.0.0)** from `3.2.0` to `4.0.0`
-- Bumped **[stdout-update](https://www.npmjs.com/package/stdout-update/v/2.0.4)** from `2.0.1` to `2.0.4`
-- Removed **[chalk](https://www.npmjs.com/package/chalk/v/4.1.1)**, with `^4.1.1`
+- Bumped **[stdout-update](https://www.npmjs.com/package/stdout-update/v/3.0.1)** from `2.0.4` to `3.0.1`
 
 </details>
 
 <details>
 <summary>Dev Dependencies</summary>
 
-- Bumped **[@babel/plugin-transform-runtime](https://www.npmjs.com/package/@babel/plugin-transform-runtime/v/7.16.4)** from `7.13.15` to `7.16.4`
-- Bumped **[@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env/v/7.16.4)** from `7.14.1` to `7.16.4`
-- Bumped **[@tagproject/ts-package-shared-config](https://www.npmjs.com/package/@tagproject/ts-package-shared-config/v/5.0.0)** from `3.0.0` to `5.0.0`
-- Bumped **[@types/jest](https://www.npmjs.com/package/@types/jest/v/27.0.3)** from `26.0.23` to `27.0.3`
-- Bumped **[@types/node](https://www.npmjs.com/package/@types/node/v/16.11.10)** from `15.0.2` to `16.11.10`
-- Bumped **[@typescript-eslint/eslint-plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin/v/5.4.0)** from `4.22.1` to `5.4.0`
-- Bumped **[@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser/v/5.4.0)** from `4.22.1` to `5.4.0`
-- Bumped **[babel-jest](https://www.npmjs.com/package/babel-jest/v/27.3.1)** from `26.6.3` to `27.3.1`
-- Bumped **[changelog-guru](https://www.npmjs.com/package/changelog-guru/v/3.0.2)** from `3.0.1` to `3.0.2`
-- Bumped **[cspell](https://www.npmjs.com/package/cspell/v/5.13.1)** from `5.4.0` to `5.13.1`
-- Bumped **[eslint](https://www.npmjs.com/package/eslint/v/8.3.0)** from `7.25.0` to `8.3.0`
-- Bumped **[eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import/v/2.25.3)** from `2.22.1` to `2.25.3`
-- Bumped **[eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest/v/25.3.0)** from `24.3.6` to `25.3.0`
-- Bumped **[eslint-plugin-optimize-regex](https://www.npmjs.com/package/eslint-plugin-optimize-regex/v/1.2.1)** from `1.2.0` to `1.2.1`
-- Bumped **[eslint-plugin-promise](https://www.npmjs.com/package/eslint-plugin-promise/v/5.1.1)** from `5.1.0` to `5.1.1`
-- Bumped **[husky](https://www.npmjs.com/package/husky/v/7.0.4)** from `6.0.0` to `7.0.4`
-- Bumped **[jest](https://www.npmjs.com/package/jest/v/27.3.1)** from `26.6.3` to `27.3.1`
-- Bumped **[prettier](https://www.npmjs.com/package/prettier/v/2.5.0)** from `2.2.1` to `2.5.0`
-- Bumped **[strip-ansi](https://www.npmjs.com/package/strip-ansi/v/7.0.1)** from `7.0.0` to `7.0.1`
-- Bumped **[ts-jest](https://www.npmjs.com/package/ts-jest/v/27.0.7)** from `26.5.6` to `27.0.7`
-- Bumped **[typescript](https://www.npmjs.com/package/typescript/v/4.5.2)** from `4.2.4` to `4.5.2`
-- Removed **[typedoc](https://www.npmjs.com/package/typedoc/v/0.20.36)**, with `^0.20.36`
-- Removed **[typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown/v/3.8.0)**, with `^3.8.0`
+- Added **[figma-portal](https://www.npmjs.com/package/figma-portal/v/0.10.0)** with `^0.10.0`
+- Added **[ts-node](https://www.npmjs.com/package/ts-node/v/10.4.0)** with `^10.4.0`
+- Bumped **[@tagproject/ts-package-shared-config](https://www.npmjs.com/package/@tagproject/ts-package-shared-config/v/6.4.0)** from `5.0.0` to `6.4.0`
+- Bumped **[@types/jest](https://www.npmjs.com/package/@types/jest/v/27.4.0)** from `27.0.3` to `27.4.0`
+- Bumped **[@types/node](https://www.npmjs.com/package/@types/node/v/17.0.7)** from `16.11.10` to `17.0.7`
+- Bumped **[@typescript-eslint/eslint-plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin/v/5.9.0)** from `5.4.0` to `5.9.0`
+- Bumped **[@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser/v/5.9.0)** from `5.4.0` to `5.9.0`
+- Bumped **[cspell](https://www.npmjs.com/package/cspell/v/5.14.0)** from `5.13.1` to `5.14.0`
+- Bumped **[eslint](https://www.npmjs.com/package/eslint/v/8.6.0)** from `8.3.0` to `8.6.0`
+- Bumped **[eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import/v/2.25.4)** from `2.25.3` to `2.25.4`
+- Bumped **[eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest/v/25.3.4)** from `25.3.0` to `25.3.4`
+- Bumped **[eslint-plugin-promise](https://www.npmjs.com/package/eslint-plugin-promise/v/6.0.0)** from `5.1.1` to `6.0.0`
+- Bumped **[ghinfo](https://www.npmjs.com/package/ghinfo/v/3.0.0)** from `2.0.3` to `3.0.0`
+- Bumped **[jest](https://www.npmjs.com/package/jest/v/27.4.5)** from `27.3.1` to `27.4.5`
+- Bumped **[prettier](https://www.npmjs.com/package/prettier/v/2.5.1)** from `2.5.0` to `2.5.1`
+- Bumped **[ts-jest](https://www.npmjs.com/package/ts-jest/v/27.1.2)** from `27.0.7` to `27.1.2`
+- Bumped **[typescript](https://www.npmjs.com/package/typescript/v/4.5.4)** from `4.5.2` to `4.5.4`
+- Removed **[@babel/plugin-transform-runtime](https://www.npmjs.com/package/@babel/plugin-transform-runtime/v/7.16.4)**, with `^7.16.4`
+- Removed **[@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env/v/7.16.4)**, with `^7.16.4`
+- Removed **[babel-jest](https://www.npmjs.com/package/babel-jest/v/27.3.1)**, with `^27.3.1`
 
 </details>
 
-# :tada: Features
-
-- Add `unknown` type to error param for error & fail methods [`20af457`](https://github.com/keindev/tasktree/commit/20af457356dd77d9d629ad9358cd0e7f399ffb35)
-
 # :bug: Bug Fixes
 
-- Fix display of styled strings [`6339919`](https://github.com/keindev/tasktree/commit/6339919576564185515af421f9f047521875d150)
-- Replace chalk to `chalk-template` [`497cef0`](https://github.com/keindev/tasktree/commit/497cef0766cfbe77965a57328f24ada2ba42d40d)
+- Fix eslint errors [`49a5f13`](https://github.com/keindev/tasktree/commit/49a5f13cd9f785b801359f7481b70cb2fbf3f6e2)
 
 # :memo: Internal changes
 
-- **[API]** Restore docs [`e0692a3`](https://github.com/keindev/tasktree/commit/e0692a3936690920d211dd87691cb7f32d419a5f)
-- **[Ci]** Rename default branch to main [`3a39dec`](https://github.com/keindev/tasktree/commit/3a39dec16a020f79ee0c8c2d2faac427c0a9c91f)
-- Remove typedoc [`2ed0d90`](https://github.com/keindev/tasktree/commit/2ed0d903de4d5d3b72f07815ef79fe49c42d573a)
+- Fix link to `chalk-template` in Readme [`fde3cdb`](https://github.com/keindev/tasktree/commit/fde3cdbdcc5347d9674d277298091fa0511836b7)
+- Fix banner link, change code block lang to TS [`2133e71`](https://github.com/keindev/tasktree/commit/2133e71b614ae12a80d767976bc2a5376b9fac72)
+- Refresh media files [`23af40a`](https://github.com/keindev/tasktree/commit/23af40a39f58d83cb1c9846cf12b250b904bdfa1)
 
 # :wrench: Code Refactoring
 
-- Fix eslint errors [`164f375`](https://github.com/keindev/tasktree/commit/164f3757ec883819aaa4912253bd9ae9d4c0a9e0)
+- Rewrite example app to TS [`9d94a56`](https://github.com/keindev/tasktree/commit/9d94a5648529e0542d1573f308867506c7cc79e4)
 
 ---
 
