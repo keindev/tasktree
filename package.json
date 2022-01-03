@@ -25,7 +25,13 @@
   ],
   "types": "./lib/index.d.ts",
   "type": "module",
-  "exports": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./lib/ProgressBar": "./lib/ProgressBar.js",
+    "./lib/Task": "./lib/Task.js",
+    "./lib/TaskTree": "./lib/TaskTree.js",
+    "./lib/Theme": "./lib/Theme.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/keindev/tasktree.git"
