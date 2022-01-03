@@ -1,4 +1,4 @@
-<p align="center"><img width="230" src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/logo.svg" alt="TaskTree logo"></p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/banner.svg" alt="Package logo"></p>
 
 <p align="center">
     <a href="https://travis-ci.com/keindev/tasktree"><img src="https://travis-ci.com/keindev/tasktree.svg?branch=master" alt="Build Status"></a>
@@ -19,7 +19,7 @@ npm install tasktree-cli
 
 ## Usage
 
-```javascript
+```typescript
 import TaskTree from 'tasktree-cli';
 
 const tree = TaskTree.tree();
@@ -40,19 +40,23 @@ let once = false;
 const promises = [50, 75, 200].map((ms, i) => {
   return new Promise(resolve => {
     const handle = setInterval(() => {
-      if (once) {
-        if (bars[i].percent >= 50) {
-          bars[i].skip();
+      const bar = bars[i];
+
+      if (bar) {
+        if (once) {
+          if (bar.percent >= 50) {
+            bar.skip();
+          } else {
+            bar.fail();
+          }
         } else {
-          bars[i].fail();
+          once = bar.tick(Math.random() * 10).isCompleted;
         }
-      } else {
-        once = bars[i].tick(Math.random() * 10).isCompleted;
       }
 
       if (once) {
         clearInterval(handle);
-        resolve();
+        resolve('');
       }
     }, ms);
   });
@@ -72,7 +76,7 @@ Promise.all(promises).then(() => {
 
 TaskTree uses [chalk-template](https://www.npmjs.com/package/chalk-template) to style text and supports formatting as a [tagged template literal](https://www.npmjs.com/package/chalk#tagged-template-literal).
 
-```javascript
+```typescript
 const task = new Task('{underline.cyan.bold Awesome task}');
 ```
 
