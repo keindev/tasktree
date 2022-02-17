@@ -69,6 +69,8 @@ jobs:
 
     - name: Publish package
       uses: JS-DevTools/npm-publish@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         token: ${{ secrets.NPM_TOKEN }}
         access: "public"

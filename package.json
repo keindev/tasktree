@@ -63,11 +63,11 @@
     "chalk-template": "^0.3.1",
     "elegant-spinner": "^3.0.0",
     "figures": "^4.0.0",
-    "stdout-update": "^3.0.2"
+    "stdout-update": "^3.0.3"
   },
   "devDependencies": {
     "@tagproject/docs-shared-config": "^1.0.1",
-    "@tagproject/ts-package-shared-config": "^7.2.3",
+    "@tagproject/ts-package-shared-config": "^7.2.4",
     "@tagproject/vscode-shared-config": "^1.2.2",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.18",
