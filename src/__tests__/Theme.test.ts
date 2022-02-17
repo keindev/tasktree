@@ -4,15 +4,15 @@ import stripAnsi from 'strip-ansi';
 import { IndicationBadge, IndicationType, Theme } from '../Theme';
 
 describe('Theme', (): void => {
-  const text = 'text';
+  const text = { input: '\\{\\{\\{t\\}e\\}x{red t}\\}', output: '{{{t}e}xt}' };
 
   it('Default', (): void => {
     const theme = new Theme();
 
-    expect(stripAnsi(theme.paint(text, IndicationType.Default))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Success))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Skip))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Error))).toBe(text);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Default))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Success))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Skip))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Error))).toBe(text.output);
 
     expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(stripAnsi(figures.pointerSmall));
     expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(stripAnsi(figures.tick));
@@ -34,10 +34,10 @@ describe('Theme', (): void => {
       error: { symbol, badge },
     });
 
-    expect(stripAnsi(theme.paint(text, IndicationType.Default))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Success))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Skip))).toBe(text);
-    expect(stripAnsi(theme.paint(text, IndicationType.Error))).toBe(text);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Default))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Success))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Skip))).toBe(text.output);
+    expect(stripAnsi(theme.paint(text.input, IndicationType.Error))).toBe(text.output);
 
     expect(stripAnsi(theme.symbol(IndicationType.Default))).toBe(symbol);
     expect(stripAnsi(theme.symbol(IndicationType.Success))).toBe(symbol);
