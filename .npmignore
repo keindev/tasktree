@@ -15,6 +15,7 @@
 .prettierrc
 .vscode
 CODE_OF_CONDUCT.md
+SECURITY.md
 codecov.yml
 codegen.yml
 coverage/
