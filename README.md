@@ -74,10 +74,16 @@ Promise.all(promises).then(() => {
 });
 ```
 
-TaskTree uses [chalk-template](https://www.npmjs.com/package/chalk-template) to style text and supports formatting as a [tagged template literal](https://www.npmjs.com/package/chalk#tagged-template-literal).
+TaskTree uses [chalk-template](https://www.npmjs.com/package/chalk-template) to style text and supports formatting as a [tagged template literal](https://www.npmjs.com/package/chalk#tagged-template-literal):
 
 ```typescript
 const task = new Task('{underline.cyan.bold Awesome task}');
+```
+
+If you are using braces in a formatted string, use `\\` to escape it:
+
+```typescript
+const task = new Task('{underline.cyan.bold \\{Awesome\\} task}');
 ```
 
 ## API

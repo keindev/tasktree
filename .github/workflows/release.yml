@@ -73,6 +73,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         token: ${{ secrets.NPM_TOKEN }}
+        access: "public"
 
   release:
     name: Create Release
