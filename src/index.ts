@@ -1,1 +1,1 @@
-export { default } from './TaskTree';
+export { default } from './TaskTree.js';

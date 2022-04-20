@@ -1,7 +1,7 @@
 import figures from 'figures';
 
-import { TaskStatus } from './Task';
-import { IndicationType, TextSeparator, Theme } from './Theme';
+import { TaskStatus } from './Task.js';
+import { IndicationType, TextSeparator, Theme } from './Theme.js';
 
 /** Progress in percent by default */
 export enum Progress {

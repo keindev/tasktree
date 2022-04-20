@@ -1,7 +1,7 @@
 import figures from 'figures';
 import stripAnsi from 'strip-ansi';
 
-import { IndicationBadge, IndicationType, Theme } from '../Theme';
+import { IndicationBadge, IndicationType, Theme } from '../Theme.js';
 
 describe('Theme', (): void => {
   const text = { input: '\\{\\{\\{t\\}e\\}x{red t}\\}', output: '{{{t}e}xt}' };

@@ -1,10 +1,10 @@
 import { Terminal } from 'stdout-update/lib/Terminal';
 import stripAnsi from 'strip-ansi';
 
-import { IProgressBarOptions } from '../ProgressBar';
-import { Task, TaskStatus } from '../Task';
-import { TaskTree } from '../TaskTree';
-import { Theme, ThemeOptions } from '../Theme';
+import { IProgressBarOptions } from '../ProgressBar.js';
+import { Task, TaskStatus } from '../Task.js';
+import { TaskTree } from '../TaskTree.js';
+import { Theme, ThemeOptions } from '../Theme.js';
 
 describe('Task', (): void => {
   const title = 'task';

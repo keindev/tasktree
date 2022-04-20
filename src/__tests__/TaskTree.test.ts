@@ -1,9 +1,9 @@
 import { Terminal } from 'stdout-update/lib/Terminal';
 import stripAnsi from 'strip-ansi';
 
-import { Task } from '../Task';
-import { ITaskTreeOptions, TaskTree } from '../TaskTree';
-import { Theme, ThemeOptions } from '../Theme';
+import { Task } from '../Task.js';
+import { ITaskTreeOptions, TaskTree } from '../TaskTree.js';
+import { Theme, ThemeOptions } from '../Theme.js';
 
 describe('TaskTree', (): void => {
   const options: ITaskTreeOptions = { silent: true, autoClear: false };
