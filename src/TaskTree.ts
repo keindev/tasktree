@@ -1,7 +1,7 @@
 import UpdateManager from 'stdout-update';
 
-import { Task } from './Task';
-import { Theme, ThemeOptions } from './Theme';
+import { Task } from './Task.js';
+import { Theme, ThemeOptions } from './Theme.js';
 
 export enum ExitCode {
   Success = 0,

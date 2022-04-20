@@ -1,8 +1,8 @@
 import chalkTemplate from 'chalk-template';
 
-import { IProgressBarOptions, Progress, ProgressBar } from './ProgressBar';
-import { ExitCode, TaskTree } from './TaskTree';
-import { IndicationType, Theme } from './Theme';
+import { IProgressBarOptions, Progress, ProgressBar } from './ProgressBar.js';
+import { ExitCode, TaskTree } from './TaskTree.js';
+import { IndicationType, Theme } from './Theme.js';
 
 let uid = 0;
 

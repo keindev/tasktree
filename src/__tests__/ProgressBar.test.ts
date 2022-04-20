@@ -1,7 +1,7 @@
 import stripAnsi from 'strip-ansi';
 
-import { IProgressBarOptions, ProgressBar } from '../ProgressBar';
-import { Theme } from '../Theme';
+import { IProgressBarOptions, ProgressBar } from '../ProgressBar.js';
+import { Theme } from '../Theme.js';
 
 describe('ProgressBar', (): void => {
   const template = ':bar :percent :etas :custom';

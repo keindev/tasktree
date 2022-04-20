@@ -3,8 +3,8 @@ import elegantSpinner from 'elegant-spinner';
 import figures from 'figures';
 import { Terminal } from 'stdout-update/lib/Terminal';
 
-import { ProgressBar } from './ProgressBar';
-import { Task, TaskStatus } from './Task';
+import { ProgressBar } from './ProgressBar.js';
+import { Task, TaskStatus } from './Task.js';
 
 const frame = elegantSpinner();
 
