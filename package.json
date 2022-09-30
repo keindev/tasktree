@@ -70,7 +70,7 @@
     "@tagproject/ts-package-shared-config": "^9.0.7",
     "@tagproject/vscode-shared-config": "^2.0.0",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.25",
+    "@types/node": "^18.7.23",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "changelog-guru": "^4.0.5",
