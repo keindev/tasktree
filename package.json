@@ -62,7 +62,7 @@
   "dependencies": {
     "chalk-template": "^0.4.0",
     "elegant-spinner": "^3.0.0",
-    "figures": "^4.0.1",
+    "figures": "^5.0.0",
     "stdout-update": "^3.0.6"
   },
   "devDependencies": {
