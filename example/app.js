@@ -1,5 +1,5 @@
 /* eslint-disable */
-import TaskTree from '../src/TaskTree';
+import TaskTree from '../src/TaskTree.js';
 
 const tree = TaskTree.tree();
 
