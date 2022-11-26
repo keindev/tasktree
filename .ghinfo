@@ -1,6 +1,6 @@
 {
   "name": "tasktree-cli",
-  "version": "6.0.5",
+  "version": "7.0.0",
   "description": "Simple terminal task tree - helps you keep track of your tasks in a tree structure.",
   "keywords": [
     "ascii",
@@ -25,8 +25,6 @@
     "npm": "https://www.npmjs.com/package/tasktree-cli"
   },
   "files": {
-    "banner": "media/banner.svg",
-    "demo": "media/demo.gif",
-    "logo": "media/logo.svg"
+    "demo": "media/demo.gif"
   }
 }
