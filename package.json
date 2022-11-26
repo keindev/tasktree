@@ -62,7 +62,7 @@
     "chalk-template": "^0.4.0",
     "elegant-spinner": "^3.0.0",
     "figures": "^5.0.0",
-    "stdout-update": "^3.1.0"
+    "stdout-update": "^3.1.1"
   },
   "devDependencies": {
     "@tagproject/docs-shared-config": "^1.1.2",
@@ -74,6 +74,7 @@
     "@typescript-eslint/parser": "^5.44.0",
     "changelog-guru": "^4.0.9",
     "cspell": "^6.15.0",
+    "enquirer": "^2.3.6",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
