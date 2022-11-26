@@ -10,47 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Sync project labels
       uses: micnncim/action-label-syncer@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  config:
-    name: Configure
-    runs-on: ubuntu-latest
-    outputs:
-      config: ${{ steps.set-config.outputs.config }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-
-      - name: Create config
-        id: set-config
-        run: |
-          echo Node: $(node -v)
-          echo NPM: $(npm -v)
-          npm i semver --no-package-lock
-          CONFIG=$(node ./.github/scripts/config.js | sed 's/ //g')
-          echo "::set-output name=config::$CONFIG"
-          echo $CONFIG
-
   publish:
     name: Publish
-    needs: [ sync, config ]
-    env:
-      NODE_VERSION: ${{ fromJson(needs.config.outputs.config).node.main.version }}
     runs-on: ubuntu-latest
+    env:
+      NODE_VERSION: 16
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Setup Node.js v${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -77,16 +54,15 @@ jobs:
 
   release:
     name: Create Release
-    needs: [ publish, config ]
-    env:
-      NODE_VERSION: ${{ fromJson(needs.config.outputs.config).node.main.version }}
     runs-on: ubuntu-latest
+    env:
+      NODE_VERSION: 16
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -102,55 +78,3 @@ jobs:
         body_path: CHANGELOG.md
         draft: false
         prerelease: false
-
-  discord:
-    name: Discord notification
-    needs: [ publish, release ]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    env:
-      DISCORD_USERNAME: github
-      DISCORD_ERROR_COLOR: 16726645
-      DISCORD_ERROR_AVATAR: https://cdn.jsdelivr.net/gh/tagproject/art/bot/bot-error.png
-      DISCORD_SUCCESS_COLOR: 969384
-      DISCORD_SUCCESS_AVATAR: https://cdn.jsdelivr.net/gh/tagproject/art/bot/bot-success.png
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-
-    - name: Get package version
-      run: |
-        node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
-        node -p -e '`PACKAGE_NAME=${require("./package.json").name}`' >> $GITHUB_ENV
-
-    - name: Send error notification
-      if: ${{ contains(needs.*.result, 'failure') && github.event_name == 'push' }}
-      uses: sarisia/actions-status-discord@v1
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        nodetail: true
-        username: ${{ env.DISCORD_USERNAME }}
-        avatar_url: ${{ env.DISCORD_ERROR_AVATAR }}
-        title: 'Release failed :face_with_symbols_over_mouth:'
-        color: ${{ env.DISCORD_ERROR_COLOR }}
-        description: |
-          **Repository:** [${{ github.repository }}](https://github.com/${{ github.repository }}/releases)
-          **Version:** `v${{ env.PACKAGE_VERSION }}`
-
-    - name: Send success notification
-      if: ${{ !contains(needs.*.result, 'failure') && github.event_name == 'push' }}
-      uses: sarisia/actions-status-discord@v1
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        nodetail: true
-        username: ${{ env.DISCORD_USERNAME }}
-        avatar_url: ${{ env.DISCORD_SUCCESS_AVATAR }}
-        title: 'Package successfully released :tada::tada::tada:'
-        color: ${{ env.DISCORD_SUCCESS_COLOR }}
-        description: |
-          **Repository:** [${{ github.repository }}](https://github.com/${{ github.repository }}/releases)
-          **Tag:** [v${{ env.PACKAGE_VERSION }}](https://github.com/${{ github.repository }}/releases/tag/v${{ env.PACKAGE_VERSION }})
-          **NPM:** [${{ env.PACKAGE_NAME }}](https://www.npmjs.com/package/${{ env.PACKAGE_NAME }}/v/${{ env.PACKAGE_VERSION }})

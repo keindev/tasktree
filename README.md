@@ -1,4 +1,4 @@
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/keindev/tasktree/media/banner.svg" alt="Package logo"></p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/tagproject/art/packages/tasktree-cli/banner.svg" alt="Package logo"></p>
 
 <p align="center">
     <a href="https://travis-ci.com/keindev/tasktree"><img src="https://travis-ci.com/keindev/tasktree.svg?branch=master" alt="Build Status"></a>
