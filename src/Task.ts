@@ -131,7 +131,7 @@ export class Task {
   error(error?: string | Error | unknown, fail?: boolean): Task {
     if (typeof error === 'string') this.#errors.push(error);
     if (error instanceof Error && error.stack) this.#errors.push(error.stack);
-    if (fail) this.fail(error);
+    if (fail) this.fail();
 
     return this;
   }

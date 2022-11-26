@@ -24,6 +24,7 @@ export class TaskTree {
   #handle: NodeJS.Timeout | undefined;
   #manager: UpdateManager;
   #offset = 0;
+  #paused = false;
   #silent = false;
   #started = false;
   #tasks: Task[];
@@ -141,6 +142,21 @@ export class TaskTree {
     }
   }
 
+  /**
+   * Pause tree render for external output
+   * @param cb - external output callback (runs after hook suspend) and returns count of rows to be erased
+   */
+  async pause(cb: () => Promise<number | void>): Promise<void> {
+    this.#paused = true;
+    this.#manager.suspend();
+
+    const count = (await cb()) ?? 0;
+
+    this.#manager.resume(count);
+    this.#offset = 0;
+    this.#paused = false;
+  }
+
   /** Render a task tree into a `string[]`. Returns strings with tasks hierarchy */
   render(): string[] {
     let updatable = false;
@@ -174,9 +190,7 @@ export class TaskTree {
 
     if (!this.#handle && !this.#silent) {
       this.#manager.hook();
-      this.#handle = setInterval((): void => {
-        this.log();
-      }, TaskTree.TIMEOUT);
+      this.#handle = setInterval(() => this.update(), TaskTree.TIMEOUT);
     }
 
     return this;
@@ -189,7 +203,7 @@ export class TaskTree {
     if (this.#handle) {
       clearInterval(this.#handle);
 
-      this.log();
+      this.update();
       this.#manager.unhook();
       this.#handle = undefined;
     }
@@ -203,11 +217,13 @@ export class TaskTree {
     return obj;
   }
 
-  private log(): void {
-    const offset = this.#offset;
+  private update(): void {
+    if (!this.#paused || (this.#paused && !this.#started)) {
+      const offset = this.#offset;
 
-    this.#offset = 0;
-    this.#manager.update(this.render(), offset);
+      this.#offset = 0;
+      this.#manager.update(this.render(), offset);
+    }
   }
 }
 
