@@ -59,7 +59,7 @@
     "test:jest": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "dependencies": {
-    "chalk-template": "^0.4.0",
+    "chalk-template": "^1.0.0",
     "elegant-spinner": "^3.0.0",
     "figures": "^5.0.0",
     "stdout-update": "^3.1.1"
