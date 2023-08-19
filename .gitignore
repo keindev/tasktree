@@ -1,3 +1,9 @@
+# !ignorefile-merge block-open @tagproject/ts-package-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
 *.log
 *.pid
 *.pid.lock
@@ -6,22 +12,43 @@
 .env
 .eslintrc
 .yarn-integrity
-/.editorconfig
 /.eslintcache
 /.eslintignore
-/.figma.yml
 /.husky/
-/.prettierignore
-/.prettierrc
-/.vscode/
 /jest.config.js
-/src/**/tsconfig.json
-/tsconfig.json
 coverage
 lib
 logs
 node_modules/
 pids
+/tsconfig.json
+/src/**/tsconfig.json
 tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
+
+# !ignorefile-merge block-close @tagproject/ts-package-shared-config
+
+# !ignorefile-merge block-open @tagproject/docs-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
+# .env
+# node_modules/
+
+# !ignorefile-merge block-close @tagproject/docs-shared-config
+
+# !ignorefile-merge block-open @tagproject/vscode-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
+/.editorconfig
+/.prettierignore
+/.prettierrc
+/.vscode/
+
+# !ignorefile-merge block-close @tagproject/vscode-shared-config
