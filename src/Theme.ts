@@ -31,7 +31,9 @@ export enum IndicationColor {
   Message = '#2e2e2e',
   Info = '#33b5e5',
   Warning = '#ffbb33',
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   Subtask = '#2e2e2e',
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   List = '#4285f4',
   Dim = '#838584',
 }

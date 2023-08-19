@@ -1,22 +1,22 @@
+# !ignorefile-merge block-open @tagproject/ts-package-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
 **/__benchmark__/**
 **/__mocks__/**
 **/__tests__/**
 .changelogrc.yml
 .config
-.editorconfig
 .env
 .eslintignore
 .eslintrc
-.figma.yml
 .ghinfo
 .gitattributes
 .github
 .husky
-.prettierignore
-.prettierrc
-.vscode
 CODE_OF_CONDUCT.md
-SECURITY.md
 codecov.yml
 codegen.yml
 coverage/
@@ -28,3 +28,34 @@ node_modules/
 src/
 tsconfig.json
 typings/
+
+# !ignorefile-merge block-close @tagproject/ts-package-shared-config
+
+# !ignorefile-merge block-open @tagproject/docs-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
+# .env
+# CODE_OF_CONDUCT.md
+SECURITY.md
+# docs/
+# example/
+# media/
+# node_modules/
+
+# !ignorefile-merge block-close @tagproject/docs-shared-config
+
+# !ignorefile-merge block-open @tagproject/vscode-shared-config
+# ---------------------------------------------------------------
+# This block generated automatically
+# @see https://www.npmjs.com/package/ignorefile-merge
+# ---------------------------------------------------------------
+
+.editorconfig
+.prettierignore
+.prettierrc
+.vscode
+
+# !ignorefile-merge block-close @tagproject/vscode-shared-config
