@@ -1,29 +1,35 @@
+release:
+- base-branch: 'main'
+
 test:
-  - src/__mocks__/**/*.test.ts
-  - src/__tests__/**/*.test.ts
+- changed-files:
+  - any-glob-to-any-file: ['src/__mocks__/**/*.test.ts', 'src/__tests__/**/*.test.ts']
 
 workflow:
-  - .github/**/*
-  - .gitignore
-  - .npmignore
+- changed-files:
+  - any-glob-to-any-file: ['.github/**/*', '.gitignore', '.npmignore']
 
 project:
-  - package-lock.json
-  - package.json
-  - LICENSE
+- changed-files:
+  - any-glob-to-any-file: ['package-lock.json', 'package.json', 'LICENSE']
 
 source:
-  - any: ['src/**/*', '!src/cli/*', '!src/__mocks__/*', '!src/__tests__/*']
+- changed-files:
+  - any-glob-to-any-file: ['src/**/*', '!src/cli/*', '!src/__mocks__/*', '!src/__tests__/*']
 
 api:
-  - bin/**/*
-  - src/cli/**/*
+- changed-files:
+  - any-glob-to-any-file: ['bin/**/*', 'src/cli/**/*']
 
 docs:
-  - any: ['docs/**/*', '*.md', '.ghinfo']
+- changed-files:
+  - any-glob-to-any-file: ['docs/**/*', '*.md', '.ghinfo']
 
 example:
-  - example/**/*
+- changed-files:
+  - any-glob-to-any-file: ['example/**/*']
+  -
 
 media:
-  - media/**/*
+- changed-files:
+  - any-glob-to-any-file: ['media/**/*']

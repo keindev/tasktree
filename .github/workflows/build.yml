@@ -14,13 +14,13 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     env:
-      NODE_VERSION: 16
+      NODE_VERSION: latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Node.js v${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -35,7 +35,7 @@ jobs:
         npm run test
 
     - name: Cache coverage
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: coverage
         key: coverage-${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
@@ -45,13 +45,13 @@ jobs:
     needs: [ test ]
     runs-on: ubuntu-latest
     env:
-      NODE_VERSION: 16
+      NODE_VERSION: latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -69,21 +69,21 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest
     env:
-      NODE_VERSION: 16
+      NODE_VERSION: latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Cache coverage
       id: cache-coverage
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: coverage
         key: coverage-${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('src/**/*.*', '**/package-lock.json') }}
 
     - name: Setup Node.js v${{ env.NODE_VERSION }}
       if: steps.cache-coverage.outputs.cache-hit != 'true'
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -96,7 +96,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Send coverage report
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         file: ./coverage/lcov.info
 

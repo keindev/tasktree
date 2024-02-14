@@ -11,6 +11,8 @@ export enum ExitCode {
 export interface ITaskTreeOptions {
   /** Removes all subtasks and bars from the main task */
   autoClear?: boolean;
+  /** Throws an exception on error instead of calling `process.exit()` */
+  noProcessExit?: boolean;
   /** Disable task tree rendering */
   silent?: boolean;
 }
@@ -22,13 +24,14 @@ export class TaskTree {
 
   #autoClear = false;
   #handle: NodeJS.Timeout | undefined;
-  #manager: UpdateManager;
+  readonly #manager: UpdateManager;
+  #noProcessExit = false;
   #offset = 0;
   #paused = false;
   #silent = false;
   #started = false;
   #tasks: Task[];
-  #theme: Theme;
+  readonly #theme: Theme;
 
   private constructor(theme?: ThemeOptions) {
     this.#tasks = [];
@@ -107,12 +110,15 @@ export class TaskTree {
     return task;
   }
 
-  /** Force the process to exit (see process.exit). Do nothing in "silent mode" */
+  /**
+   * Force the process to exit (see process.exit).
+   * Throw exception if "silent" or "noProcessExit" is true.
+   */
   exit(code: ExitCode = ExitCode.Success, error?: string | Error | unknown): void | never {
     if (this.#started) {
       this.stop();
 
-      if (this.#silent) {
+      if (this.#silent || this.#noProcessExit) {
         if (code === ExitCode.Error) throw this.getError(error);
       } else {
         // eslint-disable-next-line no-process-exit
@@ -180,9 +186,13 @@ export class TaskTree {
     return output;
   }
 
-  /** Starts output a task tree in a terminal at a defined interval. In “silent mode” - the task tree only collects tasks and is not output it in a terminal */
-  start({ silent, autoClear }: ITaskTreeOptions = {}): TaskTree {
+  /**
+   * Starts output a task tree in a terminal at a defined interval.
+   * In “silent mode” - the task tree only collects tasks and is not output it in a terminal
+   */
+  start({ silent, autoClear, noProcessExit }: ITaskTreeOptions = {}): TaskTree {
     this.#silent = !!silent;
+    this.#noProcessExit = !!noProcessExit;
     this.#autoClear = !!autoClear;
     this.#tasks = [];
     this.#offset = 0;
