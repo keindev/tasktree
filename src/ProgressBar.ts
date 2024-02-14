@@ -94,7 +94,7 @@ export class ProgressBar implements Required<Omit<IProgressBarOptions, 'current'
 
   #current = Progress.Start;
   #end: number | undefined;
-  #start = new Date().getTime();
+  readonly #start = new Date().getTime();
   #status = TaskStatus.Pending;
   #tokens: Map<TemplateToken | string, string> = new Map();
 

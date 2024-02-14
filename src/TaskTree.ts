@@ -22,13 +22,13 @@ export class TaskTree {
 
   #autoClear = false;
   #handle: NodeJS.Timeout | undefined;
-  #manager: UpdateManager;
+  readonly #manager: UpdateManager;
   #offset = 0;
   #paused = false;
   #silent = false;
   #started = false;
   #tasks: Task[];
-  #theme: Theme;
+  readonly #theme: Theme;
 
   private constructor(theme?: ThemeOptions) {
     this.#tasks = [];

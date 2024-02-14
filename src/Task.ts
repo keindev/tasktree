@@ -23,15 +23,15 @@ export interface ITaskOptions {
 
 /** Entity for managing a task - includes all child objects (informational messages, errors, progress bars, and tasks) */
 export class Task {
-  #autoClear: boolean;
+  readonly #autoClear: boolean;
   #bars: ProgressBar[] = [];
-  #errors: string[] = [];
-  #id: number;
-  #logs = new Set<string>();
+  readonly #errors: string[] = [];
+  readonly #id: number;
+  readonly #logs = new Set<string>();
   #status: TaskStatus;
   #subtasks: Task[] = [];
   #text: string;
-  #warnings = new Set<string>();
+  readonly #warnings = new Set<string>();
 
   constructor(text: string, { status, autoClear }: ITaskOptions = {}) {
     this.#id = ++uid;

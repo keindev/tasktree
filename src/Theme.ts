@@ -68,9 +68,9 @@ export type ThemeOptions = {
 export class Theme {
   static INDENT = '  ';
 
-  #badges: Map<IndicationType, string> = new Map();
-  #colors: Map<IndicationType, string> = new Map();
-  #symbols: Map<IndicationType, string> = new Map();
+  readonly #badges: Map<IndicationType, string> = new Map();
+  readonly #colors: Map<IndicationType, string> = new Map();
+  readonly #symbols: Map<IndicationType, string> = new Map();
 
   constructor(options?: ThemeOptions) {
     if (options) {
